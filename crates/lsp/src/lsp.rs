@@ -1252,6 +1252,8 @@ impl LanguageServer {
         .unwrap();
 
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         let handle_response = response_handlers
             .lock()
             .as_mut()
@@ -1767,6 +1769,8 @@ impl FakeLanguageServer {
         Fut: 'static + Future<Output = Result<T::Result>>,
     {
         let (responded_tx, responded_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (responded_tx, responded_rx) = channels_console::instrument!((responded_tx, responded_rx), log = true);
         self.server.remove_request_handler::<T>();
         self.server
             .on_request::<T, _, _>(move |params, cx| {
@@ -1795,6 +1799,8 @@ impl FakeLanguageServer {
         F: 'static + Send + FnMut(T::Params, gpui::AsyncApp),
     {
         let (handled_tx, handled_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (handled_tx, handled_rx) = channels_console::instrument!((handled_tx, handled_rx), log = true);
         self.server.remove_notification_handler::<T>();
         self.server
             .on_notification::<T, _>(move |params, cx| {

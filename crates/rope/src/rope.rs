@@ -26,6 +26,7 @@ pub struct Rope {
     chunks: SumTree<Chunk>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Rope {
     pub fn new() -> Self {
         Self::default()

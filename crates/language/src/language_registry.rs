@@ -262,6 +262,7 @@ pub struct LoadedLanguage {
     pub manifest_name: Option<ManifestName>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LanguageRegistry {
     pub fn new(executor: BackgroundExecutor) -> Self {
         let this = Self {
@@ -292,6 +293,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn test(executor: BackgroundExecutor) -> Self {
         let mut this = Self::new(executor);
         this.language_server_download_dir = Some(Path::new("/the-download-dir").into());
@@ -344,6 +346,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_test_language(&self, config: LanguageConfig) {
         self.register_language(
             config.name.clone(),
@@ -432,6 +435,7 @@ impl LanguageRegistry {
     /// Register a fake language server and adapter
     /// The returned channel receives a new instance of the language server every time it is started
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_lsp(
         &self,
         language_name: impl Into<LanguageName>,
@@ -458,6 +462,7 @@ impl LanguageRegistry {
     /// Register a fake lsp adapter (without the language server)
     /// The returned channel receives a new instance of the language server every time it is started
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_lsp_adapter(
         &self,
         language_name: impl Into<LanguageName>,
@@ -479,6 +484,7 @@ impl LanguageRegistry {
     /// Register a fake language server (without the adapter)
     /// The returned channel receives a new instance of the language server every time it is started
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_language_server(
         &self,
         lsp_name: LanguageServerName,
@@ -486,6 +492,9 @@ impl LanguageRegistry {
         initializer: Option<Box<dyn Fn(&mut lsp::FakeLanguageServer) + Send + Sync>>,
     ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
         let (servers_tx, servers_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (servers_tx, servers_rx) =
+            channels_console::instrument!((servers_tx, servers_rx), log = true);
         self.state.write().fake_server_entries.insert(
             lsp_name,
             FakeLanguageServerEntry {
@@ -924,7 +933,6 @@ impl LanguageRegistry {
         language: &AvailableLanguage,
     ) -> oneshot::Receiver<Result<Arc<Language>>> {
         let (tx, rx) = oneshot::channel();
-
         let mut state = self.state.write();
 
         // If the language is already loaded, resolve with it immediately.
@@ -1028,6 +1036,8 @@ impl LanguageRegistry {
         name: Arc<str>,
     ) -> impl Future<Output = Result<tree_sitter::Language>> {
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         let mut state = self.state.write();
 
         if let Some(grammar) = state.grammars.get_mut(name.as_ref()) {
@@ -1128,6 +1138,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn create_fake_language_server(
         &self,
         server_id: LanguageServerId,
@@ -1285,6 +1296,8 @@ impl LanguageRegistryState {
 impl ServerStatusSender {
     fn subscribe(&self) -> mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)> {
         let (tx, rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         self.txs.lock().push(tx);
         rx
     }

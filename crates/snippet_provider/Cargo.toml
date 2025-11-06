@@ -9,6 +9,8 @@ license = "GPL-3.0-or-later"
 workspace = true
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 collections.workspace = true
 extension.workspace = true
@@ -24,6 +26,13 @@ snippet.workspace = true
 util.workspace = true
 schemars.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [dev-dependencies]
 fs = { workspace = true, features = ["test-support"] }
 gpui = { workspace = true, features = ["test-support"] }

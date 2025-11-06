@@ -131,7 +131,11 @@ impl Peer {
         #[cfg(not(any(test, feature = "test-support")))]
         const INCOMING_BUFFER_SIZE: usize = 256;
         let (mut incoming_tx, incoming_rx) = mpsc::channel(INCOMING_BUFFER_SIZE);
+        #[cfg(feature = "channels-console")]
+        let (mut incoming_tx, incoming_rx) = channels_console::instrument!((incoming_tx, incoming_rx), capacity = INCOMING_BUFFER_SIZE, log = true);
         let (outgoing_tx, mut outgoing_rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (outgoing_tx, mut outgoing_rx) = channels_console::instrument!((outgoing_tx, outgoing_rx), log = true);
 
         let connection_id = ConnectionId {
             owner_id: self.epoch.load(SeqCst),

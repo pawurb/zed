@@ -13,9 +13,16 @@ path = "src/vim.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 neovim = ["nvim-rs", "async-compat", "async-trait", "tokio"]
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 async-compat = { workspace = true, "optional" = true }
 async-trait = { workspace = true, "optional" = true }

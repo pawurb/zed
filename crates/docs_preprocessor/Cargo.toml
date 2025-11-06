@@ -6,6 +6,8 @@ publish.workspace = true
 license = "GPL-3.0-or-later"
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 command_palette.workspace = true
 gpui.workspace = true
@@ -22,6 +24,13 @@ zlog.workspace = true
 task.workspace = true
 theme.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [lints]
 workspace = true
 

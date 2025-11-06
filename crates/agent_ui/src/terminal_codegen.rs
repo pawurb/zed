@@ -56,6 +56,8 @@ impl TerminalCodegen {
                     .and_then(|response| response.message_id.clone());
 
                 let (mut hunks_tx, mut hunks_rx) = mpsc::channel(1);
+                #[cfg(feature = "channels-console")]
+                let (mut hunks_tx, mut hunks_rx) = channels_console::instrument!((hunks_tx, hunks_rx), capacity = 1, log = true);
 
                 let task = cx.background_spawn({
                     let message_id = message_id.clone();

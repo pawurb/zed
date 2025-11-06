@@ -13,6 +13,11 @@ path = "src/debugger_ui.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 test-support = [
     "dap/test-support",
     "dap_adapters/test-support",
@@ -26,6 +31,8 @@ test-support = [
 ]
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 alacritty_terminal.workspace = true
 anyhow.workspace = true
 bitflags.workspace = true

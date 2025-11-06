@@ -109,6 +109,8 @@ impl RemoteBufferStore {
         cx: &mut Context<BufferStore>,
     ) -> Task<Result<Entity<Buffer>>> {
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         self.remote_buffer_listeners.entry(id).or_default().push(tx);
 
         cx.spawn(async move |this, cx| {
@@ -365,6 +367,7 @@ impl RemoteBufferStore {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalBufferStore {
     fn save_local_buffer(
         &self,
@@ -725,6 +728,7 @@ impl LocalBufferStore {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BufferStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_message_handler(Self::handle_buffer_reloaded);

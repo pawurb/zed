@@ -278,6 +278,8 @@ impl LicenseDetectionWatcher {
         }
 
         let (files_to_check_tx, mut files_to_check_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (files_to_check_tx, mut files_to_check_rx) = channels_console::instrument!((files_to_check_tx, files_to_check_rx), log = true);
 
         let Worktree::Local(local_worktree) = worktree_ref else {
             return Self::Remote;

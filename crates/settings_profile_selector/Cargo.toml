@@ -13,6 +13,8 @@ path = "src/settings_profile_selector.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 fuzzy.workspace = true
 gpui.workspace = true
 picker.workspace = true
@@ -21,6 +23,13 @@ ui.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }
 editor = { workspace = true, features = ["test-support"] }

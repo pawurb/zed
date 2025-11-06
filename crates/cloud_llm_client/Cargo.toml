@@ -6,6 +6,11 @@ edition.workspace = true
 license = "Apache-2.0"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 test-support = []
 
 [lints]
@@ -15,6 +20,8 @@ workspace = true
 path = "src/cloud_llm_client.rs"
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 chrono.workspace = true
 serde = { workspace = true, features = ["derive", "rc"] }

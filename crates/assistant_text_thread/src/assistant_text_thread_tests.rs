@@ -512,6 +512,8 @@ async fn test_slash_commands(cx: &mut TestAppContext) {
     );
 
     let (command_output_tx, command_output_rx) = mpsc::unbounded();
+    #[cfg(feature = "channels-console")]
+    let (command_output_tx, command_output_rx) = channels_console::instrument!((command_output_tx, command_output_rx), log = true);
     text_thread.update(cx, |text_thread, cx| {
         let command_source_range = text_thread.parsed_slash_commands[0].source_range.clone();
         text_thread.insert_command_output(

@@ -17,11 +17,18 @@ doctest = false
 name = "remote_server"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 default = []
 debug-embed = ["dep:rust-embed"]
 test-support = ["fs/test-support"]
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 askpass.workspace = true
 clap.workspace = true

@@ -350,6 +350,7 @@ pub enum Event {
 
 impl EventEmitter<Event> for Worktree {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Worktree {
     pub async fn local(
         path: impl Into<Arc<Path>>,
@@ -1008,6 +1009,7 @@ impl Worktree {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalWorktree {
     pub fn fs(&self) -> &Arc<dyn Fs> {
         &self.fs
@@ -1051,6 +1053,8 @@ impl LocalWorktree {
         let fs = self.fs.clone();
         let settings = self.settings.clone();
         let (scan_states_tx, mut scan_states_rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (scan_states_tx, mut scan_states_rx) = channels_console::instrument!((scan_states_tx, scan_states_rx), log = true);
         let background_scanner = cx.background_spawn({
             let abs_path = snapshot.abs_path.as_path().to_path_buf();
             let background = cx.background_executor().clone();
@@ -1821,6 +1825,8 @@ impl RemoteWorktree {
         Fut: 'static + Send + Future<Output = bool>,
     {
         let (tx, mut rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (tx, mut rx) = channels_console::instrument!((tx, rx), log = true);
         let initial_update = self
             .snapshot
             .build_initial_update(project_id, self.id().to_proto());
@@ -1861,6 +1867,8 @@ impl RemoteWorktree {
         scan_id: usize,
     ) -> impl Future<Output = Result<()>> + use<> {
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         if self.observed_snapshot(scan_id) {
             let _ = tx.send(());
         } else if self.disconnected {
@@ -2029,6 +2037,7 @@ impl RemoteWorktree {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Snapshot {
     pub fn new(
         id: u64,
@@ -3579,6 +3588,7 @@ enum BackgroundScannerPhase {
     Events,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BackgroundScanner {
     async fn run(&mut self, mut fs_events_rx: Pin<Box<dyn Send + Stream<Item = Vec<PathEvent>>>>) {
         // If the worktree root does not contain a git repository, then find

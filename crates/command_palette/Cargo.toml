@@ -13,6 +13,8 @@ path = "src/command_palette.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 client.workspace = true
 collections.workspace = true
@@ -34,6 +36,13 @@ telemetry.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [dev-dependencies]
 ctor.workspace = true
 db = { workspace = true, features = ["test-support"] }

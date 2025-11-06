@@ -12,6 +12,8 @@ workspace = true
 path = "src/component.rs"
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 collections.workspace = true
 gpui.workspace = true
 inventory.workspace = true
@@ -23,4 +25,9 @@ theme.workspace = true
 documented.workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 default = []

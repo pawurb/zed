@@ -89,6 +89,8 @@ impl AgentTool for DeletePathTool {
 
         let worktree_snapshot = worktree.read(cx).snapshot();
         let (mut paths_tx, mut paths_rx) = mpsc::channel(256);
+        #[cfg(feature = "channels-console")]
+        let (paths_tx, paths_rx) = channels_console::instrument!((paths_tx, paths_rx), capacity = 256, log = true);
         cx.background_spawn({
             let project_path = project_path.clone();
             async move {

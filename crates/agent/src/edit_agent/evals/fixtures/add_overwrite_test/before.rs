@@ -60,6 +60,8 @@ impl ActionLog {
                 let text_snapshot = buffer.read(cx).text_snapshot();
                 let diff = cx.new(|cx| BufferDiff::new(&text_snapshot, cx));
                 let (diff_update_tx, diff_update_rx) = mpsc::unbounded();
+                #[cfg(feature = "channels-console")]
+                let (diff_update_tx, diff_update_rx) = channels_console::instrument!((diff_update_tx, diff_update_rx), log = true);
                 let base_text;
                 let status;
                 let unreviewed_changes;

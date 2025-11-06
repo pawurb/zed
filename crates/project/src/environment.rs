@@ -45,6 +45,8 @@ impl ProjectEnvironment {
         cx: &mut Context<Self>,
     ) -> Self {
         let (tx, mut rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (tx, mut rx) = channels_console::instrument!((tx, rx), log = true);
         let task = cx.spawn(async move |this, cx| {
             while let Some(message) = rx.next().await {
                 this.update(cx, |this, cx| {

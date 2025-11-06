@@ -13,6 +13,8 @@ name = "storybook"
 path = "src/storybook.rs"
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 clap = { workspace = true, features = ["derive", "string"] }
 collab_ui = { workspace = true, features = ["stories"] }
@@ -38,5 +40,12 @@ title_bar = { workspace = true, features = ["stories"] }
 ui = { workspace = true, features = ["stories"] }
 workspace.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [dev-dependencies]
 gpui = { workspace = true, features = ["test-support"] }

@@ -47,6 +47,8 @@ pub struct FakeTransport {
 impl FakeTransport {
     pub fn new(executor: BackgroundExecutor) -> Self {
         let (tx, rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         Self {
             request_handlers: Default::default(),
             tx,

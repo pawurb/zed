@@ -77,7 +77,11 @@ impl<S: Source> Denoiser<S> {
         }
 
         let (input_tx, input_rx) = mpsc::channel();
+        #[cfg(feature = "channels-console")]
+        let (input_tx, input_rx) = channels_console::instrument!((input_tx, input_rx), log = true);
         let (denoised_tx, denoised_rx) = mpsc::channel();
+        #[cfg(feature = "channels-console")]
+        let (denoised_tx, denoised_rx) = channels_console::instrument!((denoised_tx, denoised_rx), log = true);
 
         thread::Builder::new()
             .name("NeuralDenoiser".to_owned())

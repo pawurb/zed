@@ -12,6 +12,8 @@ workspace = true
 path = "src/extension.rs"
 
 [dependencies]
+hotpath = { version = "0.6", optional = true }
+channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 async-trait.workspace = true
 collections.workspace = true
@@ -35,5 +37,12 @@ util.workspace = true
 wasm-encoder.workspace = true
 wasmparser.workspace = true
 
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
+hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-off = ["hotpath/hotpath-off"]
+channels-console = ["dep:channels-console"]
 [dev-dependencies]
 pretty_assertions.workspace = true

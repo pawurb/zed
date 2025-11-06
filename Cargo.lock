@@ -11,12 +11,14 @@ dependencies = [
  "agent_settings",
  "anyhow",
  "buffer_diff",
+ "channels-console",
  "collections",
  "editor",
  "env_logger 0.11.8",
  "file_icons",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -46,8 +48,10 @@ name = "acp_tools"
 version = "0.1.0"
 dependencies = [
  "agent-client-protocol",
+ "channels-console",
  "collections",
  "gpui",
+ "hotpath",
  "language",
  "markdown",
  "project",
@@ -66,11 +70,13 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "buffer_diff",
+ "channels-console",
  "clock",
  "collections",
  "ctor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "log",
@@ -91,10 +97,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "auto_update",
+ "channels-console",
  "editor",
  "extension_host",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "project",
  "proto",
@@ -143,6 +151,7 @@ dependencies = [
  "agent_settings",
  "anyhow",
  "assistant_text_thread",
+ "channels-console",
  "chrono",
  "client",
  "clock",
@@ -160,6 +169,7 @@ dependencies = [
  "gpui",
  "gpui_tokio",
  "handlebars 4.5.0",
+ "hotpath",
  "html_to_markdown",
  "http_client",
  "indoc",
@@ -250,6 +260,7 @@ dependencies = [
  "agent_settings",
  "anyhow",
  "async-trait",
+ "channels-console",
  "client",
  "collections",
  "env_logger 0.11.8",
@@ -257,6 +268,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "indoc",
  "language",
@@ -287,11 +299,13 @@ name = "agent_settings"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "cloud_llm_client",
  "collections",
  "convert_case 0.8.0",
  "fs",
  "gpui",
+ "hotpath",
  "language_model",
  "paths",
  "project",
@@ -321,6 +335,7 @@ dependencies = [
  "assistant_text_thread",
  "audio",
  "buffer_diff",
+ "channels-console",
  "chrono",
  "client",
  "cloud_llm_client",
@@ -338,6 +353,7 @@ dependencies = [
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "html_to_markdown",
  "http_client",
  "indoc",
@@ -435,10 +451,12 @@ dependencies = [
 name = "ai_onboarding"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "client",
  "cloud_llm_client",
  "component",
  "gpui",
+ "hotpath",
  "language_model",
  "serde",
  "smallvec",
@@ -467,7 +485,7 @@ dependencies = [
  "rustix-openpty",
  "serde",
  "signal-hook",
- "unicode-width",
+ "unicode-width 0.2.2",
  "vte",
  "windows-sys 0.59.0",
 ]
@@ -619,8 +637,10 @@ name = "anthropic"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -659,6 +679,12 @@ checksum = "c3d036a3c4ab069c7b410a2ce876bd74808d2d0888a82667669f8e783a898bf1"
 dependencies = [
  "derive_arbitrary",
 ]
+
+[[package]]
+name = "arc-swap"
+version = "1.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "69f7f8c3906b62b754cd5326047894316021dcfe5a194c8ea52bdd94934a3457"
 
 [[package]]
 name = "arg_enum_proc_macro"
@@ -783,8 +809,10 @@ name = "askpass"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "log",
  "net",
  "smol",
@@ -799,7 +827,9 @@ name = "assets"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "gpui",
+ "hotpath",
  "rust-embed",
 ]
 
@@ -809,11 +839,13 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "derive_more 0.99.20",
  "extension",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "language_model",
  "parking_lot",
@@ -831,6 +863,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "assistant_slash_command",
+ "channels-console",
  "chrono",
  "collections",
  "context_server",
@@ -841,6 +874,7 @@ dependencies = [
  "fuzzy",
  "globset",
  "gpui",
+ "hotpath",
  "html_to_markdown",
  "http_client",
  "language",
@@ -868,6 +902,7 @@ dependencies = [
  "anyhow",
  "assistant_slash_command",
  "assistant_slash_commands",
+ "channels-console",
  "chrono",
  "client",
  "clock",
@@ -878,6 +913,7 @@ dependencies = [
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "language_model",
@@ -1295,10 +1331,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-tar",
+ "channels-console",
  "collections",
  "crossbeam",
  "denoise",
  "gpui",
+ "hotpath",
  "libwebrtc",
  "log",
  "parking_lot",
@@ -1327,9 +1365,11 @@ name = "auto_update"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "db",
  "gpui",
+ "hotpath",
  "http_client",
  "log",
  "paths",
@@ -1349,6 +1389,8 @@ name = "auto_update_helper"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "log",
  "simplelog",
  "tempfile",
@@ -1362,9 +1404,11 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "auto_update",
+ "channels-console",
  "client",
  "editor",
  "gpui",
+ "hotpath",
  "http_client",
  "markdown_preview",
  "release_channel",
@@ -1888,6 +1932,8 @@ version = "0.1.0"
 dependencies = [
  "aws-smithy-runtime-api",
  "aws-smithy-types",
+ "channels-console",
+ "hotpath",
  "http_client",
 ]
 
@@ -2021,7 +2067,9 @@ dependencies = [
  "anyhow",
  "aws-sdk-bedrockruntime",
  "aws-smithy-types",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "schemars 1.0.4",
  "serde",
  "serde_json",
@@ -2351,8 +2399,10 @@ checksum = "36f64beae40a84da1b4b26ff2761a5b895c12adc41dc25aaee1c4f2bbfe97a6e"
 name = "breadcrumbs"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "settings",
  "theme",
@@ -2398,11 +2448,13 @@ name = "buffer_diff"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clock",
  "ctor",
  "futures 0.3.31",
  "git2",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "pretty_assertions",
@@ -2585,6 +2637,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "audio",
+ "channels-console",
  "client",
  "collections",
  "feature_flags",
@@ -2592,6 +2645,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "language",
  "livekit_client",
@@ -2908,11 +2962,13 @@ name = "channel"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "clock",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "language",
  "log",
@@ -2923,6 +2979,24 @@ dependencies = [
  "text",
  "time",
  "util",
+]
+
+[[package]]
+name = "channels-console"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c1d898e1836e012b55b551ef63c81f21ec376ca67be322d9d1747903eaa0eafb"
+dependencies = [
+ "cfg-if",
+ "crossbeam-channel",
+ "eyre",
+ "futures-channel",
+ "futures-util",
+ "prettytable-rs",
+ "serde",
+ "serde_json",
+ "tiny_http 0.12.0",
+ "tokio",
 ]
 
 [[package]]
@@ -3066,12 +3140,14 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "askpass",
+ "channels-console",
  "clap",
  "collections",
  "core-foundation 0.10.0",
  "core-services",
  "exec",
  "fork",
+ "hotpath",
  "ipc-channel",
  "parking_lot",
  "paths",
@@ -3091,6 +3167,7 @@ dependencies = [
  "anyhow",
  "async-tungstenite",
  "base64 0.22.1",
+ "channels-console",
  "chrono",
  "clock",
  "cloud_api_client",
@@ -3103,6 +3180,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "http_client_tls",
  "httparse",
@@ -3127,7 +3205,7 @@ dependencies = [
  "text",
  "thiserror 2.0.17",
  "time",
- "tiny_http",
+ "tiny_http 0.8.2",
  "tokio",
  "tokio-native-tls",
  "tokio-rustls 0.26.2",
@@ -3142,6 +3220,8 @@ dependencies = [
 name = "clock"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "parking_lot",
  "serde",
  "smallvec",
@@ -3152,10 +3232,12 @@ name = "cloud_api_client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "cloud_api_types",
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "parking_lot",
  "serde_json",
@@ -3167,9 +3249,11 @@ name = "cloud_api_types"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "ciborium",
  "cloud_llm_client",
+ "hotpath",
  "pretty_assertions",
  "serde",
  "serde_json",
@@ -3180,7 +3264,9 @@ name = "cloud_llm_client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
+ "hotpath",
  "indoc",
  "pretty_assertions",
  "serde",
@@ -3194,7 +3280,9 @@ name = "cloud_zeta2_prompt"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "cloud_llm_client",
+ "hotpath",
  "indoc",
  "ordered-float 2.10.1",
  "rustc-hash 2.1.1",
@@ -3288,7 +3376,7 @@ checksum = "fe6d2e5af09e8c8ad56c969f2157a3d4238cebc7c55f0a517728c38f7b200f81"
 dependencies = [
  "serde",
  "termcolor",
- "unicode-width",
+ "unicode-width 0.2.2",
 ]
 
 [[package]]
@@ -3299,7 +3387,7 @@ checksum = "ba7a06c0b31fff5ff2e1e7d37dbf940864e2a974b336e1a2938d10af6e8fb283"
 dependencies = [
  "serde",
  "termcolor",
- "unicode-width",
+ "unicode-width 0.2.2",
 ]
 
 [[package]]
@@ -3307,10 +3395,12 @@ name = "codestral"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "edit_prediction",
  "edit_prediction_context",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "language",
  "language_models",
@@ -3342,6 +3432,7 @@ dependencies = [
  "buffer_diff",
  "call",
  "channel",
+ "channels-console",
  "chrono",
  "client",
  "clock",
@@ -3367,6 +3458,7 @@ dependencies = [
  "gpui",
  "gpui_tokio",
  "hex",
+ "hotpath",
  "http_client",
  "hyper 0.14.32",
  "indoc",
@@ -3436,6 +3528,7 @@ dependencies = [
  "anyhow",
  "call",
  "channel",
+ "channels-console",
  "chrono",
  "client",
  "collections",
@@ -3444,6 +3537,7 @@ dependencies = [
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "http_client",
  "log",
  "menu",
@@ -3473,6 +3567,8 @@ dependencies = [
 name = "collections"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "indexmap 2.11.4",
  "rustc-hash 2.1.1",
 ]
@@ -3488,6 +3584,15 @@ name = "colorchoice"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b05b61dc5112cbb17e4b6cd61790d9845d13888356391624cbe7e41efeac1e75"
+
+[[package]]
+name = "colored"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fde0e0ec90c9dfb3b4b1a0891a7dcd0e2bffde2f7efed5fe7c9bb00e5bfb915e"
+dependencies = [
+ "windows-sys 0.59.0",
+]
 
 [[package]]
 name = "combine"
@@ -3507,7 +3612,7 @@ checksum = "b03b7db8e0b4b2fdad6c551e634134e99ec000e5c8c3b6856c65e8bbaded7a3b"
 dependencies = [
  "crossterm",
  "unicode-segmentation",
- "unicode-width",
+ "unicode-width 0.2.2",
 ]
 
 [[package]]
@@ -3525,6 +3630,7 @@ name = "command_palette"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "command_palette_hooks",
@@ -3535,6 +3641,7 @@ dependencies = [
  "fuzzy",
  "go_to_line",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "menu",
@@ -3557,9 +3664,11 @@ dependencies = [
 name = "command_palette_hooks"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "collections",
  "derive_more 0.99.20",
  "gpui",
+ "hotpath",
  "workspace",
 ]
 
@@ -3582,9 +3691,11 @@ dependencies = [
 name = "component"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "collections",
  "documented",
  "gpui",
+ "hotpath",
  "inventory",
  "parking_lot",
  "strum 0.27.2",
@@ -3627,7 +3738,7 @@ dependencies = [
  "encode_unicode",
  "libc",
  "once_cell",
- "unicode-width",
+ "unicode-width 0.2.2",
  "windows-sys 0.59.0",
 ]
 
@@ -3675,9 +3786,11 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "log",
  "net",
  "parking_lot",
@@ -3708,11 +3821,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "cookie"
+version = "0.18.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ddef33a339a91ea89fb53151bd0a4689cfce27055c291dfa69945475d22c747"
+dependencies = [
+ "percent-encoding",
+ "time",
+ "version_check",
+]
+
+[[package]]
+name = "cookie_store"
+version = "0.22.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3fc4bff745c9b4c7fb1e97b25d13153da2bc7796260141df62378998d070207f"
+dependencies = [
+ "cookie",
+ "document-features",
+ "idna",
+ "indexmap 2.11.4",
+ "log",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "time",
+ "url",
+]
+
+[[package]]
 name = "copilot"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-std",
+ "channels-console",
  "chrono",
  "client",
  "clock",
@@ -3725,6 +3868,7 @@ dependencies = [
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "indoc",
  "itertools 0.14.0",
@@ -4135,8 +4279,10 @@ version = "0.1.0"
 dependencies = [
  "bincode 1.3.3",
  "cfg-if",
+ "channels-console",
  "crash-handler",
  "extension_host",
+ "hotpath",
  "log",
  "mach2 0.5.0",
  "minidumper",
@@ -4191,8 +4337,10 @@ name = "credentials_provider"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "paths",
  "release_channel",
  "serde",
@@ -4480,12 +4628,14 @@ dependencies = [
  "async-pipe",
  "async-tar",
  "async-trait",
+ "channels-console",
  "client",
  "collections",
  "dap-types",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "language",
  "libc",
@@ -4524,12 +4674,14 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "dap",
  "dotenvy",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "json_dotpath",
  "language",
@@ -4664,7 +4816,9 @@ name = "db"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "gpui",
+ "hotpath",
  "indoc",
  "log",
  "paths",
@@ -4694,10 +4848,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "dap",
  "extension",
  "gpui",
+ "hotpath",
  "serde_json",
  "task",
  "util",
@@ -4714,10 +4870,12 @@ name = "debugger_tools"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "dap",
  "editor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "project",
  "serde_json",
  "settings",
@@ -4733,6 +4891,7 @@ dependencies = [
  "alacritty_terminal",
  "anyhow",
  "bitflags 2.9.4",
+ "channels-console",
  "client",
  "collections",
  "command_palette_hooks",
@@ -4746,6 +4905,7 @@ dependencies = [
  "fuzzy",
  "gpui",
  "hex",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -4796,7 +4956,9 @@ name = "deepseek"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -4815,6 +4977,8 @@ version = "0.1.0"
 dependencies = [
  "candle-core",
  "candle-onnx",
+ "channels-console",
+ "hotpath",
  "log",
  "realfft",
  "rodio",
@@ -4930,12 +5094,14 @@ name = "diagnostics"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "component",
  "ctor",
  "editor",
  "gpui",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -5026,6 +5192,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "dirs-next"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b98cf8ebf19c3d1b223e151f99a4f9f0690dca41414773390fc824184ac833e1"
+dependencies = [
+ "cfg-if",
+ "dirs-sys-next",
+]
+
+[[package]]
 name = "dirs-sys"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5058,6 +5234,17 @@ dependencies = [
  "option-ext",
  "redox_users 0.5.2",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "dirs-sys-next"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ebda144c4fe02d1f7ea1a7d9641b6fc6b580adcfa024ae48797ecdeb6825b4d"
+dependencies = [
+ "libc",
+ "redox_users 0.4.6",
+ "winapi",
 ]
 
 [[package]]
@@ -5101,8 +5288,10 @@ name = "docs_preprocessor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "command_palette",
  "gpui",
+ "hotpath",
  "mdbook",
  "regex",
  "serde",
@@ -5273,8 +5462,10 @@ dependencies = [
 name = "edit_prediction"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "client",
  "gpui",
+ "hotpath",
  "language",
 ]
 
@@ -5283,6 +5474,7 @@ name = "edit_prediction_button"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "cloud_llm_client",
  "codestral",
@@ -5293,6 +5485,7 @@ dependencies = [
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "lsp",
@@ -5316,12 +5509,14 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "arrayvec",
+ "channels-console",
  "clap",
  "cloud_llm_client",
  "collections",
  "futures 0.3.31",
  "gpui",
  "hashbrown 0.15.5",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -5353,6 +5548,7 @@ dependencies = [
  "anyhow",
  "assets",
  "buffer_diff",
+ "channels-console",
  "client",
  "clock",
  "collections",
@@ -5369,6 +5565,7 @@ dependencies = [
  "fuzzy",
  "git",
  "gpui",
+ "hotpath",
  "http_client",
  "indoc",
  "itertools 0.14.0",
@@ -5723,6 +5920,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "buffer_diff",
+ "channels-console",
  "chrono",
  "clap",
  "client",
@@ -5737,6 +5935,7 @@ dependencies = [
  "gpui",
  "gpui_tokio",
  "handlebars 4.5.0",
+ "hotpath",
  "language",
  "language_extension",
  "language_model",
@@ -5807,6 +6006,8 @@ dependencies = [
 name = "explorer_command_injector"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "windows 0.61.3",
  "windows-core 0.61.2",
  "windows-registry 0.5.3",
@@ -5839,12 +6040,14 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "dap",
  "fs",
  "futures 0.3.31",
  "gpui",
  "heck 0.5.0",
+ "hotpath",
  "http_client",
  "language",
  "log",
@@ -5867,11 +6070,13 @@ name = "extension_cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clap",
  "env_logger 0.11.8",
  "extension",
  "fs",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "reqwest_client",
@@ -5893,6 +6098,7 @@ dependencies = [
  "async-compression",
  "async-tar",
  "async-trait",
+ "channels-console",
  "client",
  "collections",
  "criterion",
@@ -5903,6 +6109,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "language",
  "language_extension",
@@ -5941,6 +6148,7 @@ name = "extensions_ui"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "db",
@@ -5950,6 +6158,7 @@ dependencies = [
  "fs",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "num-format",
@@ -5968,6 +6177,16 @@ dependencies = [
  "vim_mode_setting",
  "workspace",
  "zed_actions",
+]
+
+[[package]]
+name = "eyre"
+version = "0.6.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7cd915d99f24784cdc19fd37ef22b97e3ff0ae756c7e492e9fbfe897d61e2aec"
+dependencies = [
+ "indenter",
+ "once_cell",
 ]
 
 [[package]]
@@ -6075,8 +6294,10 @@ dependencies = [
 name = "feature_flags"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "smol",
 ]
 
@@ -6084,8 +6305,10 @@ dependencies = [
 name = "feedback"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "gpui",
+ "hotpath",
  "system_specs",
  "urlencoding",
  "util",
@@ -6108,6 +6331,7 @@ name = "file_finder"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "ctor",
  "editor",
@@ -6115,6 +6339,7 @@ dependencies = [
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "menu",
  "picker",
@@ -6137,7 +6362,9 @@ dependencies = [
 name = "file_icons"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "serde",
  "theme",
  "util",
@@ -6395,12 +6622,14 @@ dependencies = [
  "ashpd 0.11.0",
  "async-tar",
  "async-trait",
+ "channels-console",
  "cocoa 0.26.0",
  "collections",
  "fsevent",
  "futures 0.3.31",
  "git",
  "gpui",
+ "hotpath",
  "ignore",
  "libc",
  "log",
@@ -6455,8 +6684,10 @@ dependencies = [
 name = "fs_benchmarks"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "fs",
  "gpui",
+ "hotpath",
 ]
 
 [[package]]
@@ -6470,8 +6701,10 @@ name = "fsevent"
 version = "0.1.0"
 dependencies = [
  "bitflags 2.9.4",
+ "channels-console",
  "core-foundation 0.10.0",
  "fsevent-sys 3.1.0",
+ "hotpath",
  "log",
  "parking_lot",
  "tempfile",
@@ -6651,7 +6884,9 @@ dependencies = [
 name = "fuzzy"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "log",
  "util",
 ]
@@ -7019,11 +7254,13 @@ dependencies = [
  "anyhow",
  "askpass",
  "async-trait",
+ "channels-console",
  "collections",
  "derive_more 0.99.20",
  "futures 0.3.31",
  "git2",
  "gpui",
+ "hotpath",
  "http_client",
  "itertools 0.14.0",
  "log",
@@ -7067,9 +7304,11 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "futures 0.3.31",
  "git",
  "gpui",
+ "hotpath",
  "http_client",
  "indoc",
  "pretty_assertions",
@@ -7091,6 +7330,7 @@ dependencies = [
  "askpass",
  "buffer_diff",
  "call",
+ "channels-console",
  "cloud_llm_client",
  "collections",
  "command_palette_hooks",
@@ -7102,6 +7342,7 @@ dependencies = [
  "fuzzy",
  "git",
  "gpui",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -7185,8 +7426,10 @@ dependencies = [
 name = "go_to_line"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "menu",
@@ -7220,7 +7463,9 @@ name = "google_ai"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -7278,6 +7523,7 @@ dependencies = [
  "calloop",
  "calloop-wayland-source",
  "cbindgen",
+ "channels-console",
  "cocoa 0.26.0",
  "cocoa-foundation 0.2.0",
  "collections",
@@ -7297,6 +7543,7 @@ dependencies = [
  "foreign-types 0.5.0",
  "futures 0.3.31",
  "gpui_macros",
+ "hotpath",
  "http_client",
  "image",
  "inventory",
@@ -7366,8 +7613,10 @@ dependencies = [
 name = "gpui_macros"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
  "heck 0.5.0",
+ "hotpath",
  "proc-macro2",
  "quote",
  "syn 2.0.106",
@@ -7378,7 +7627,9 @@ name = "gpui_tokio"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "gpui",
+ "hotpath",
  "tokio",
  "util",
 ]
@@ -7533,6 +7784,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "hdrhistogram"
+version = "7.5.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "765c9198f173dd59ce26ff9f95ef0aafd0a0fe01fb9d72841bc5066a4c06511d"
+dependencies = [
+ "byteorder",
+ "num-traits",
+]
+
+[[package]]
 name = "headers"
 version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7675,6 +7936,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "hotpath"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef44238d7007bbd3c41ce7dbf3d7a4fb224bbf70d6cf3162479138dda0cd6a9e"
+dependencies = [
+ "arc-swap",
+ "base64 0.22.1",
+ "cfg-if",
+ "clap",
+ "colored",
+ "crossbeam-channel",
+ "eyre",
+ "hdrhistogram",
+ "hotpath-macros",
+ "prettytable-rs",
+ "quanta",
+ "serde",
+ "serde_json",
+ "tiny_http 0.12.0",
+ "tokio",
+ "ureq",
+]
+
+[[package]]
+name = "hotpath-macros"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9e7e3443c6f4e5cc69e6b701f7bfca8a5502f0080e94629413346e7b4518d730"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.106",
+]
+
+[[package]]
 name = "hound"
 version = "3.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7710,6 +8006,8 @@ name = "html_to_markdown"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "html5ever 0.27.0",
  "indoc",
  "markup5ever_rcdom",
@@ -7788,8 +8086,10 @@ dependencies = [
  "async-fs",
  "async-tar",
  "bytes 1.10.1",
+ "channels-console",
  "derive_more 0.99.20",
  "futures 0.3.31",
+ "hotpath",
  "http 1.3.1",
  "http-body 1.0.1",
  "log",
@@ -7807,6 +8107,8 @@ dependencies = [
 name = "http_client_tls"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "rustls 0.23.33",
  "rustls-platform-verifier",
 ]
@@ -7979,6 +8281,8 @@ dependencies = [
 name = "icons"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "serde",
  "strum 0.27.2",
 ]
@@ -8157,10 +8461,12 @@ name = "image_viewer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "db",
  "editor",
  "file_icons",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "project",
@@ -8192,6 +8498,12 @@ name = "imgref"
 version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7c5cedc30da3a610cac6b4ba17597bdf7152cf974e8aab3afb3d54455e371c8"
+
+[[package]]
+name = "indenter"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "964de6e86d545b246d84badc0fef527924ace5134f30641c203ef52ba83f58d5"
 
 [[package]]
 name = "indexmap"
@@ -8279,10 +8591,12 @@ name = "inspector_ui"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "command_palette_hooks",
  "editor",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "project",
  "serde_json",
@@ -8301,8 +8615,10 @@ name = "install_cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "gpui",
+ "hotpath",
  "release_channel",
  "smol",
  "util",
@@ -8549,9 +8865,11 @@ name = "journal"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "editor",
  "gpui",
+ "hotpath",
  "log",
  "serde",
  "settings",
@@ -8586,9 +8904,11 @@ name = "json_schema_store"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "dap",
  "extension",
  "gpui",
+ "hotpath",
  "language",
  "paths",
  "project",
@@ -8680,6 +9000,7 @@ name = "keymap_editor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "command_palette",
  "component",
@@ -8688,6 +9009,7 @@ dependencies = [
  "fs",
  "fuzzy",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "json_schema_store",
  "language",
@@ -8769,6 +9091,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "clock",
  "collections",
  "ctor",
@@ -8779,6 +9102,7 @@ dependencies = [
  "fuzzy",
  "globset",
  "gpui",
+ "hotpath",
  "http_client",
  "imara-diff",
  "indoc",
@@ -8829,11 +9153,13 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
  "collections",
  "extension",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "lsp",
@@ -8850,12 +9176,14 @@ dependencies = [
  "anthropic",
  "anyhow",
  "base64 0.22.1",
+ "channels-console",
  "client",
  "cloud_api_types",
  "cloud_llm_client",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "icons",
  "image",
@@ -8883,6 +9211,7 @@ dependencies = [
  "aws-credential-types",
  "aws_http_client",
  "bedrock",
+ "channels-console",
  "chrono",
  "client",
  "cloud_llm_client",
@@ -8898,6 +9227,7 @@ dependencies = [
  "google_ai",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "language",
  "language_model",
@@ -8932,9 +9262,11 @@ dependencies = [
 name = "language_onboarding"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "db",
  "editor",
  "gpui",
+ "hotpath",
  "project",
  "ui",
  "workspace",
@@ -8945,11 +9277,13 @@ name = "language_selector"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "editor",
  "file_finder",
  "file_icons",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "picker",
  "project",
@@ -8964,6 +9298,7 @@ name = "language_tools"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "command_palette_hooks",
@@ -8971,6 +9306,7 @@ dependencies = [
  "editor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "language",
  "lsp",
@@ -8997,10 +9333,12 @@ dependencies = [
  "async-fs",
  "async-tar",
  "async-trait",
+ "channels-console",
  "chrono",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "itertools 0.14.0",
  "json_schema_store",
@@ -9230,8 +9568,10 @@ dependencies = [
 name = "line_ending_selector"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "gpui",
+ "hotpath",
  "language",
  "picker",
  "project",
@@ -9361,6 +9701,8 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "channels-console",
+ "hotpath",
  "jsonwebtoken",
  "log",
  "prost 0.9.0",
@@ -9377,6 +9719,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "audio",
+ "channels-console",
  "collections",
  "core-foundation 0.10.0",
  "core-video",
@@ -9385,6 +9728,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client_tls",
  "image",
  "libwebrtc",
@@ -9425,7 +9769,9 @@ name = "lmstudio"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -9481,10 +9827,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-pipe",
+ "channels-console",
  "collections",
  "ctor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "log",
  "lsp-types",
  "parking_lot",
@@ -9636,11 +9984,13 @@ version = "0.1.0"
 dependencies = [
  "assets",
  "base64 0.22.1",
+ "channels-console",
  "collections",
  "env_logger 0.11.8",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "languages",
  "linkify",
@@ -9660,10 +10010,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-recursion",
+ "channels-console",
  "collections",
  "editor",
  "fs",
  "gpui",
+ "hotpath",
  "html5ever 0.27.0",
  "language",
  "linkify",
@@ -9809,10 +10161,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "bindgen 0.71.1",
+ "channels-console",
  "core-foundation 0.10.0",
  "core-video",
  "ctor",
  "foreign-types 0.5.0",
+ "hotpath",
  "metal",
  "objc",
 ]
@@ -9855,7 +10209,9 @@ dependencies = [
 name = "menu"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
 ]
 
 [[package]]
@@ -9900,8 +10256,10 @@ name = "migrator"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "convert_case 0.8.0",
+ "hotpath",
  "log",
  "pretty_assertions",
  "serde_json",
@@ -10055,7 +10413,9 @@ name = "mistral"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -10106,10 +10466,12 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "buffer_diff",
+ "channels-console",
  "clock",
  "collections",
  "ctor",
  "gpui",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -10222,7 +10584,9 @@ name = "nc"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "net",
  "smol",
 ]
@@ -10262,6 +10626,8 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-io",
+ "channels-console",
+ "hotpath",
  "smol",
  "tempfile",
  "windows 0.61.3",
@@ -10319,7 +10685,9 @@ dependencies = [
  "async-std",
  "async-tar",
  "async-trait",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "log",
  "paths",
@@ -10372,11 +10740,13 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "channel",
+ "channels-console",
  "client",
  "collections",
  "component",
  "db",
  "gpui",
+ "hotpath",
  "rpc",
  "settings",
  "sum_tree",
@@ -10885,7 +11255,9 @@ name = "ollama"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -10898,6 +11270,7 @@ name = "onboarding"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "component",
  "db",
@@ -10906,6 +11279,7 @@ dependencies = [
  "fuzzy",
  "git",
  "gpui",
+ "hotpath",
  "menu",
  "notifications",
  "picker",
@@ -10992,7 +11366,9 @@ name = "open_ai"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "log",
  "schemars 1.0.4",
@@ -11007,7 +11383,9 @@ name = "open_router"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "schemars 1.0.4",
  "serde",
@@ -11146,9 +11524,11 @@ dependencies = [
 name = "outline"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "fuzzy",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "menu",
@@ -11173,12 +11553,14 @@ name = "outline_panel"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "db",
  "editor",
  "file_icons",
  "fuzzy",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "language",
  "log",
@@ -11254,8 +11636,10 @@ dependencies = [
 name = "panel"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "gpui",
+ "hotpath",
  "settings",
  "theme",
  "ui",
@@ -11363,7 +11747,9 @@ dependencies = [
 name = "paths"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "dirs 4.0.0",
+ "hotpath",
  "ignore",
  "util",
 ]
@@ -12001,10 +12387,12 @@ name = "picker"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "ctor",
  "editor",
  "env_logger 0.11.8",
  "gpui",
+ "hotpath",
  "menu",
  "schemars 1.0.4",
  "serde",
@@ -12817,9 +13205,11 @@ name = "prettier"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "fs",
  "gpui",
+ "hotpath",
  "language",
  "log",
  "lsp",
@@ -12849,6 +13239,19 @@ checksum = "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b"
 dependencies = [
  "proc-macro2",
  "syn 2.0.106",
+]
+
+[[package]]
+name = "prettytable-rs"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eea25e07510aa6ab6547308ebe3c036016d162b8da920dbb079e3ba8acf3d95a"
+dependencies = [
+ "encode_unicode",
+ "is-terminal",
+ "lazy_static",
+ "term",
+ "unicode-width 0.1.14",
 ]
 
 [[package]]
@@ -12976,6 +13379,7 @@ dependencies = [
  "async-trait",
  "base64 0.22.1",
  "buffer_diff",
+ "channels-console",
  "circular-buffer",
  "client",
  "clock",
@@ -12993,6 +13397,7 @@ dependencies = [
  "git_hosting_providers",
  "globset",
  "gpui",
+ "hotpath",
  "http_client",
  "image",
  "indexmap 2.11.4",
@@ -13044,6 +13449,7 @@ name = "project_panel"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "command_palette_hooks",
@@ -13054,6 +13460,7 @@ dependencies = [
  "git",
  "git_ui",
  "gpui",
+ "hotpath",
  "language",
  "menu",
  "pretty_assertions",
@@ -13079,10 +13486,12 @@ name = "project_symbols"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "editor",
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "lsp",
  "ordered-float 2.10.1",
@@ -13117,6 +13526,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "assets",
+ "channels-console",
  "chrono",
  "collections",
  "fs",
@@ -13125,6 +13535,7 @@ dependencies = [
  "gpui",
  "handlebars 4.5.0",
  "heed",
+ "hotpath",
  "language",
  "log",
  "parking_lot",
@@ -13247,7 +13658,9 @@ name = "proto"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
+ "hotpath",
  "prost 0.9.0",
  "prost-build 0.9.0",
  "serde",
@@ -13386,6 +13799,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f6d64c71eb498fe9eae14ce4ec935c555749aef511cca85b5568910d6e48001"
 dependencies = [
  "bytemuck",
+]
+
+[[package]]
+name = "quanta"
+version = "0.12.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f3ab5a9d756f0d97bdc89019bd2e4ea098cf9cde50ee7564dde6b81ccc8f06c7"
+dependencies = [
+ "crossbeam-utils",
+ "libc",
+ "once_cell",
+ "raw-cpuid 11.6.0",
+ "wasi",
+ "web-sys",
+ "winapi",
 ]
 
 [[package]]
@@ -13720,6 +14148,7 @@ dependencies = [
  "anyhow",
  "askpass",
  "auto_update",
+ "channels-console",
  "dap",
  "editor",
  "extension_host",
@@ -13727,6 +14156,7 @@ dependencies = [
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "log",
@@ -13850,7 +14280,9 @@ dependencies = [
 name = "refineable"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "derive_refineable",
+ "hotpath",
 ]
 
 [[package]]
@@ -13907,7 +14339,9 @@ checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
 name = "release_channel"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
 ]
 
 [[package]]
@@ -13917,10 +14351,12 @@ dependencies = [
  "anyhow",
  "askpass",
  "async-trait",
+ "channels-console",
  "collections",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "log",
  "parking_lot",
  "paths",
@@ -13948,6 +14384,7 @@ dependencies = [
  "anyhow",
  "askpass",
  "cargo_toml",
+ "channels-console",
  "clap",
  "client",
  "clock",
@@ -13969,6 +14406,7 @@ dependencies = [
  "git_hosting_providers",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "json_schema_store",
  "language",
@@ -14025,6 +14463,7 @@ dependencies = [
  "async-dispatcher",
  "async-tungstenite",
  "base64 0.22.1",
+ "channels-console",
  "client",
  "collections",
  "command_palette_hooks",
@@ -14034,6 +14473,7 @@ dependencies = [
  "file_icons",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "image",
  "indoc",
@@ -14159,8 +14599,10 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "bytes 1.10.1",
+ "channels-console",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "http_client_tls",
  "log",
@@ -14208,8 +14650,10 @@ dependencies = [
 name = "rich_text"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "linkify",
  "pulldown-cmark 0.12.2",
@@ -14312,9 +14756,11 @@ name = "rope"
 version = "0.1.0"
 dependencies = [
  "arrayvec",
+ "channels-console",
  "criterion",
  "ctor",
  "gpui",
+ "hotpath",
  "log",
  "rand 0.9.2",
  "rayon",
@@ -14337,10 +14783,12 @@ dependencies = [
  "anyhow",
  "async-tungstenite",
  "base64 0.22.1",
+ "channels-console",
  "chrono",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "parking_lot",
  "proto",
  "rand 0.9.2",
@@ -14386,9 +14834,11 @@ name = "rules_library"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "editor",
  "gpui",
+ "hotpath",
  "language",
  "language_model",
  "log",
@@ -14800,8 +15250,10 @@ version = "0.1.0"
 dependencies = [
  "async-task",
  "backtrace",
+ "channels-console",
  "chrono",
  "futures 0.3.31",
+ "hotpath",
  "parking_lot",
  "rand 0.9.2",
 ]
@@ -14811,8 +15263,10 @@ name = "schema_generator"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clap",
  "env_logger 0.11.8",
+ "hotpath",
  "schemars 1.0.4",
  "serde",
  "serde_json",
@@ -15041,11 +15495,13 @@ dependencies = [
  "any_vec",
  "anyhow",
  "bitflags 2.9.4",
+ "channels-console",
  "client",
  "collections",
  "editor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "language",
  "lsp",
  "menu",
@@ -15125,6 +15581,8 @@ name = "semantic_version"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "serde",
 ]
 
@@ -15343,8 +15801,10 @@ dependencies = [
 name = "session"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "db",
  "gpui",
+ "hotpath",
  "serde_json",
  "util",
  "uuid",
@@ -15355,12 +15815,14 @@ name = "settings"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "derive_more 0.99.20",
  "ec4rs",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "inventory",
  "log",
@@ -15389,6 +15851,8 @@ name = "settings_json"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "pretty_assertions",
  "serde",
  "serde_json",
@@ -15404,6 +15868,8 @@ dependencies = [
 name = "settings_macros"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "quote",
  "settings",
  "syn 2.0.106",
@@ -15413,10 +15879,12 @@ dependencies = [
 name = "settings_profile_selector"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "client",
  "editor",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "menu",
  "picker",
@@ -15436,6 +15904,7 @@ dependencies = [
  "anyhow",
  "assets",
  "bm25",
+ "channels-console",
  "client",
  "editor",
  "feature_flags",
@@ -15444,6 +15913,7 @@ dependencies = [
  "fuzzy",
  "gpui",
  "heck 0.5.0",
+ "hotpath",
  "language",
  "log",
  "menu",
@@ -15741,6 +16211,8 @@ name = "snippet"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "smallvec",
 ]
 
@@ -15749,11 +16221,13 @@ name = "snippet_provider"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "extension",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "parking_lot",
  "paths",
@@ -15769,10 +16243,12 @@ dependencies = [
 name = "snippets_ui"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "file_finder",
  "file_icons",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "paths",
  "picker",
@@ -15880,8 +16356,10 @@ name = "sqlez"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "futures 0.3.31",
+ "hotpath",
  "indoc",
  "libsqlite3-sys",
  "log",
@@ -15897,6 +16375,8 @@ dependencies = [
 name = "sqlez_macros"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "sqlez",
  "sqlformat",
  "syn 2.0.106",
@@ -15972,7 +16452,7 @@ dependencies = [
  "tracing",
  "url",
  "uuid",
- "webpki-roots",
+ "webpki-roots 0.26.8",
 ]
 
 [[package]]
@@ -16189,7 +16669,9 @@ dependencies = [
 name = "story"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "smallvec",
 ]
@@ -16199,6 +16681,7 @@ name = "storybook"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clap",
  "collab_ui",
  "ctrlc",
@@ -16206,6 +16689,7 @@ dependencies = [
  "editor",
  "fuzzy",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "log",
@@ -16243,6 +16727,8 @@ checksum = "2b2231b7c3057d5e4ad0156fb3dc807d900806020c5ffa3ee6ff2c8c76fb8520"
 name = "streaming_diff"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "ordered-float 2.10.1",
  "rand 0.9.2",
  "rope",
@@ -16360,7 +16846,9 @@ name = "sum_tree"
 version = "0.1.0"
 dependencies = [
  "arrayvec",
+ "channels-console",
  "ctor",
+ "hotpath",
  "log",
  "rand 0.9.2",
  "rayon",
@@ -16372,6 +16860,7 @@ name = "supermaven"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "collections",
  "edit_prediction",
@@ -16379,6 +16868,7 @@ dependencies = [
  "env_logger 0.11.8",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "language",
  "log",
@@ -16401,7 +16891,9 @@ name = "supermaven_api"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "http_client",
  "paths",
  "serde",
@@ -16498,9 +16990,11 @@ checksum = "0193cc4331cfd2f3d2011ef287590868599a2f33c3e69bc22c1a3d3acf9e02fb"
 name = "svg_preview"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "editor",
  "file_icons",
  "gpui",
+ "hotpath",
  "language",
  "ui",
  "workspace",
@@ -16872,8 +17366,10 @@ name = "system_specs"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "gpui",
+ "hotpath",
  "human_bytes",
  "pciid-parser",
  "release_channel",
@@ -16886,11 +17382,13 @@ name = "tab_switcher"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "ctor",
  "editor",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "menu",
  "picker",
@@ -16966,10 +17464,12 @@ name = "task"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "futures 0.3.31",
  "gpui",
  "hex",
+ "hotpath",
  "log",
  "parking_lot",
  "pretty_assertions",
@@ -16989,11 +17489,13 @@ name = "tasks_ui"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "editor",
  "file_icons",
  "fuzzy",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "language",
  "menu",
@@ -17014,7 +17516,9 @@ dependencies = [
 name = "telemetry"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "futures 0.3.31",
+ "hotpath",
  "serde",
  "serde_json",
  "telemetry_events",
@@ -17024,6 +17528,8 @@ dependencies = [
 name = "telemetry_events"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "semantic_version",
  "serde",
  "serde_json",
@@ -17054,6 +17560,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "term"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c59df8ac95d96ff9bede18eb7300b0fda5e5d8d90960e76f8e14ae765eedbf1f"
+dependencies = [
+ "dirs-next",
+ "rustversion",
+ "winapi",
+]
+
+[[package]]
 name = "termcolor"
 version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -17068,9 +17585,11 @@ version = "0.1.0"
 dependencies = [
  "alacritty_terminal",
  "anyhow",
+ "channels-console",
  "collections",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "libc",
  "log",
@@ -17109,6 +17628,7 @@ dependencies = [
  "assistant_slash_command",
  "async-recursion",
  "breadcrumbs",
+ "channels-console",
  "client",
  "collections",
  "db",
@@ -17116,6 +17636,7 @@ dependencies = [
  "editor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "itertools 0.14.0",
  "language",
  "log",
@@ -17144,10 +17665,12 @@ name = "text"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clock",
  "collections",
  "ctor",
  "gpui",
+ "hotpath",
  "http_client",
  "log",
  "parking_lot",
@@ -17166,11 +17689,13 @@ name = "theme"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "collections",
  "derive_more 0.99.20",
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "log",
  "palette",
  "parking_lot",
@@ -17191,9 +17716,11 @@ name = "theme_extension"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "extension",
  "fs",
  "gpui",
+ "hotpath",
  "theme",
 ]
 
@@ -17202,9 +17729,11 @@ name = "theme_importer"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "clap",
  "collections",
  "gpui",
+ "hotpath",
  "indexmap 2.11.4",
  "log",
  "palette",
@@ -17221,9 +17750,11 @@ dependencies = [
 name = "theme_selector"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "fs",
  "fuzzy",
  "gpui",
+ "hotpath",
  "log",
  "picker",
  "serde",
@@ -17350,8 +17881,10 @@ dependencies = [
 name = "time_format"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "core-foundation 0.10.0",
  "core-foundation-sys",
+ "hotpath",
  "sys-locale",
  "time",
 ]
@@ -17405,6 +17938,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "tiny_http"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "389915df6413a2e74fb181895f933386023c71110878cd0825588928e64cdc82"
+dependencies = [
+ "ascii",
+ "chunked_transfer",
+ "httpdate",
+ "log",
+]
+
+[[package]]
 name = "tinystr"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -17447,12 +17992,14 @@ dependencies = [
  "auto_update",
  "call",
  "channel",
+ "channels-console",
  "chrono",
  "client",
  "cloud_llm_client",
  "collections",
  "db",
  "gpui",
+ "hotpath",
  "http_client",
  "notifications",
  "pretty_assertions",
@@ -17727,12 +18274,14 @@ name = "toolchain_selector"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "convert_case 0.8.0",
  "editor",
  "file_finder",
  "futures 0.3.31",
  "fuzzy",
  "gpui",
+ "hotpath",
  "language",
  "menu",
  "picker",
@@ -18347,11 +18896,13 @@ dependencies = [
 name = "ui"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "chrono",
  "component",
  "documented",
  "gpui",
  "gpui_macros",
+ "hotpath",
  "icons",
  "itertools 0.14.0",
  "menu",
@@ -18371,9 +18922,11 @@ dependencies = [
 name = "ui_input"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "component",
  "editor",
  "gpui",
+ "hotpath",
  "menu",
  "settings",
  "theme",
@@ -18384,7 +18937,9 @@ dependencies = [
 name = "ui_macros"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "component",
+ "hotpath",
  "quote",
  "syn 2.0.106",
  "ui",
@@ -18394,7 +18949,9 @@ dependencies = [
 name = "ui_prompt"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "markdown",
  "menu",
  "settings",
@@ -18495,6 +19052,12 @@ checksum = "b1d386ff53b415b7fe27b50bb44679e2cc4660272694b7b6f3326d8480823a94"
 
 [[package]]
 name = "unicode-width"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af"
+
+[[package]]
+name = "unicode-width"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254"
@@ -18534,6 +19097,38 @@ name = "unty"
 version = "0.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6d49784317cd0d1ee7ec5c716dd598ec5b4483ea832a2dced265471cc0f690ae"
+
+[[package]]
+name = "ureq"
+version = "3.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d39cb1dbab692d82a977c0392ffac19e188bd9186a9f32806f0aaa859d75585a"
+dependencies = [
+ "base64 0.22.1",
+ "cookie_store",
+ "flate2",
+ "log",
+ "percent-encoding",
+ "rustls 0.23.33",
+ "rustls-pki-types",
+ "serde",
+ "serde_json",
+ "ureq-proto",
+ "utf-8",
+ "webpki-roots 1.0.4",
+]
+
+[[package]]
+name = "ureq-proto"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60b4531c118335662134346048ddb0e54cc86bd7e81866757873055f0e38f5d2"
+dependencies = [
+ "base64 0.22.1",
+ "http 1.3.1",
+ "httparse",
+ "log",
+]
 
 [[package]]
 name = "url"
@@ -18605,6 +19200,7 @@ dependencies = [
  "anyhow",
  "async-fs",
  "async_zip",
+ "channels-console",
  "collections",
  "command-fds",
  "dirs 4.0.0",
@@ -18613,6 +19209,7 @@ dependencies = [
  "futures-lite 1.13.0",
  "git2",
  "globset",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "libc",
@@ -18642,6 +19239,8 @@ dependencies = [
 name = "util_macros"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "perf",
  "quote",
  "syn 2.0.106",
@@ -18735,6 +19334,8 @@ name = "vercel"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "schemars 1.0.4",
  "serde",
  "strum 0.27.2",
@@ -18760,6 +19361,7 @@ dependencies = [
  "assets",
  "async-compat",
  "async-trait",
+ "channels-console",
  "collections",
  "command_palette",
  "command_palette_hooks",
@@ -18770,6 +19372,7 @@ dependencies = [
  "fuzzy",
  "git_ui",
  "gpui",
+ "hotpath",
  "indoc",
  "itertools 0.14.0",
  "language",
@@ -18807,7 +19410,9 @@ dependencies = [
 name = "vim_mode_setting"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "settings",
 ]
 
@@ -19416,9 +20021,11 @@ dependencies = [
 name = "watch"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "ctor",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "parking_lot",
  "rand 0.9.2",
  "zlog",
@@ -19571,9 +20178,11 @@ name = "web_search"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "cloud_llm_client",
  "collections",
  "gpui",
+ "hotpath",
  "serde",
 ]
 
@@ -19582,10 +20191,12 @@ name = "web_search_providers"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "client",
  "cloud_llm_client",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "language_model",
  "serde",
@@ -19607,6 +20218,15 @@ name = "webpki-roots"
 version = "0.26.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2210b291f7ea53617fbafcc4939f10914214ec15aace5ba62293a668f322c5c9"
+dependencies = [
+ "rustls-pki-types",
+]
+
+[[package]]
+name = "webpki-roots"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b2878ef029c47c6e8cf779119f20fcf52bde7ad42a731b2a304bc221df17571e"
 dependencies = [
  "rustls-pki-types",
 ]
@@ -20715,6 +21335,7 @@ dependencies = [
  "anyhow",
  "async-recursion",
  "call",
+ "channels-console",
  "client",
  "clock",
  "collections",
@@ -20724,6 +21345,7 @@ dependencies = [
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "itertools 0.14.0",
  "language",
@@ -20761,6 +21383,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-lock 2.8.0",
+ "channels-console",
  "clock",
  "collections",
  "fs",
@@ -20769,6 +21392,7 @@ dependencies = [
  "git",
  "git2",
  "gpui",
+ "hotpath",
  "http_client",
  "ignore",
  "language",
@@ -20850,6 +21474,8 @@ name = "x_ai"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
+ "hotpath",
  "schemars 1.0.4",
  "serde",
  "strum 0.27.2",
@@ -21005,7 +21631,7 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
- "webpki-roots",
+ "webpki-roots 0.26.8",
 ]
 
 [[package]]
@@ -21154,6 +21780,7 @@ dependencies = [
  "breadcrumbs",
  "call",
  "channel",
+ "channels-console",
  "clap",
  "cli",
  "client",
@@ -21188,6 +21815,7 @@ dependencies = [
  "go_to_line",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "http_client",
  "image_viewer",
  "inspector_ui",
@@ -21400,7 +22028,9 @@ dependencies = [
 name = "zed_actions"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
  "schemars 1.0.4",
  "serde",
  "uuid",
@@ -21410,7 +22040,9 @@ dependencies = [
 name = "zed_env_vars"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "gpui",
+ "hotpath",
 ]
 
 [[package]]
@@ -21428,6 +22060,8 @@ dependencies = [
 name = "zed_extension_api"
 version = "0.7.0"
 dependencies = [
+ "channels-console",
+ "hotpath",
  "serde",
  "serde_json",
  "wit-bindgen 0.41.0",
@@ -21604,6 +22238,7 @@ dependencies = [
  "anyhow",
  "arrayvec",
  "call",
+ "channels-console",
  "client",
  "clock",
  "cloud_api_types",
@@ -21619,6 +22254,7 @@ dependencies = [
  "fs",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "http_client",
  "indoc",
  "itertools 0.14.0",
@@ -21659,6 +22295,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "arrayvec",
+ "channels-console",
  "chrono",
  "client",
  "clock",
@@ -21670,6 +22307,7 @@ dependencies = [
  "feature_flags",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "language_model",
@@ -21694,6 +22332,7 @@ name = "zeta2_tools"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "clap",
  "client",
@@ -21704,6 +22343,7 @@ dependencies = [
  "feature_flags",
  "futures 0.3.31",
  "gpui",
+ "hotpath",
  "indoc",
  "language",
  "log",
@@ -21730,6 +22370,7 @@ name = "zeta_cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "clap",
  "client",
@@ -21743,6 +22384,7 @@ dependencies = [
  "futures 0.3.31",
  "gpui",
  "gpui_tokio",
+ "hotpath",
  "indoc",
  "language",
  "language_extension",
@@ -21821,8 +22463,10 @@ name = "zlog"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "channels-console",
  "chrono",
  "collections",
+ "hotpath",
  "log",
  "tempfile",
 ]
@@ -21831,8 +22475,10 @@ dependencies = [
 name = "zlog_settings"
 version = "0.1.0"
 dependencies = [
+ "channels-console",
  "collections",
  "gpui",
+ "hotpath",
  "settings",
  "zlog",
 ]

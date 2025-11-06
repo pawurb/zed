@@ -1009,6 +1009,7 @@ impl settings::Settings for DisableAiSettings {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Project {
     pub fn init_settings(cx: &mut App) {
         WorktreeSettings::register(cx);
@@ -1050,6 +1051,7 @@ impl Project {
         context_server_store::init(cx);
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(label = "operation_logs"))]
     pub fn local(
         client: Arc<Client>,
         node: NodeRuntime,
@@ -1061,6 +1063,9 @@ impl Project {
     ) -> Entity<Self> {
         cx.new(|cx: &mut Context<Self>| {
             let (tx, rx) = mpsc::unbounded();
+            #[cfg(feature = "channels-console")]
+            let (tx, rx) =
+                channels_console::instrument!((tx, rx), log = true, label = "operation_logs");
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
@@ -1242,6 +1247,8 @@ impl Project {
     ) -> Entity<Self> {
         cx.new(|cx: &mut Context<Self>| {
             let (tx, rx) = mpsc::unbounded();
+            #[cfg(feature = "channels-console")]
+            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let global_snippets_dir = paths::snippets_dir().to_owned();
@@ -1616,6 +1623,8 @@ impl Project {
             }
 
             let (tx, rx) = mpsc::unbounded();
+            #[cfg(feature = "channels-console")]
+            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
 
@@ -1776,6 +1785,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub async fn example(
         root_paths: impl IntoIterator<Item = &Path>,
         cx: &mut AsyncApp,
@@ -1819,6 +1829,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub async fn test(
         fs: Arc<dyn Fs>,
         root_paths: impl IntoIterator<Item = &Path>,
@@ -1948,6 +1959,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     #[inline]
     pub fn has_open_buffer(&self, path: impl Into<ProjectPath>, cx: &App) -> bool {
         self.buffer_store
@@ -2678,6 +2690,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn open_local_buffer_with_lsp(
         &mut self,
         abs_path: impl AsRef<Path>,
@@ -2705,6 +2718,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn open_buffer_with_lsp(
         &mut self,
         path: impl Into<ProjectPath>,
@@ -5250,6 +5264,7 @@ impl Project {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn has_language_servers_for(&self, buffer: &Buffer, cx: &mut App) -> bool {
         self.lsp_store.update(cx, |this, cx| {
             this.language_servers_for_local_buffer(buffer, cx)
@@ -5282,6 +5297,7 @@ impl Project {
     }
 
     #[cfg(test)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     fn git_scans_complete(&self, cx: &Context<Self>) -> Task<()> {
         cx.spawn(async move |this, cx| {
             let scans_complete = this

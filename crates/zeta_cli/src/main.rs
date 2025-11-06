@@ -420,6 +420,8 @@ async fn zeta2_llm_context(
     };
 
     let (debug_tx, mut debug_rx) = mpsc::unbounded();
+    #[cfg(feature = "channels-console")]
+    let (debug_tx, mut debug_rx) = channels_console::instrument!((debug_tx, debug_rx), log = true);
 
     let excerpt_options = EditPredictionExcerptOptions {
         max_bytes: zeta2_args.max_excerpt_bytes,

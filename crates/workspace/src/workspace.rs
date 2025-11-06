@@ -1202,6 +1202,7 @@ struct FollowerView {
     location: Option<proto::PanelId>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Workspace {
     pub fn new(
         workspace_id: Option<WorkspaceId>,
@@ -2129,6 +2130,8 @@ impl Workspace {
             rx
         } else {
             let (tx, rx) = oneshot::channel();
+            #[cfg(feature = "channels-console")]
+            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
             let abs_path = cx.prompt_for_paths(path_prompt_options);
 
             cx.spawn_in(window, async move |workspace, cx| {
@@ -2179,6 +2182,8 @@ impl Workspace {
         }
 
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         cx.spawn_in(window, async move |workspace, cx| {
             let abs_path = workspace.update(cx, |workspace, cx| {
                 let relative_to = workspace
@@ -6965,6 +6970,7 @@ impl Render for Workspace {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl WorkspaceStore {
     pub fn new(client: Arc<Client>, cx: &mut Context<Self>) -> Self {
         Self {

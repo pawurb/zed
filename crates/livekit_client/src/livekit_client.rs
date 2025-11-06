@@ -64,6 +64,8 @@ impl Room {
         .await??;
 
         let (mut tx, rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (mut tx, rx) = channels_console::instrument!((tx, rx), log = true);
         let task = cx.background_executor().spawn(async move {
             while let Some(event) = events.recv().await {
                 if let Some(event) = room_event_from_livekit(event) {

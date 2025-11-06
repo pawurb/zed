@@ -1,7 +1,5 @@
 //! Provides constructs for the Zed app version and release channel.
 
-#![deny(missing_docs)]
-
 use std::{env, str::FromStr, sync::LazyLock};
 
 use gpui::{App, Global, SemanticVersion};

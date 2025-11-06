@@ -55,6 +55,8 @@ mod windows_impl {
 
         log::info!("======= Starting Zed update =======");
         let (tx, rx) = std::sync::mpsc::channel();
+        #[cfg(feature = "channels-console")]
+        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
         let hwnd = create_dialog_window(rx)?.0 as isize;
         let args = parse_args(std::env::args().skip(1));
         std::thread::spawn(move || {

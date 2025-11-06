@@ -384,6 +384,8 @@ pub fn find_related_excerpts(
         }
 
         let (results_tx, mut results_rx) = mpsc::unbounded();
+        #[cfg(feature = "channels-console")]
+        let (results_tx, mut results_rx) = channels_console::instrument!((results_tx, results_rx));
 
         for (glob, regex) in regex_by_glob {
             let exclude_matcher = exclude_matcher.clone();

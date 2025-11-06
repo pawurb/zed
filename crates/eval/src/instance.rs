@@ -883,6 +883,8 @@ pub fn wait_for_lang_server(
     println!("{}⏵ Waiting for language server", log_prefix);
 
     let (mut tx, mut rx) = mpsc::channel(1);
+    #[cfg(feature = "channels-console")]
+    let (tx, rx) = channels_console::instrument!((tx, rx), capacity = 1, log = true);
 
     let lsp_store = project
         .read_with(cx, |project, _| project.lsp_store())

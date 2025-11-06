@@ -482,6 +482,9 @@ impl GitStore {
             } => {
                 let mut snapshots = HashMap::default();
                 let (updates_tx, mut updates_rx) = mpsc::unbounded();
+                #[cfg(feature = "channels-console")]
+                let (updates_tx, mut updates_rx) =
+                    channels_console::instrument!((updates_tx, updates_rx));
                 for repo in self.repositories.values() {
                     updates_tx
                         .unbounded_send(DownstreamUpdate::UpdateRepository(
