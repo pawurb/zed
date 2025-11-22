@@ -98,6 +98,8 @@ pub fn wait_for_lang_server(
     println!("{}⏵ Waiting for language server", log_prefix);
 
     let (mut tx, mut rx) = mpsc::channel(1);
+    #[cfg(feature = "hotpath")]
+    let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 1, log = true);
 
     let lsp_store = project
         .read_with(cx, |project, _| project.lsp_store())
@@ -121,6 +123,9 @@ pub fn wait_for_lang_server(
             .detach();
     }
     let (mut added_tx, mut added_rx) = mpsc::channel(1);
+    #[cfg(feature = "hotpath")]
+    let (mut added_tx, mut added_rx) =
+        hotpath::channel!((added_tx, added_rx), capacity = 1, log = true);
 
     let subscriptions = [
         cx.subscribe(&lsp_store, {

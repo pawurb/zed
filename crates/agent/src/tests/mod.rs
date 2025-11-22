@@ -2532,6 +2532,8 @@ fn setup_context_server(
     });
 
     let (mcp_tool_calls_tx, mcp_tool_calls_rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (mcp_tool_calls_tx, mcp_tool_calls_rx) = hotpath::channel!((mcp_tool_calls_tx, mcp_tool_calls_rx), log = true);
     let fake_transport = context_server::test::create_fake_transport(name, cx.executor())
         .on_request::<context_server::types::requests::Initialize, _>(move |_params| async move {
             context_server::types::InitializeResponse {

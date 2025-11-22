@@ -144,6 +144,8 @@ impl ActionLog {
                 let text_snapshot = buffer.read(cx).text_snapshot();
                 let diff = cx.new(|cx| BufferDiff::new(&text_snapshot, cx));
                 let (diff_update_tx, diff_update_rx) = mpsc::unbounded();
+                #[cfg(feature = "hotpath")]
+                let (diff_update_tx, diff_update_rx) = hotpath::channel!((diff_update_tx, diff_update_rx), log = true);
                 let diff_base;
                 let last_seen_base;
                 let unreviewed_edits;

@@ -1,7 +1,5 @@
 //! Provides hooks for customizing the behavior of the command palette.
 
-#![deny(missing_docs)]
-
 use std::{any::TypeId, rc::Rc};
 
 use collections::HashSet;

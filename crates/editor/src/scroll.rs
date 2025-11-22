@@ -462,6 +462,7 @@ impl ScrollManager {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Editor {
     pub fn vertical_scroll_margin(&self) -> usize {
         self.scroll_manager.vertical_scroll_margin as usize

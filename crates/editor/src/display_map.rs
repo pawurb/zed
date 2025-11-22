@@ -126,6 +126,7 @@ pub struct DisplayMap {
     pub(crate) diagnostics_max_severity: DiagnosticSeverity,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl DisplayMap {
     pub fn new(
         buffer: Entity<MultiBuffer>,
@@ -608,6 +609,7 @@ impl DisplayMap {
     }
 
     #[cfg(test)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn is_rewrapping(&self, cx: &gpui::App) -> bool {
         self.wrap_map.read(cx).is_rewrapping()
     }
@@ -756,6 +758,7 @@ pub struct DisplaySnapshot {
     pub(crate) fold_placeholder: FoldPlaceholder,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl DisplaySnapshot {
     pub fn wrap_snapshot(&self) -> &WrapSnapshot {
         &self.block_snapshot.wrap_snapshot
@@ -788,6 +791,7 @@ impl DisplaySnapshot {
     }
 
     #[cfg(test)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn fold_count(&self) -> usize {
         self.fold_snapshot().fold_count()
     }

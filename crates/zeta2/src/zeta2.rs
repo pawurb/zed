@@ -337,6 +337,9 @@ impl Zeta {
 
     pub fn debug_info(&mut self) -> mpsc::UnboundedReceiver<ZetaDebugInfo> {
         let (debug_watch_tx, debug_watch_rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (debug_watch_tx, debug_watch_rx) =
+            hotpath::channel!((debug_watch_tx, debug_watch_rx), log = true);
         self.debug_tx = Some(debug_watch_tx);
         debug_watch_rx
     }
@@ -1799,6 +1802,8 @@ mod tests {
             Project::init_settings(cx);
 
             let (req_tx, req_rx) = mpsc::unbounded();
+            #[cfg(feature = "hotpath")]
+            let (req_tx, req_rx) = hotpath::channel!((req_tx, req_rx), log = true);
 
             let http_client = FakeHttpClient::create({
                 move |req| {

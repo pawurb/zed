@@ -284,6 +284,7 @@ pub struct LocalLspStore {
     buffer_pull_diagnostics_result_ids: HashMap<LanguageServerId, HashMap<PathBuf, Option<String>>>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalLspStore {
     /// Returns the running language server for the given ID. Note if the language server is starting, it will not be returned.
     pub fn running_language_server_for_id(
@@ -3728,6 +3729,7 @@ impl SymbolLocation {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LspStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_request_handler(Self::handle_lsp_query);

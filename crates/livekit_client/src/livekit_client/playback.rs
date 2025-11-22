@@ -197,6 +197,8 @@ impl AudioStack {
         let apm = self.apm.clone();
 
         let (frame_tx, mut frame_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (frame_tx, frame_rx) = hotpath::channel!((frame_tx, frame_rx), log = true);
         let transmit_task = self.executor.spawn({
             async move {
                 while let Some(frame) = frame_rx.next().await {
@@ -838,6 +840,8 @@ mod macos {
     impl super::DeviceChangeListenerApi for CoreAudioDefaultDeviceChangeListener {
         fn new(input: bool) -> anyhow::Result<Self> {
             let (tx, rx) = futures::channel::mpsc::unbounded();
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
 
             let callback = Box::new(PropertyListenerCallbackWrapper(Box::new(move || {
                 tx.unbounded_send(()).ok();

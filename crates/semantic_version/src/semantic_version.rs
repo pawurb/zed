@@ -1,7 +1,5 @@
 //! Constructs for working with [semantic versions](https://semver.org/).
 
-#![deny(missing_docs)]
-
 use std::{
     fmt::{self, Display},
     str::FromStr,

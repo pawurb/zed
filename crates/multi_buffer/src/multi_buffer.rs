@@ -566,6 +566,7 @@ impl IndentGuide {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBuffer {
     pub fn new(capability: Capability) -> Self {
         Self::new_(
@@ -2870,6 +2871,7 @@ fn build_excerpt_ranges(
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBuffer {
     pub fn build_simple(text: &str, cx: &mut gpui::App) -> Entity<Self> {
         let buffer = cx.new(|cx| Buffer::local(text, cx));
@@ -3076,6 +3078,7 @@ impl MultiBuffer {
 
 impl EventEmitter<Event> for MultiBuffer {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBufferSnapshot {
     pub fn text(&self) -> String {
         self.chunks(0..self.len(), false)
@@ -5771,6 +5774,7 @@ impl MultiBufferSnapshot {
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBufferSnapshot {
     pub fn random_byte_range(&self, start_offset: usize, rng: &mut impl rand::Rng) -> Range<usize> {
         let end = self.clip_offset(rng.random_range(start_offset..=self.len()), Bias::Right);
