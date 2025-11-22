@@ -143,8 +143,8 @@ fn start_default_target_screen_capture(
         match start_result {
             Ok((capturer, size, Target::Display(display))) => {
                 let (stream_call_tx, stream_rx) = std::sync::mpsc::sync_channel(1);
-                #[cfg(feature = "channels-console")]
-                let (stream_call_tx, stream_rx) = channels_console::instrument!((stream_call_tx, stream_rx), capacity = 1, log = true);
+                #[cfg(feature = "hotpath")]
+                let (stream_call_tx, stream_rx) = hotpath::channel!((stream_call_tx, stream_rx), capacity = 1, log = true);
                 sources_tx
                     .send(Ok(vec![ScapDefaultTargetCaptureSource {
                         stream_call_tx,

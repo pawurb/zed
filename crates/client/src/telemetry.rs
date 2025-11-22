@@ -234,8 +234,8 @@ impl Telemetry {
         });
 
         let (tx, mut rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (tx, mut rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, mut rx) = hotpath::channel!((tx, rx), log = true);
         ::telemetry::init(tx);
 
         cx.background_spawn({

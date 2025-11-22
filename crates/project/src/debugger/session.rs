@@ -913,8 +913,8 @@ impl Session {
         cx: &mut Context<Self>,
     ) -> Task<Result<()>> {
         let (message_tx, mut message_rx) = futures::channel::mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (message_tx, mut message_rx) = channels_console::instrument!((message_tx, message_rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (message_tx, mut message_rx) = hotpath::channel!((message_tx, message_rx), log = true);
         let (initialized_tx, initialized_rx) = futures::channel::oneshot::channel();
 
         let background_tasks = vec![cx.spawn(async move |this: WeakEntity<Session>, cx| {
@@ -1083,8 +1083,8 @@ impl Session {
 
     pub fn console_output(&mut self, cx: &mut Context<Self>) -> mpsc::UnboundedSender<String> {
         let (tx, mut rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (tx, mut rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, mut rx) = hotpath::channel!((tx, rx), log = true);
 
         cx.spawn(async move |this, cx| {
             while let Some(output) = rx.next().await {

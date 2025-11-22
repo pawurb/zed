@@ -1492,8 +1492,8 @@ impl AcpThread {
         cx: &mut Context<Self>,
     ) -> Result<BoxFuture<'static, acp::RequestPermissionOutcome>> {
         let (tx, rx) = oneshot::channel();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
 
         if respect_always_allow_setting && AgentSettings::get_global(cx).always_allow_tool_actions {
             // Don't use AllowAlways, because then if you were to turn off always_allow_tool_actions,
@@ -1720,8 +1720,8 @@ impl AcpThread {
         self.clear_completed_plan_entries(cx);
 
         let (tx, rx) = oneshot::channel();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let cancel_task = self.cancel(cx);
 
         self.send_task = Some(cx.spawn(async move |this, cx| {

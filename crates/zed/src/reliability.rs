@@ -107,8 +107,8 @@ pub fn monitor_main_thread_hangs(
 
     // Initialize SIGUSR2 handler to send a backtrace to a channel.
     let (backtrace_tx, backtrace_rx) = mpsc::channel();
-    #[cfg(feature = "channels-console")]
-    let (backtrace_tx, backtrace_rx) = channels_console::instrument!((backtrace_tx, backtrace_rx), log = true);
+    #[cfg(feature = "hotpath")]
+    let (backtrace_tx, backtrace_rx) = hotpath::channel!((backtrace_tx, backtrace_rx), log = true);
     static BACKTRACE: Mutex<Vec<backtrace::Frame>> = Mutex::new(Vec::new());
     static BACKTRACE_SENDER: OnceLock<mpsc::Sender<()>> = OnceLock::new();
     BACKTRACE_SENDER.get_or_init(|| backtrace_tx);
@@ -156,8 +156,8 @@ pub fn monitor_main_thread_hangs(
     let main_thread = pthread::pthread_self();
 
     let (mut tx, mut rx) = futures::channel::mpsc::channel(3);
-    #[cfg(feature = "channels-console")]
-    let (mut tx, mut rx) = channels_console::instrument!((tx, rx), capacity = 3, log = true);
+    #[cfg(feature = "hotpath")]
+    let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 3, log = true);
     foreground_executor
         .spawn(async move { while (rx.next().await).is_some() {} })
         .detach();

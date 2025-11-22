@@ -198,8 +198,8 @@ impl Global for OpenListener {}
 impl OpenListener {
     pub fn new() -> (Self, UnboundedReceiver<RawOpenRequest>) {
         let (tx, rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx));
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx));
         (OpenListener(tx), rx)
     }
 
@@ -560,9 +560,9 @@ async fn open_local_workspace(
                     Some(Ok(item)) => {
                         cx.update(|cx| {
                             let (released_tx, released_rx) = oneshot::channel();
-                            #[cfg(feature = "channels-console")]
+                            #[cfg(feature = "hotpath")]
                             let (released_tx, released_rx) =
-                                channels_console::instrument!((released_tx, released_rx), log = true);
+                                hotpath::channel!((released_tx, released_rx), log = true);
                             item.on_release(
                                 cx,
                                 Box::new(move |_| {
@@ -591,8 +591,8 @@ async fn open_local_workspace(
                 let wait = async move {
                     if paths_with_position.is_empty() && diff_paths.is_empty() {
                         let (done_tx, done_rx) = oneshot::channel();
-                        #[cfg(feature = "channels-console")]
-                        let (done_tx, done_rx) = channels_console::instrument!((done_tx, done_rx), log = true);
+                        #[cfg(feature = "hotpath")]
+                        let (done_tx, done_rx) = hotpath::channel!((done_tx, done_rx), log = true);
                         let _subscription = workspace.update(cx, |_, _, cx| {
                             cx.on_release(move |_, _| {
                                 let _ = done_tx.send(());

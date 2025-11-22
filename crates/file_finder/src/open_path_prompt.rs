@@ -190,8 +190,8 @@ impl OpenPathPrompt {
     ) {
         workspace.set_prompt_for_open_path(Box::new(|workspace, lister, window, cx| {
             let (tx, rx) = futures::channel::oneshot::channel();
-            #[cfg(feature = "channels-console")]
-            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
             Self::prompt_for_open_path(workspace, lister, false, tx, window, cx);
             rx
         }));
@@ -204,8 +204,8 @@ impl OpenPathPrompt {
     ) {
         workspace.set_prompt_for_new_path(Box::new(|workspace, lister, window, cx| {
             let (tx, rx) = futures::channel::oneshot::channel();
-            #[cfg(feature = "channels-console")]
-            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
             Self::prompt_for_open_path(workspace, lister, true, tx, window, cx);
             rx
         }));

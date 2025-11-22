@@ -676,8 +676,8 @@ impl Thread {
         cx: &mut Context<Self>,
     ) -> mpsc::UnboundedReceiver<Result<ThreadEvent>> {
         let (tx, rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let stream = ThreadEventStream(tx);
         for message in &self.messages {
             match message {

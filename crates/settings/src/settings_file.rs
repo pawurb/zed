@@ -52,8 +52,8 @@ pub fn watch_config_file(
     path: PathBuf,
 ) -> mpsc::UnboundedReceiver<String> {
     let (tx, rx) = mpsc::unbounded();
-    #[cfg(feature = "channels-console")]
-    let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
     executor
         .spawn(async move {
             let (events, _) = fs.watch(&path, Duration::from_millis(100)).await;
@@ -87,8 +87,8 @@ pub fn watch_config_dir(
     config_paths: HashSet<PathBuf>,
 ) -> mpsc::UnboundedReceiver<String> {
     let (tx, rx) = mpsc::unbounded();
-    #[cfg(feature = "channels-console")]
-    let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
     executor
         .spawn(async move {
             for file_path in &config_paths {

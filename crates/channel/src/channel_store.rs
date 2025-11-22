@@ -164,9 +164,9 @@ impl ChannelStore {
 
         let mut connection_status = client.status();
         let (update_channels_tx, mut update_channels_rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
+        #[cfg(feature = "hotpath")]
         let (update_channels_tx, mut update_channels_rx) =
-            channels_console::instrument!((update_channels_tx, update_channels_rx), log = true);
+            hotpath::channel!((update_channels_tx, update_channels_rx), log = true);
         let watch_connection_status = cx.spawn(async move |this, cx| {
             while let Some(status) = connection_status.next().await {
                 let this = this.upgrade()?;

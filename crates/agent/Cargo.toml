@@ -10,8 +10,8 @@ path = "src/agent.rs"
 
 [features]
 hotpath = ["dep:hotpath", "hotpath/hotpath"]
-hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]
-hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
 hotpath-off = ["hotpath/hotpath-off"]
 channels-console = ["dep:channels-console"]
 test-support = ["db/test-support"]
@@ -23,7 +23,7 @@ e2e = []
 workspace = true
 
 [dependencies]
-hotpath = { version = "0.6", optional = true }
+hotpath = { version = "0.7", optional = true }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 acp_thread.workspace = true
 action_log.workspace = true

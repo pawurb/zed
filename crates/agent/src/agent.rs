@@ -1202,8 +1202,8 @@ impl ThreadEnvironment for AcpThreadEnvironment {
             let terminal = task?.await?;
 
             let (drop_tx, drop_rx) = oneshot::channel();
-            #[cfg(feature = "channels-console")]
-            channels_console::instrument!((drop_tx, drop_rx), log = true);
+            #[cfg(feature = "hotpath")]
+            hotpath::channel!((drop_tx, drop_rx), log = true);
             let terminal_id = terminal.read_with(cx, |terminal, _cx| terminal.id().clone())?;
 
             cx.spawn(async move |cx| {

@@ -7,11 +7,11 @@ import os
 import re
 from pathlib import Path
 
-DEPENDENCY_LINE = 'hotpath = { version = "0.6", optional = true }\n'
+DEPENDENCY_LINE = 'hotpath = { version = "0.7", optional = true }\n'
 FEATURE_LINES = [
     'hotpath = ["dep:hotpath", "hotpath/hotpath"]\n',
-    'hotpath-alloc-bytes-total = ["hotpath/hotpath-alloc-bytes-total"]\n',
-    'hotpath-alloc-count-total = ["hotpath/hotpath-alloc-count-total"]\n',
+    'hotpath-alloc = ["hotpath/hotpath-alloc"]\n',
+    '\n',
     'hotpath-off = ["hotpath/hotpath-off"]\n',
 ]
 

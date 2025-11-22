@@ -66,8 +66,8 @@ async fn test_block_via_channel(cx: &mut gpui::TestAppContext) {
     cx.executor().allow_parking();
 
     let (tx, mut rx) = futures::channel::mpsc::unbounded();
-    #[cfg(feature = "channels-console")]
-    let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
     let _thread = std::thread::spawn(move || {
         #[cfg(not(target_os = "windows"))]
         std::fs::metadata("/tmp").unwrap();

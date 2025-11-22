@@ -109,8 +109,8 @@ impl RemoteBufferStore {
         cx: &mut Context<BufferStore>,
     ) -> Task<Result<Entity<Buffer>>> {
         let (tx, rx) = oneshot::channel();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         self.remote_buffer_listeners.entry(id).or_default().push(tx);
 
         cx.spawn(async move |this, cx| {

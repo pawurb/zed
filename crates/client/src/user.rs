@@ -171,9 +171,9 @@ impl UserStore {
     pub fn new(client: Arc<Client>, cx: &Context<Self>) -> Self {
         let (mut current_user_tx, current_user_rx) = watch::channel();
         let (update_contacts_tx, mut update_contacts_rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
+        #[cfg(feature = "hotpath")]
         let (update_contacts_tx, mut update_contacts_rx) =
-            channels_console::instrument!((update_contacts_tx, update_contacts_rx));
+            hotpath::channel!((update_contacts_tx, update_contacts_rx));
         let rpc_subscriptions = vec![
             client.add_message_handler(cx.weak_entity(), Self::handle_update_contacts),
             client.add_message_handler(cx.weak_entity(), Self::handle_update_invite_info),

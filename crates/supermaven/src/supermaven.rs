@@ -290,8 +290,8 @@ impl SupermavenAgent {
             .context("failed to get stdout for process")?;
 
         let (outgoing_tx, outgoing_rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (outgoing_tx, outgoing_rx) = channels_console::instrument!((outgoing_tx, outgoing_rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (outgoing_tx, outgoing_rx) = hotpath::channel!((outgoing_tx, outgoing_rx), log = true);
 
         cx.spawn({
             let client = client.clone();

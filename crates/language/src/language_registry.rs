@@ -492,9 +492,9 @@ impl LanguageRegistry {
         initializer: Option<Box<dyn Fn(&mut lsp::FakeLanguageServer) + Send + Sync>>,
     ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
         let (servers_tx, servers_rx) = futures::channel::mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
+        #[cfg(feature = "hotpath")]
         let (servers_tx, servers_rx) =
-            channels_console::instrument!((servers_tx, servers_rx), log = true);
+            hotpath::channel!((servers_tx, servers_rx), log = true);
         self.state.write().fake_server_entries.insert(
             lsp_name,
             FakeLanguageServerEntry {
@@ -1036,8 +1036,8 @@ impl LanguageRegistry {
         name: Arc<str>,
     ) -> impl Future<Output = Result<tree_sitter::Language>> {
         let (tx, rx) = oneshot::channel();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let mut state = self.state.write();
 
         if let Some(grammar) = state.grammars.get_mut(name.as_ref()) {
@@ -1296,8 +1296,8 @@ impl LanguageRegistryState {
 impl ServerStatusSender {
     fn subscribe(&self) -> mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)> {
         let (tx, rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         self.txs.lock().push(tx);
         rx
     }

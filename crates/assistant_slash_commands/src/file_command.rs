@@ -245,8 +245,8 @@ fn collect_files(
         .collect::<Vec<_>>();
 
     let (events_tx, events_rx) = mpsc::unbounded();
-    #[cfg(feature = "channels-console")]
-    let (events_tx, events_rx) = channels_console::instrument!((events_tx, events_rx), log = true);
+    #[cfg(feature = "hotpath")]
+    let (events_tx, events_rx) = hotpath::channel!((events_tx, events_rx), log = true);
     cx.spawn(async move |cx| {
         for snapshot in snapshots {
             let worktree_id = snapshot.id();

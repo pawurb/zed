@@ -355,9 +355,9 @@ pub fn main() {
     );
 
     let (shell_env_loaded_tx, shell_env_loaded_rx) = oneshot::channel();
-    #[cfg(feature = "channels-console")]
+    #[cfg(feature = "hotpath")]
     let (shell_env_loaded_tx, shell_env_loaded_rx) =
-        channels_console::instrument!((shell_env_loaded_tx, shell_env_loaded_rx), log = true);
+        hotpath::channel!((shell_env_loaded_tx, shell_env_loaded_rx), log = true);
     if !stdout_is_a_pty() {
         app.background_executor()
             .spawn(async {

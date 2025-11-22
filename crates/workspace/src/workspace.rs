@@ -2130,8 +2130,8 @@ impl Workspace {
             rx
         } else {
             let (tx, rx) = oneshot::channel();
-            #[cfg(feature = "channels-console")]
-            let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
             let abs_path = cx.prompt_for_paths(path_prompt_options);
 
             cx.spawn_in(window, async move |workspace, cx| {
@@ -2182,8 +2182,8 @@ impl Workspace {
         }
 
         let (tx, rx) = oneshot::channel();
-        #[cfg(feature = "channels-console")]
-        let (tx, rx) = channels_console::instrument!((tx, rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         cx.spawn_in(window, async move |workspace, cx| {
             let abs_path = workspace.update(cx, |workspace, cx| {
                 let relative_to = workspace

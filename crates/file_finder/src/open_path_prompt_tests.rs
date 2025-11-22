@@ -413,8 +413,8 @@ fn build_open_path_prompt(
     cx: &mut TestAppContext,
 ) -> (Entity<Picker<OpenPathDelegate>>, &mut VisualTestContext) {
     let (tx, _) = futures::channel::oneshot::channel();
-    #[cfg(feature = "channels-console")]
-    let (tx, _) = channels_console::instrument!((tx, _), log = true);
+    #[cfg(feature = "hotpath")]
+    let (tx, _) = hotpath::channel!((tx, _), log = true);
     let lister = project::DirectoryLister::Project(project.clone());
     let delegate = OpenPathDelegate::new(tx, lister.clone(), creating_path, path_style);
 

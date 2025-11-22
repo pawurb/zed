@@ -678,8 +678,9 @@ impl Room {
     ) -> Result<(Self, mpsc::Receiver<RoomEvent>)> {
         let server = TestServer::get(&url)?;
         let (updates_tx, updates_rx) = mpsc::channel(1024);
-        #[cfg(feature = "channels-console")]
-        let (updates_tx, updates_rx) = channels_console::instrument!((updates_tx, updates_rx), capacity = 1024, log = true);
+        #[cfg(feature = "hotpath")]
+        let (updates_tx, updates_rx) =
+            hotpath::channel!((updates_tx, updates_rx), capacity = 1024, log = true);
         let this = Self(Arc::new(Mutex::new(RoomState {
             local_identity: ParticipantIdentity(String::new()),
             url: url.to_string(),

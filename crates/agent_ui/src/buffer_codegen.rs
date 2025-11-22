@@ -544,8 +544,8 @@ impl CodegenAlternative {
                 let model_telemetry_id = model_telemetry_id.clone();
                 let model_provider_id = model_provider_id.clone();
                 let (mut diff_tx, mut diff_rx) = mpsc::channel(1);
-                #[cfg(feature = "channels-console")]
-                let (mut diff_tx, mut diff_rx) = channels_console::instrument!((diff_tx, diff_rx), capacity = 1, log = true);
+                #[cfg(feature = "hotpath")]
+                let (mut diff_tx, mut diff_rx) = hotpath::channel!((diff_tx, diff_rx), capacity = 1, log = true);
                 let executor = cx.background_executor().clone();
                 let message_id = message_id.clone();
                 let line_based_stream_diff: Task<anyhow::Result<()>> =
@@ -1476,8 +1476,8 @@ mod tests {
         cx: &mut TestAppContext,
     ) -> mpsc::UnboundedSender<String> {
         let (chunks_tx, chunks_rx) = mpsc::unbounded();
-        #[cfg(feature = "channels-console")]
-        let (chunks_tx, chunks_rx) = channels_console::instrument!((chunks_tx, chunks_rx), log = true);
+        #[cfg(feature = "hotpath")]
+        let (chunks_tx, chunks_rx) = hotpath::channel!((chunks_tx, chunks_rx), log = true);
         codegen.update(cx, |codegen, cx| {
             codegen.handle_stream(
                 String::new(),
