@@ -1233,6 +1233,8 @@ impl ChannelClient {
             };
 
             let peer_id = PeerId { owner_id: 0, id: 0 };
+            #[cfg(feature = "hotpath")]
+            let mut incoming_rx = hotpath::stream!(incoming_rx, label = "remote_incoming", log = true);
             while let Some(incoming) = incoming_rx.next().await {
                 let Some(this) = this.upgrade() else {
                     return anyhow::Ok(());

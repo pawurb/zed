@@ -1373,6 +1373,8 @@ impl Workspace {
         // that each asynchronous operation can be run in order.
         let (leader_updates_tx, mut leader_updates_rx) =
             mpsc::unbounded::<(PeerId, proto::UpdateFollowers)>();
+        #[cfg(feature = "hotpath")]
+        let mut leader_updates_rx = hotpath::stream!(leader_updates_rx, label = "leader_updates", log = true);
         let _apply_leader_updates = cx.spawn_in(window, async move |this, cx| {
             while let Some((leader_id, update)) = leader_updates_rx.next().await {
                 Self::process_leader_update(&this, leader_id, update, cx)
@@ -5573,6 +5575,8 @@ impl Workspace {
         const CHUNK_SIZE: usize = 200;
 
         let mut serializable_items = items_rx.ready_chunks(CHUNK_SIZE);
+        #[cfg(feature = "hotpath")]
+        let mut serializable_items = hotpath::stream!(serializable_items, label = "workspace_serializable_items");
 
         while let Some(items_received) = serializable_items.next().await {
             let unique_items =

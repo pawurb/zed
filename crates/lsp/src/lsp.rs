@@ -551,8 +551,18 @@ impl LanguageServer {
             io_handlers,
             cx.background_executor().clone(),
         );
+        #[cfg(feature = "hotpath")]
+        let mut input_handler_stream = hotpath::stream!(input_handler.incoming_messages, label = "lsp_incoming_messages", log = true);
 
-        while let Some(msg) = input_handler.incoming_messages.next().await {
+        loop {
+            #[cfg(feature = "hotpath")]
+            let msg = input_handler_stream.next().await;
+            #[cfg(not(feature = "hotpath"))]
+            let msg = input_handler.incoming_messages.next().await;
+
+            let Some(msg) = msg else {
+                break;
+            };
             let unhandled_message = {
                 let mut notification_handlers = notification_handlers.lock();
                 if let Some(handler) = notification_handlers.get_mut(msg.method.as_str()) {

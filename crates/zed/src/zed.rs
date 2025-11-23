@@ -1376,6 +1376,8 @@ pub fn handle_settings_file_changes(
             global_settings_file_rx.map(Either::Left),
             user_settings_file_rx.map(Either::Right),
         );
+        #[cfg(feature = "hotpath")]
+        let mut settings_streams = hotpath::stream!(settings_streams, label = "settings_file_changes", log = true);
 
         while let Some(content) = settings_streams.next().await {
             let (content, is_user) = match content {

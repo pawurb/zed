@@ -754,6 +754,8 @@ pub fn main() {
         crate::zed::component_preview::init(app_state.clone(), cx);
 
         cx.spawn(async move |cx| {
+            #[cfg(feature = "hotpath")]
+            let mut open_rx = hotpath::stream!(open_rx, label = "url_open_requests");
             while let Some(urls) = open_rx.next().await {
                 cx.update(|cx| {
                     if let Some(request) = OpenRequest::parse(urls, cx).log_err() {
@@ -1416,6 +1418,8 @@ fn watch_themes(fs: Arc<dyn fs::Fs>, cx: &mut App) {
         let (mut events, _) = fs
             .watch(paths::themes_dir(), Duration::from_millis(100))
             .await;
+        #[cfg(feature = "hotpath")]
+        let mut events = hotpath::stream!(events, label = "theme_dir_watch", log = true);
 
         while let Some(paths) = events.next().await {
             for event in paths {
@@ -1449,6 +1453,8 @@ fn watch_languages(fs: Arc<dyn fs::Fs>, languages: Arc<LanguageRegistry>, cx: &m
 
         // add subdirectories since fs.watch is not recursive on Linux
         if let Some(mut paths) = fs.read_dir(&languages_src).await.log_err() {
+            #[cfg(feature = "hotpath")]
+            let mut paths = hotpath::stream!(paths, label = "language_dirs_read", log = true);
             while let Some(path) = paths.next().await {
                 if let Some(path) = path.log_err()
                     && fs.is_dir(&path).await
@@ -1457,6 +1463,8 @@ fn watch_languages(fs: Arc<dyn fs::Fs>, languages: Arc<LanguageRegistry>, cx: &m
                 }
             }
         }
+        #[cfg(feature = "hotpath")]
+        let mut events = hotpath::stream!(events, label = "language_watch", log = true);
 
         while let Some(event) = events.next().await {
             let has_language_file = event
