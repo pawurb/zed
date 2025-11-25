@@ -23,7 +23,7 @@ sqlite = ["sea-orm/sqlx-sqlite", "sqlx/sqlite"]
 test-support = ["sqlite"]
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 async-trait.workspace = true

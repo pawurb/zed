@@ -12,7 +12,7 @@ workspace = true
 path = "src/rope.rs"
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 arrayvec = "0.7.1"
 log.workspace = true

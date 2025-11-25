@@ -32,7 +32,7 @@ test-support = [
 ]
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 aho-corasick.workspace = true
 anyhow.workspace = true

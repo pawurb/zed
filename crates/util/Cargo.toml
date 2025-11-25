@@ -23,7 +23,7 @@ channels-console = ["dep:channels-console"]
 test-support = ["git2", "rand", "util_macros"]
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 async-fs.workspace = true

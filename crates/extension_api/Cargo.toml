@@ -16,7 +16,7 @@ workspace = true
 path = "src/extension_api.rs"
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

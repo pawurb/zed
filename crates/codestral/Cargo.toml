@@ -9,7 +9,7 @@ license = "GPL-3.0-or-later"
 path = "src/codestral.rs"
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 anyhow.workspace = true
 edit_prediction.workspace = true

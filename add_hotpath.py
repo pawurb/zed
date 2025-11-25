@@ -7,7 +7,7 @@ import os
 import re
 from pathlib import Path
 
-DEPENDENCY_LINE = 'hotpath = { version = "0.7", optional = true }\n'
+DEPENDENCY_LINE = 'hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }\n'
 FEATURE_LINES = [
     'hotpath = ["dep:hotpath", "hotpath/hotpath"]\n',
     'hotpath-alloc = ["hotpath/hotpath-alloc"]\n',

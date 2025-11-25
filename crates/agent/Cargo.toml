@@ -23,7 +23,7 @@ e2e = []
 workspace = true
 
 [dependencies]
-hotpath = { version = "0.7", optional = true }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
 channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
 acp_thread.workspace = true
 action_log.workspace = true
