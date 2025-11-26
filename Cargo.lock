@@ -2108,7 +2108,7 @@ dependencies = [
  "bitflags 2.9.4",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.11.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -2128,7 +2128,7 @@ dependencies = [
  "bitflags 2.9.4",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.11.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -3537,7 +3537,7 @@ version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fde0e0ec90c9dfb3b4b1a0891a7dcd0e2bffde2f7efed5fe7c9bb00e5bfb915e"
 dependencies = [
- "windows-sys 0.48.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -7840,9 +7840,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath"
-version = "0.7.1"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2649393dad24933993d38cc4c299e20d2b68847373b0c57bc99815f4ba35160f"
+checksum = "5db1cb04feefb66d401c4ca8561b7ac2249f370a96e66f7ae7adf04dba9d00ff"
 dependencies = [
  "arc-swap",
  "base64 0.22.1",
@@ -7856,7 +7856,8 @@ dependencies = [
  "hdrhistogram",
  "hotpath-macros",
  "libc",
- "mach2 0.4.3",
+ "mach2 0.6.0",
+ "pin-project-lite",
  "prettytable-rs",
  "quanta",
  "regex",
@@ -7869,9 +7870,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros"
-version = "0.7.1"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "efb9a177d0f0b962b3ddfd5862a779851c3f983222d596d15f7f3553c18b7c6e"
+checksum = "b5e3f62269966b1b12537488fe3b1de48312191affe90c23f857bfe7f450c353"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -9847,6 +9848,12 @@ checksum = "6a1b95cd5421ec55b445b5ae102f5ea0e768de1f82bd3001e11f426c269c3aea"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "mach2"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dae608c151f68243f2b000364e1f7b186d9c29845f7d2d85bd31b9ad77ad552b"
 
 [[package]]
 name = "malloc_buf"
@@ -13455,7 +13462,7 @@ checksum = "22505a5c94da8e3b7c2996394d1c933236c4d743e81a410bcca4e6989fc066a4"
 dependencies = [
  "bytes 1.10.1",
  "heck 0.4.1",
- "itertools 0.10.5",
+ "itertools 0.11.0",
  "log",
  "multimap 0.10.1",
  "once_cell",
@@ -13488,7 +13495,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "81bddcdb20abf9501610992b6759a4c888aef7d1a7247ef75e2404275ac24af1"
 dependencies = [
  "anyhow",
- "itertools 0.10.5",
+ "itertools 0.11.0",
  "proc-macro2",
  "quote",
  "syn 2.0.106",
@@ -20159,7 +20166,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.48.0",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
