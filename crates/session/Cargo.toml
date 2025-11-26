@@ -17,14 +17,14 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 test-support = [
     "db/test-support",
 ]
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 db.workspace = true
 gpui.workspace = true
 uuid.workspace = true

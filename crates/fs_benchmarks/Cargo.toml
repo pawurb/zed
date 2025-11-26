@@ -6,7 +6,7 @@ edition.workspace = true
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 fs.workspace = true
 gpui = {workspace = true, features = ["windows-manifest"]}
 
@@ -16,6 +16,6 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 [lints]
 workspace = true

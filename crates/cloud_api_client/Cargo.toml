@@ -13,7 +13,7 @@ path = "src/cloud_api_client.rs"
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 anyhow.workspace = true
 cloud_api_types.workspace = true
 futures.workspace = true
@@ -29,4 +29,4 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+

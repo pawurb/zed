@@ -13,7 +13,7 @@ path = "src/language_models.rs"
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 ai_onboarding.workspace = true
 anthropic = { workspace = true, features = ["schemars"] }
 anyhow.workspace = true
@@ -69,7 +69,7 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 [dev-dependencies]
 editor = { workspace = true, features = ["test-support"] }
 language_model = { workspace = true, features = ["test-support"] }

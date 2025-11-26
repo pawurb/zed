@@ -13,7 +13,7 @@ path = "src/rope.rs"
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 arrayvec = "0.7.1"
 log.workspace = true
 rayon.workspace = true
@@ -27,7 +27,7 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 [dev-dependencies]
 ctor.workspace = true
 gpui = { workspace = true, features = ["test-support"] }

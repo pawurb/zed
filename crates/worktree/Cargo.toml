@@ -17,7 +17,7 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 test-support = [
     "gpui/test-support",
     "http_client/test-support",
@@ -29,7 +29,7 @@ test-support = [
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 anyhow.workspace = true
 async-lock.workspace = true
 clock.workspace = true

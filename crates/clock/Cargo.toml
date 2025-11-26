@@ -16,12 +16,12 @@ doctest = false
 hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 test-support = ["dep:parking_lot"]
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 parking_lot = { workspace = true, optional = true }
 serde.workspace = true
 smallvec.workspace = true

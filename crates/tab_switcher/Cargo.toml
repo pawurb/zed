@@ -14,7 +14,7 @@ doctest = false
 
 [dependencies]
 hotpath = { version = "0.7", optional = true }
-channels-console = { version = "0.3", optional = true, features=['tokio', 'futures'] }
+
 collections.workspace = true
 editor.workspace = true
 fuzzy.workspace = true
@@ -36,7 +36,7 @@ hotpath = ["dep:hotpath", "hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
-channels-console = ["dep:channels-console"]
+
 [dev-dependencies]
 anyhow.workspace = true
 ctor.workspace = true
