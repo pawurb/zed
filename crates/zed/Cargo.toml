@@ -19,7 +19,7 @@ name = "zed"
 path = "src/main.rs"
 
 [dependencies]
-hotpath = { version = "0.7", optional = true, features = ["tokio", "futures"] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features = ["tokio", "futures"] }
 acp_tools.workspace = true
 activity_indicator.workspace = true
 agent_settings.workspace = true
