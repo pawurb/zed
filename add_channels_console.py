@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 DEPENDENCY_LINE = 'channels-console = { version = "0.2", optional = true, features=[\'tokio\', \'futures\'] }\n'
-FEATURE_LINE = 'channels-console = ["dep:channels-console"]\n'
+FEATURE_LINE = '\n'
 
 
 def process_cargo_toml(file_path):
