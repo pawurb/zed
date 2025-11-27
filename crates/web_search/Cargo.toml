@@ -12,8 +12,17 @@ workspace = true
 path = "src/web_search.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 cloud_llm_client.workspace = true
 collections.workspace = true
 gpui.workspace = true
 serde.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

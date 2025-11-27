@@ -12,5 +12,14 @@ workspace = true
 path = "src/vim_mode_setting.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 gpui.workspace = true
 settings.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

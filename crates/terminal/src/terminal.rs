@@ -654,7 +654,18 @@ impl TerminalBuilder {
     pub fn subscribe(mut self, cx: &Context<Terminal>) -> Terminal {
         //Event loop
         self.terminal.event_loop_task = cx.spawn(async move |terminal, cx| {
-            while let Some(event) = self.events_rx.next().await {
+            #[cfg(feature = "hotpath")]
+            let mut events_rx = hotpath::stream!(self.events_rx, label = "terminal_events", log = true);
+
+            loop {
+                #[cfg(feature = "hotpath")]
+                let event = events_rx.next().await;
+                #[cfg(not(feature = "hotpath"))]
+                let event = self.events_rx.next().await;
+
+                let Some(event) = event else {
+                    break;
+                };
                 terminal.update(cx, |terminal, cx| {
                     //Process the first event immediately for lowered latency
                     terminal.process_event(event, cx);
@@ -673,9 +684,14 @@ impl TerminalBuilder {
 
                     let mut wakeup = false;
                     loop {
+                        #[cfg(feature = "hotpath")]
+                        let mut next_event = events_rx.next();
+                        #[cfg(not(feature = "hotpath"))]
+                        let mut next_event = self.events_rx.next();
+
                         futures::select_biased! {
                             _ = timer => break,
-                            event = self.events_rx.next() => {
+                            event = next_event => {
                                 if let Some(event) = event {
                                     if matches!(event, AlacTermEvent::Wakeup) {
                                         wakeup = true;

@@ -6,6 +6,11 @@ publish.workspace = true
 license = "GPL-3.0-or-later"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = [
     "collections/test-support",
     "gpui/test-support",
@@ -20,6 +25,8 @@ path = "src/terminal.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 alacritty_terminal.workspace = true
 anyhow.workspace = true
 collections.workspace = true

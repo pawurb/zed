@@ -17,11 +17,18 @@ doctest = false
 name = "remote_server"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = []
 debug-embed = ["dep:rust-embed"]
 test-support = ["fs/test-support"]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 askpass.workspace = true
 clap.workspace = true

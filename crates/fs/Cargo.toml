@@ -12,6 +12,8 @@ workspace = true
 path = "src/fs.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-tar.workspace = true
 async-trait.workspace = true
@@ -53,4 +55,9 @@ gpui = { workspace = true, features = ["test-support"] }
 git = { workspace = true, features = ["test-support"] }
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = ["gpui/test-support", "git/test-support"]

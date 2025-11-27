@@ -952,6 +952,8 @@ impl RemoteClient {
         client_cx: &mut gpui::TestAppContext,
     ) -> Entity<Self> {
         let (_tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (_tx, rx) = hotpath::channel!((_tx, rx), log = true);
         let mut cx = client_cx.to_async();
         let connection = connect(opts, Arc::new(fake::Delegate), &mut cx)
             .await
@@ -1154,6 +1156,8 @@ struct Signal<T> {
 impl<T: Send + Clone + 'static> Signal<T> {
     pub fn new(cx: &App) -> Self {
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx));
 
         let task = cx
             .background_executor()
@@ -1229,6 +1233,8 @@ impl ChannelClient {
             };
 
             let peer_id = PeerId { owner_id: 0, id: 0 };
+            #[cfg(feature = "hotpath")]
+            let mut incoming_rx = hotpath::stream!(incoming_rx, label = "remote_incoming", log = true);
             while let Some(incoming) = incoming_rx.next().await {
                 let Some(this) = this.upgrade() else {
                     return anyhow::Ok(());
@@ -1275,6 +1281,8 @@ impl ChannelClient {
                     let sender = this.response_channels.lock().remove(&request_id);
                     if let Some(sender) = sender {
                         let (tx, rx) = oneshot::channel();
+                        #[cfg(feature = "hotpath")]
+                        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
                         if incoming.payload.is_some() {
                             sender.send((incoming, tx)).ok();
                         }
@@ -1420,6 +1428,8 @@ impl ChannelClient {
     ) -> impl 'static + Future<Output = Result<proto::Envelope>> {
         envelope.id = self.next_message_id.fetch_add(1, SeqCst);
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let mut response_channels_lock = self.response_channels.lock();
         response_channels_lock.insert(MessageId(envelope.id), tx);
         drop(response_channels_lock);

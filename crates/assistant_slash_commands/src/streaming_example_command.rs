@@ -63,6 +63,8 @@ impl SlashCommand for StreamingExampleSlashCommand {
         cx: &mut App,
     ) -> Task<SlashCommandResult> {
         let (events_tx, events_rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (events_tx, events_rx) = hotpath::channel!((events_tx, events_rx), log = true);
         cx.background_spawn(async move {
             events_tx.unbounded_send(Ok(SlashCommandEvent::StartSection {
                 icon: IconName::FileRust,

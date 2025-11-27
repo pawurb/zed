@@ -6,6 +6,8 @@ publish.workspace = true
 license = "GPL-3.0-or-later"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 convert_case.workspace = true
 editor.workspace = true
@@ -20,6 +22,13 @@ project.workspace = true
 ui.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [lints]
 workspace = true

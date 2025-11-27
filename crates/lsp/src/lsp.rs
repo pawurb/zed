@@ -551,8 +551,18 @@ impl LanguageServer {
             io_handlers,
             cx.background_executor().clone(),
         );
+        #[cfg(feature = "hotpath")]
+        let mut input_handler_stream = hotpath::stream!(input_handler.incoming_messages, label = "lsp_incoming_messages", log = true);
 
-        while let Some(msg) = input_handler.incoming_messages.next().await {
+        loop {
+            #[cfg(feature = "hotpath")]
+            let msg = input_handler_stream.next().await;
+            #[cfg(not(feature = "hotpath"))]
+            let msg = input_handler.incoming_messages.next().await;
+
+            let Some(msg) = msg else {
+                break;
+            };
             let unhandled_message = {
                 let mut notification_handlers = notification_handlers.lock();
                 if let Some(handler) = notification_handlers.get_mut(msg.method.as_str()) {
@@ -1252,6 +1262,8 @@ impl LanguageServer {
         .unwrap();
 
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let handle_response = response_handlers
             .lock()
             .as_mut()
@@ -1767,6 +1779,8 @@ impl FakeLanguageServer {
         Fut: 'static + Future<Output = Result<T::Result>>,
     {
         let (responded_tx, responded_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (responded_tx, responded_rx) = hotpath::channel!((responded_tx, responded_rx), log = true);
         self.server.remove_request_handler::<T>();
         self.server
             .on_request::<T, _, _>(move |params, cx| {
@@ -1795,6 +1809,8 @@ impl FakeLanguageServer {
         F: 'static + Send + FnMut(T::Params, gpui::AsyncApp),
     {
         let (handled_tx, handled_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (handled_tx, handled_rx) = hotpath::channel!((handled_tx, handled_rx), log = true);
         self.server.remove_notification_handler::<T>();
         self.server
             .on_notification::<T, _>(move |params, cx| {

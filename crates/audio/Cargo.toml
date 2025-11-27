@@ -13,6 +13,8 @@ path = "src/audio.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-tar.workspace = true
 collections.workspace = true
@@ -27,6 +29,13 @@ settings.workspace = true
 smol.workspace = true
 thiserror.workspace = true
 util.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(not(any(all(target_os = "windows", target_env = "gnu"), target_os = "freebsd")))'.dependencies]
 libwebrtc = { rev = "5f04705ac3f356350ae31534ffbc476abc9ea83d", git = "https://github.com/zed-industries/livekit-rust-sdks" }

@@ -13,10 +13,17 @@ name = "git_ui"
 path = "src/git_ui.rs"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = []
 test-support = ["multi_buffer/test-support"]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 agent_settings.workspace = true
 anyhow.workspace = true
 askpass.workspace = true

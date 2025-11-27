@@ -12,6 +12,8 @@ workspace = true
 path = "src/credentials_provider.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 futures.workspace = true
 gpui.workspace = true
@@ -19,3 +21,10 @@ paths.workspace = true
 release_channel.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

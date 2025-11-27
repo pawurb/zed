@@ -12,6 +12,8 @@ workspace = true
 path = "src/inspector_ui.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 command_palette_hooks.workspace = true
 editor.workspace = true
@@ -28,3 +30,10 @@ util.workspace = true
 util_macros.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

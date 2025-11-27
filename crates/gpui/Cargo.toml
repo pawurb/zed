@@ -17,6 +17,11 @@ categories = ["gui"]
 workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = ["font-kit", "wayland", "x11", "windows-manifest"]
 test-support = [
     "leak-detection",
@@ -85,6 +90,8 @@ path = "src/gpui.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-task = "4.7"
 backtrace = { workspace = true, optional = true }

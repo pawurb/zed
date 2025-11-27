@@ -17,6 +17,8 @@ path = "src/project_panel.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 collections.workspace = true
 command_palette_hooks.workspace = true
@@ -45,6 +47,13 @@ workspace.workspace = true
 language.workspace = true
 zed_actions.workspace = true
 telemetry.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }

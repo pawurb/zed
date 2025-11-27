@@ -13,6 +13,8 @@ name = "storybook"
 path = "src/storybook.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 clap = { workspace = true, features = ["derive", "string"] }
 collab_ui = { workspace = true, features = ["stories"] }
@@ -37,6 +39,13 @@ theme.workspace = true
 title_bar = { workspace = true, features = ["stories"] }
 ui = { workspace = true, features = ["stories"] }
 workspace.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 gpui = { workspace = true, features = ["test-support"] }

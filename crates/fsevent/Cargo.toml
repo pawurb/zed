@@ -13,9 +13,18 @@ path = "src/fsevent.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 bitflags.workspace = true
 parking_lot.workspace = true
 log.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(target_os = "macos")'.dependencies]
 core-foundation.workspace = true

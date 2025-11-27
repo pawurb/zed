@@ -12,6 +12,8 @@ workspace = true
 path = "src/snippets_ui.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 file_finder.workspace = true
 file_icons.workspace = true
 fuzzy.workspace = true
@@ -23,3 +25,10 @@ settings.workspace = true
 ui.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

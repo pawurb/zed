@@ -12,6 +12,8 @@ workspace = true
 path = "src/prompt_store.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 assets.workspace = true
 chrono.workspace = true
@@ -31,3 +33,10 @@ serde.workspace = true
 text.workspace = true
 util.workspace = true
 uuid.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

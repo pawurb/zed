@@ -13,12 +13,19 @@ path = "src/markdown.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = [
     "gpui/test-support",
     "util/test-support"
 ]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 base64.workspace = true
 collections.workspace = true
 futures.workspace = true

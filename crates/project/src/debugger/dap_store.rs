@@ -828,6 +828,8 @@ impl DapStore {
             envelope.payload.definition.context("missing definition")?,
         )?;
         let (tx, mut rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (tx, mut rx) = hotpath::channel!((tx, rx), log = true);
         let session_id = envelope.payload.session_id;
         cx.spawn({
             let this = this.clone();

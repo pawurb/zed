@@ -12,6 +12,15 @@ workspace = true
 path = "src/feature_flags.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 futures.workspace = true
 gpui.workspace = true
 smol.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

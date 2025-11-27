@@ -12,6 +12,8 @@ workspace = true
 path = "src/language_models.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 ai_onboarding.workspace = true
 anthropic = { workspace = true, features = ["schemars"] }
 anyhow.workspace = true
@@ -60,6 +62,13 @@ util.workspace = true
 vercel = { workspace = true, features = ["schemars"] }
 x_ai = { workspace = true, features = ["schemars"] }
 zed_env_vars.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 editor = { workspace = true, features = ["test-support"] }

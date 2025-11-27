@@ -1320,6 +1320,8 @@ fn eval(
     report_progress(evaluated_count, failed_count, iterations);
 
     let (tx, rx) = mpsc::channel();
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
 
     // Cache the last message in the conversation, and run one instance of the eval so that
     // all the next ones are cached.

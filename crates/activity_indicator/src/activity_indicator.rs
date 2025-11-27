@@ -84,6 +84,8 @@ impl ActivityIndicator {
         let auto_updater = AutoUpdater::get(cx);
         let this = cx.new(|cx| {
             let mut status_events = languages.language_server_binary_statuses();
+            #[cfg(feature = "hotpath")]
+            let mut status_events = hotpath::stream!(status_events, label = "language_server_binary_statuses", log = true);
             cx.spawn(async move |this, cx| {
                 while let Some((name, binary_status)) = status_events.next().await {
                     this.update(cx, |this: &mut ActivityIndicator, cx| {

@@ -824,6 +824,7 @@ pub struct BracketMatch {
     pub newline_only: bool,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     /// Create a new buffer with the given base text.
     pub fn local<T: Into<String>>(base_text: T, cx: &Context<Self>) -> Self {
@@ -2218,9 +2219,9 @@ impl Buffer {
     pub fn wait_for_autoindent_applied(&mut self) -> Option<oneshot::Receiver<()>> {
         let mut rx = None;
         if !self.autoindent_requests.is_empty() {
-            let channel = oneshot::channel();
-            self.wait_for_autoindent_txs.push(channel.0);
-            rx = Some(channel.1);
+            let (tx, rx_inner) = oneshot::channel();
+            self.wait_for_autoindent_txs.push(tx);
+            rx = Some(rx_inner);
         }
         rx
     }
@@ -2896,6 +2897,7 @@ impl Buffer {
 
 #[doc(hidden)]
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     pub fn edit_via_marked_text(
         &mut self,
@@ -2963,6 +2965,7 @@ impl Deref for Buffer {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BufferSnapshot {
     /// Returns [`IndentSize`] for a given line that respects user settings and
     /// language preferences.

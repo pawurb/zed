@@ -112,6 +112,8 @@ mod tests {
     #[gpui::test]
     async fn test_buffer_size() {
         let (tx, rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let mut sink = MessageStream::new(tx.sink_map_err(|_| anyhow::anyhow!("")));
         sink.write(Message::Envelope(Envelope {
             payload: Some(envelope::Payload::UpdateWorktree(UpdateWorktree {

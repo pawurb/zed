@@ -14,9 +14,16 @@ path = "src/zeta.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = []
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 ai_onboarding.workspace = true
 anyhow.workspace = true
 arrayvec.workspace = true

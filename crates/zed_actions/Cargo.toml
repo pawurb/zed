@@ -9,7 +9,16 @@ license = "GPL-3.0-or-later"
 workspace = true
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 gpui.workspace = true
 schemars.workspace = true
 serde.workspace = true
 uuid.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

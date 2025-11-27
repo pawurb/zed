@@ -10,6 +10,11 @@ description = "A HTTP client library for Zed and GPUI"
 workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = []
 
 [lib]
@@ -17,6 +22,8 @@ path = "src/http_client.rs"
 doctest = true
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-compression.workspace = true
 async-fs.workspace = true

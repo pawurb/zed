@@ -9,6 +9,8 @@ license = "GPL-3.0-or-later"
 path = "src/codestral.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 edit_prediction.workspace = true
 edit_prediction_context.workspace = true
@@ -23,5 +25,12 @@ serde.workspace = true
 serde_json.workspace = true
 smol.workspace = true
 text.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]

@@ -505,6 +505,8 @@ impl CopilotChat {
                 dir_path.clone(),
                 config_paths,
             );
+            #[cfg(feature = "hotpath")]
+            let mut parent_watch_rx = hotpath::stream!(parent_watch_rx, label = "copilot_config_watch", log = true);
             while let Some(contents) = parent_watch_rx.next().await {
                 let oauth_domain =
                     this.read_with(cx, |this, _| this.configuration.oauth_domain())?;

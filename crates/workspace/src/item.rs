@@ -691,6 +691,9 @@ impl<T: Item> ItemHandle for Entity<T> {
         {
             let mut pending_autosave = DelayedDebouncedEditAction::new();
             let (pending_update_tx, mut pending_update_rx) = mpsc::unbounded();
+            #[cfg(feature = "hotpath")]
+            let (pending_update_tx, mut pending_update_rx) =
+                hotpath::channel!((pending_update_tx, pending_update_rx), log = true);
             let pending_update = Rc::new(RefCell::new(None));
 
             let mut send_follower_updates = None;

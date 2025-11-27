@@ -17,10 +17,17 @@ name = "cli"
 path = "src/main.rs"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 no-bundled-uninstall = []
 default = []
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 askpass.workspace = true
 clap.workspace = true

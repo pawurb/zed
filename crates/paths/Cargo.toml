@@ -9,12 +9,19 @@ license = "GPL-3.0-or-later"
 workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = []
 
 [lib]
 path = "src/paths.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 dirs.workspace = true
 ignore.workspace = true
 util.workspace = true

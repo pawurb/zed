@@ -12,9 +12,18 @@ workspace = true
 path = "src/svg_preview.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 editor.workspace = true
 file_icons.workspace = true
 gpui.workspace = true
 language.workspace = true
 ui.workspace = true
 workspace.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

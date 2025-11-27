@@ -13,6 +13,8 @@ path = "src/supermaven_api.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 futures.workspace = true
 http_client.workspace = true
@@ -21,3 +23,10 @@ serde.workspace = true
 serde_json.workspace = true
 smol.workspace = true
 util.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

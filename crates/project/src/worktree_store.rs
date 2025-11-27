@@ -80,6 +80,7 @@ pub enum WorktreeStoreEvent {
 
 impl EventEmitter<WorktreeStoreEvent> for WorktreeStore {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl WorktreeStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_request_handler(Self::handle_create_project_entry);

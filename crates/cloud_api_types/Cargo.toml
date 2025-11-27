@@ -12,11 +12,20 @@ workspace = true
 path = "src/cloud_api_types.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 chrono.workspace = true
 ciborium.workspace = true
 cloud_llm_client.workspace = true
 serde.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 pretty_assertions.workspace = true

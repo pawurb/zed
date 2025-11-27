@@ -2416,6 +2416,7 @@ impl Window {
     // This function is called in a highly recursive manner in editor
     // prepainting, make sure its inlined to reduce the stack burden
     #[inline]
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     pub fn with_text_style<F, R>(&mut self, style: Option<TextStyleRefinement>, f: F) -> R
     where
         F: FnOnce(&mut Self) -> R,

@@ -12,9 +12,16 @@ workspace = true
 path = "src/assistant_text_thread.rs"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = []
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 agent_settings.workspace = true
 anyhow.workspace = true
 assistant_slash_command.workspace = true

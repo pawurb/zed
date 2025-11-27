@@ -12,6 +12,8 @@ workspace = true
 path = "src/keymap_editor.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 collections.workspace = true
 command_palette.workspace = true
@@ -44,6 +46,13 @@ util.workspace = true
 vim.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 db = {"workspace"= true, "features" = ["test-support"]}

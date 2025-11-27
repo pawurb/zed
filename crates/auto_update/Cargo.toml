@@ -13,6 +13,8 @@ path = "src/auto_update.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 client.workspace = true
 db.workspace = true
@@ -28,6 +30,13 @@ smol.workspace = true
 tempfile.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(not(target_os = "windows"))'.dependencies]
 which.workspace = true

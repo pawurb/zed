@@ -12,10 +12,17 @@ workspace = true
 path = "src/bedrock.rs"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = []
 schemars = ["dep:schemars"]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 aws-sdk-bedrockruntime = { workspace = true, features = ["behavior-version-latest"] }
 aws-smithy-types = {workspace = true}

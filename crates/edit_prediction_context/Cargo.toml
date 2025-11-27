@@ -12,6 +12,8 @@ workspace = true
 path = "src/edit_prediction_context.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 arrayvec.workspace = true
 cloud_llm_client.workspace = true
@@ -33,6 +35,13 @@ strum.workspace = true
 text.workspace = true
 tree-sitter.workspace = true
 util.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 clap.workspace = true

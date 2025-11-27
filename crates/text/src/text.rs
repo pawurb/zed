@@ -712,6 +712,7 @@ impl FromIterator<char> for LineIndent {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     pub fn new(replica_id: ReplicaId, remote_id: BufferId, base_text: impl Into<String>) -> Buffer {
         let mut base_text = base_text.into();
@@ -1713,6 +1714,7 @@ impl Buffer {
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     #[track_caller]
     pub fn edit_via_marked_text(&mut self, marked_string: &str) {
@@ -1901,6 +1903,7 @@ impl Deref for Buffer {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BufferSnapshot {
     pub fn as_rope(&self) -> &Rope {
         &self.visible_text

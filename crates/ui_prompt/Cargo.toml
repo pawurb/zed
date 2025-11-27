@@ -12,9 +12,16 @@ workspace = true
 path = "src/ui_prompt.rs"
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = []
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 gpui.workspace = true
 markdown.workspace = true
 menu.workspace = true

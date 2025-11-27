@@ -215,6 +215,8 @@ impl RegisteredBuffer {
         cx: &mut Context<Copilot>,
     ) -> oneshot::Receiver<(i32, BufferSnapshot)> {
         let (done_tx, done_rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (done_tx, done_rx) = hotpath::channel!((done_tx, done_rx));
 
         if buffer.read(cx).version() == self.snapshot.version {
             let _ = done_tx.send((self.snapshot_version, self.snapshot.clone()));

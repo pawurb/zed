@@ -13,6 +13,11 @@ doctest = false
 workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = [
     "gpui/test-support",
     "http_client/test-support",
@@ -23,6 +28,8 @@ test-support = [
 ]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-lock.workspace = true
 clock.workspace = true

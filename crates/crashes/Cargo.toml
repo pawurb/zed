@@ -6,6 +6,8 @@ edition.workspace = true
 license = "GPL-3.0-or-later"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 bincode.workspace = true
 cfg-if.workspace = true
 crash-handler.workspace = true
@@ -19,6 +21,13 @@ serde.workspace = true
 serde_json.workspace = true
 system_specs.workspace = true
 zstd.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(target_os = "macos")'.dependencies]
 mach2.workspace = true

@@ -13,6 +13,8 @@ path = "src/tab_switcher.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 collections.workspace = true
 editor.workspace = true
 fuzzy.workspace = true
@@ -27,6 +29,13 @@ smol.workspace = true
 ui.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 anyhow.workspace = true

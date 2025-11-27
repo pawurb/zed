@@ -12,6 +12,8 @@ workspace = true
 path = "src/assistant_slash_command.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-trait.workspace = true
 collections.workspace = true
@@ -27,6 +29,13 @@ serde_json.workspace = true
 ui.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 gpui = { workspace = true, features = ["test-support"] }

@@ -15,9 +15,16 @@ proc-macro = true
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 quote.workspace = true
 syn.workspace = true
 perf.workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 perf-enabled = []

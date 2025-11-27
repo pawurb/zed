@@ -12,5 +12,14 @@ workspace = true
 path = "src/icons.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 serde.workspace = true
 strum.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

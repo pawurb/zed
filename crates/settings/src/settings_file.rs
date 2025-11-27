@@ -52,10 +52,14 @@ pub fn watch_config_file(
     path: PathBuf,
 ) -> mpsc::UnboundedReceiver<String> {
     let (tx, rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
     executor
         .spawn(async move {
             let (events, _) = fs.watch(&path, Duration::from_millis(100)).await;
             futures::pin_mut!(events);
+            #[cfg(feature = "hotpath")]
+            let mut events = hotpath::stream!(events, label = "config_file_watch", log = true);
 
             let contents = fs.load(&path).await.unwrap_or_default();
             if tx.unbounded_send(contents).is_err() {
@@ -85,6 +89,8 @@ pub fn watch_config_dir(
     config_paths: HashSet<PathBuf>,
 ) -> mpsc::UnboundedReceiver<String> {
     let (tx, rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx), log = true);
     executor
         .spawn(async move {
             for file_path in &config_paths {
@@ -98,6 +104,8 @@ pub fn watch_config_dir(
 
             let (events, _) = fs.watch(&dir_path, Duration::from_millis(100)).await;
             futures::pin_mut!(events);
+            #[cfg(feature = "hotpath")]
+            let mut events = hotpath::stream!(events, label = "config_dir_watch", log = true);
 
             while let Some(event_batch) = events.next().await {
                 for event in event_batch {

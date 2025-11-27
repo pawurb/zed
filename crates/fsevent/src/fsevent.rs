@@ -391,6 +391,8 @@ mod tests {
             flush_historical_events();
 
             let (tx, rx) = mpsc::channel();
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
             let (stream, handle) = EventStream::new(&[&path], Duration::from_millis(50));
             thread::spawn(move || stream.run(move |events| tx.send(events.to_vec()).is_ok()));
 
@@ -430,6 +432,8 @@ mod tests {
             flush_historical_events();
 
             let (tx, rx) = mpsc::channel();
+            #[cfg(feature = "hotpath")]
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true);
             let (stream, handle) = EventStream::new(&[&path], Duration::from_millis(50));
 
             // Delay the call to `run` in order to make sure we don't miss any events that occur
@@ -464,6 +468,8 @@ mod tests {
         flush_historical_events();
 
         let (tx, rx) = mpsc::channel();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx), log = true);
         let (stream, handle) = EventStream::new(&[&path], Duration::from_millis(50));
         thread::spawn(move || {
             stream.run({

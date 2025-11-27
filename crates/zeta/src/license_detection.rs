@@ -278,6 +278,9 @@ impl LicenseDetectionWatcher {
         }
 
         let (files_to_check_tx, mut files_to_check_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (files_to_check_tx, mut files_to_check_rx) =
+            hotpath::channel!((files_to_check_tx, files_to_check_rx), log = true);
 
         let Worktree::Local(local_worktree) = worktree_ref else {
             return Self::Remote;

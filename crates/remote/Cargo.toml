@@ -14,10 +14,17 @@ path = "src/remote.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 default = []
 test-support = ["fs/test-support"]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 askpass.workspace = true
 async-trait.workspace = true

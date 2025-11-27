@@ -192,6 +192,7 @@ pub struct EditorElement {
 
 type DisplayRowDelta = u32;
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl EditorElement {
     pub(crate) const SCROLLBAR_WIDTH: Pixels = px(15.);
 
@@ -7480,6 +7481,7 @@ impl EditorElement {
     }
 
     #[cfg(debug_assertions)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     fn layout_debug_ranges(
         selections: &mut Vec<(PlayerColor, Vec<SelectionLayout>)>,
         anchor_range: Range<Anchor>,
@@ -8390,6 +8392,7 @@ enum Invisible {
     },
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl EditorElement {
     /// Returns the rem size to use when rendering the [`EditorElement`].
     ///

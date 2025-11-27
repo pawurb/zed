@@ -420,6 +420,8 @@ async fn zeta2_llm_context(
     };
 
     let (debug_tx, mut debug_rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (debug_tx, mut debug_rx) = hotpath::channel!((debug_tx, debug_rx), log = true);
 
     let excerpt_options = EditPredictionExcerptOptions {
         max_bytes: zeta2_args.max_excerpt_bytes,

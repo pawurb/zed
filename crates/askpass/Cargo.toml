@@ -12,6 +12,8 @@ workspace = true
 path = "src/askpass.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 futures.workspace = true
 gpui.workspace = true
@@ -21,6 +23,13 @@ log.workspace = true
 tempfile.workspace = true
 util.workspace = true
 zeroize.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(target_os = "windows")'.dependencies]
 windows.workspace = true

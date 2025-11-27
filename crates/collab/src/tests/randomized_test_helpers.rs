@@ -489,6 +489,8 @@ impl<T: RandomizedTest> TestPlan<T> {
                 let mut client_cx = cx.new_app();
 
                 let (operation_tx, operation_rx) = futures::channel::mpsc::unbounded();
+                #[cfg(feature = "hotpath")]
+                let (operation_tx, operation_rx) = hotpath::channel!((operation_tx, operation_rx), log = true);
                 let client = Rc::new(server.create_client(&mut client_cx, &username).await);
                 operation_channels.push(operation_tx);
                 clients.push((client.clone(), client_cx.clone()));

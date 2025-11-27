@@ -12,6 +12,8 @@ workspace = true
 path = "src/extension.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 async-trait.workspace = true
 collections.workspace = true
@@ -34,6 +36,13 @@ url.workspace = true
 util.workspace = true
 wasm-encoder.workspace = true
 wasmparser.workspace = true
+
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 pretty_assertions.workspace = true

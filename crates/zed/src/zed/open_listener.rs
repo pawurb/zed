@@ -198,6 +198,8 @@ impl Global for OpenListener {}
 impl OpenListener {
     pub fn new() -> (Self, UnboundedReceiver<RawOpenRequest>) {
         let (tx, rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx));
         (OpenListener(tx), rx)
     }
 
@@ -557,15 +559,18 @@ async fn open_local_workspace(
                 match item {
                     Some(Ok(item)) => {
                         cx.update(|cx| {
-                            let released = oneshot::channel();
+                            let (released_tx, released_rx) = oneshot::channel();
+                            #[cfg(feature = "hotpath")]
+                            let (released_tx, released_rx) =
+                                hotpath::channel!((released_tx, released_rx), log = true);
                             item.on_release(
                                 cx,
                                 Box::new(move |_| {
-                                    let _ = released.0.send(());
+                                    let _ = released_tx.send(());
                                 }),
                             )
                             .detach();
-                            item_release_futures.push(released.1);
+                            item_release_futures.push(released_rx);
                         })
                         .log_err();
                     }
@@ -586,6 +591,8 @@ async fn open_local_workspace(
                 let wait = async move {
                     if paths_with_position.is_empty() && diff_paths.is_empty() {
                         let (done_tx, done_rx) = oneshot::channel();
+                        #[cfg(feature = "hotpath")]
+                        let (done_tx, done_rx) = hotpath::channel!((done_tx, done_rx), log = true);
                         let _subscription = workspace.update(cx, |_, _, cx| {
                             cx.on_release(move |_, _| {
                                 let _ = done_tx.send(());

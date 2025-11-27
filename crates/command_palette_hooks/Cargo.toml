@@ -13,7 +13,16 @@ path = "src/command_palette_hooks.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 collections.workspace = true
 derive_more.workspace = true
 gpui.workspace = true
 workspace.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

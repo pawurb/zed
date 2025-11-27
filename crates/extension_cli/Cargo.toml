@@ -13,6 +13,8 @@ name = "zed-extension"
 path = "src/main.rs"
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 clap = { workspace = true, features = ["derive"] }
 env_logger.workspace = true
@@ -30,3 +32,10 @@ tokio = { workspace = true, features = ["full"] }
 toml.workspace = true
 tree-sitter.workspace = true
 wasmtime.workspace = true
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

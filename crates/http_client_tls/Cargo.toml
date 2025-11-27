@@ -9,6 +9,11 @@ license = "Apache-2.0"
 workspace = true
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = []
 
 [lib]
@@ -16,5 +21,7 @@ path = "src/http_client_tls.rs"
 doctest = true
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 rustls.workspace = true
 rustls-platform-verifier.workspace = true

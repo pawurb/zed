@@ -250,6 +250,8 @@ impl CloudLanguageModelProvider {
 
         let state_ref = state.downgrade();
         let maintain_client_status = cx.spawn(async move |cx| {
+            #[cfg(feature = "hotpath")]
+            let mut status_rx = hotpath::stream!(status_rx, label = "cloud_client_status", log = true);
             while let Some(status) = status_rx.next().await {
                 if let Some(this) = state_ref.upgrade() {
                     _ = this.update(cx, |this, cx| {

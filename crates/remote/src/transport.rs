@@ -31,6 +31,8 @@ fn handle_rpc_messages_over_child_process_stdio(
     let mut stderr_offset = 0;
 
     let stdin_task = cx.background_spawn(async move {
+        #[cfg(feature = "hotpath")]
+        let mut outgoing_rx = hotpath::stream!(outgoing_rx, label = "transport_outgoing", log = true);
         while let Some(outgoing) = outgoing_rx.next().await {
             write_message(&mut child_stdin, &mut stdin_buffer, outgoing).await?;
         }

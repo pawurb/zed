@@ -163,9 +163,15 @@ impl NativeRunningKernel {
 
             let (request_tx, mut request_rx) =
                 futures::channel::mpsc::channel::<JupyterMessage>(100);
+            #[cfg(feature = "hotpath")]
+            let (request_tx, mut request_rx) = hotpath::channel!((request_tx, request_rx), capacity = 100, log = true);
 
             let (mut control_reply_tx, control_reply_rx) = futures::channel::mpsc::channel(100);
+            #[cfg(feature = "hotpath")]
+            let (mut control_reply_tx, control_reply_rx) = hotpath::channel!((control_reply_tx, control_reply_rx), capacity = 100, log = true);
             let (mut shell_reply_tx, shell_reply_rx) = futures::channel::mpsc::channel(100);
+            #[cfg(feature = "hotpath")]
+            let (mut shell_reply_tx, shell_reply_rx) = hotpath::channel!((shell_reply_tx, shell_reply_rx), capacity = 100, log = true);
 
             let mut messages_rx = SelectAll::new();
             messages_rx.push(control_reply_rx);
@@ -204,7 +210,11 @@ impl NativeRunningKernel {
 
             let (mut control_request_tx, mut control_request_rx) =
                 futures::channel::mpsc::channel(100);
+            #[cfg(feature = "hotpath")]
+            let (mut control_request_tx, mut control_request_rx) = hotpath::channel!((control_request_tx, control_request_rx), capacity = 100, log = true);
             let (mut shell_request_tx, mut shell_request_rx) = futures::channel::mpsc::channel(100);
+            #[cfg(feature = "hotpath")]
+            let (mut shell_request_tx, mut shell_request_rx) = hotpath::channel!((shell_request_tx, shell_request_rx), capacity = 100, log = true);
 
             let routing_task = cx.background_spawn({
                 async move {

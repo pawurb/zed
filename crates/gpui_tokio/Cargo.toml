@@ -13,7 +13,16 @@ path = "src/gpui_tokio.rs"
 doctest = false
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 util.workspace = true
 gpui.workspace = true
 tokio = { workspace = true, features = ["rt", "rt-multi-thread"] }
+
+[features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+

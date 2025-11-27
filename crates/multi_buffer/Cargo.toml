@@ -13,6 +13,11 @@ path = "src/multi_buffer.rs"
 doctest = false
 
 [features]
+hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+
+hotpath-off = ["hotpath/hotpath-off"]
+
 test-support = [
     "buffer_diff/test-support",
     "gpui/test-support",
@@ -22,6 +27,8 @@ test-support = [
 ]
 
 [dependencies]
+hotpath = { version = "0.7", optional = true }
+
 anyhow.workspace = true
 clock.workspace = true
 collections.workspace = true

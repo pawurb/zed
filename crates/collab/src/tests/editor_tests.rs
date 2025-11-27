@@ -1101,6 +1101,8 @@ async fn test_slow_lsp_server(cx_a: &mut TestAppContext, cx_b: &mut TestAppConte
 
     let long_request_time = LSP_REQUEST_TIMEOUT / 2;
     let (request_started_tx, mut request_started_rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (request_started_tx, request_started_rx) = hotpath::channel!((request_started_tx, request_started_rx), log = true);
     let requests_started = Arc::new(AtomicUsize::new(0));
     let requests_completed = Arc::new(AtomicUsize::new(0));
     let _lens_requests = fake_language_server
