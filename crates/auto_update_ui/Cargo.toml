@@ -12,7 +12,7 @@ workspace = true
 path = "src/auto_update_ui.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 anyhow.workspace = true
 auto_update.workspace = true
@@ -29,7 +29,7 @@ util.workspace = true
 workspace.workspace = true
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]

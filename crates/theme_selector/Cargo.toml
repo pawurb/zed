@@ -13,7 +13,7 @@ path = "src/theme_selector.rs"
 doctest = false
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 fs.workspace = true
 fuzzy.workspace = true
@@ -31,7 +31,7 @@ zed_actions.workspace = true
 
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]

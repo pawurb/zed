@@ -126,7 +126,7 @@ pub struct DisplayMap {
     pub(crate) diagnostics_max_severity: DiagnosticSeverity,
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl DisplayMap {
     pub fn new(
         buffer: Entity<MultiBuffer>,
@@ -758,7 +758,7 @@ pub struct DisplaySnapshot {
     pub(crate) fold_placeholder: FoldPlaceholder,
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl DisplaySnapshot {
     pub fn wrap_snapshot(&self) -> &WrapSnapshot {
         &self.block_snapshot.wrap_snapshot

@@ -12,7 +12,7 @@ workspace = true
 path = "src/settings_ui.rs"
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
@@ -21,7 +21,7 @@ default = []
 test-support = []
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 anyhow.workspace = true
 bm25 = "2.3.2"

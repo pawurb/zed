@@ -1009,7 +1009,7 @@ impl settings::Settings for DisableAiSettings {
     }
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl Project {
     pub fn init_settings(cx: &mut App) {
         WorktreeSettings::register(cx);
@@ -1051,7 +1051,7 @@ impl Project {
         context_server_store::init(cx);
     }
 
-    #[cfg_attr(feature = "hotpath", hotpath::measure)]
+    #[hotpath::measure]
     pub fn local(
         client: Arc<Client>,
         node: NodeRuntime,

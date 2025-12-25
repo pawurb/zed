@@ -16,7 +16,7 @@ workspace = true
 path = "src/extension_api.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
@@ -24,7 +24,7 @@ wit-bindgen = "0.41"
 
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]

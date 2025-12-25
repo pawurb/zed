@@ -1202,7 +1202,7 @@ struct FollowerView {
     location: Option<proto::PanelId>,
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl Workspace {
     pub fn new(
         workspace_id: Option<WorkspaceId>,
@@ -6974,7 +6974,7 @@ impl Render for Workspace {
     }
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl WorkspaceStore {
     pub fn new(client: Arc<Client>, cx: &mut Context<Self>) -> Self {
         Self {

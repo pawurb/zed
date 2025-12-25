@@ -13,7 +13,7 @@ path = "src/client.rs"
 doctest = false
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
@@ -21,7 +21,7 @@ hotpath-off = ["hotpath/hotpath-off"]
 test-support = ["clock/test-support", "collections/test-support", "gpui/test-support", "rpc/test-support"]
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 anyhow.workspace = true
 async-tungstenite = { workspace = true, features = ["tokio", "tokio-rustls-manual-roots"] }

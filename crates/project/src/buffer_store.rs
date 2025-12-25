@@ -367,7 +367,7 @@ impl RemoteBufferStore {
     }
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl LocalBufferStore {
     fn save_local_buffer(
         &self,
@@ -728,7 +728,7 @@ impl LocalBufferStore {
     }
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl BufferStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_message_handler(Self::handle_buffer_reloaded);

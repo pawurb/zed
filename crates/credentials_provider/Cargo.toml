@@ -12,7 +12,7 @@ workspace = true
 path = "src/credentials_provider.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 anyhow.workspace = true
 futures.workspace = true
@@ -23,7 +23,7 @@ serde.workspace = true
 serde_json.workspace = true
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]

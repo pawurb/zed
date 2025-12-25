@@ -12,7 +12,7 @@ workspace = true
 path = "src/inspector_ui.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 anyhow.workspace = true
 command_palette_hooks.workspace = true
@@ -32,7 +32,7 @@ workspace.workspace = true
 zed_actions.workspace = true
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]

@@ -9,7 +9,7 @@ license = "GPL-3.0-or-later"
 workspace = true
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
@@ -20,7 +20,7 @@ test-support = []
 path = "src/paths.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 dirs.workspace = true
 ignore.workspace = true

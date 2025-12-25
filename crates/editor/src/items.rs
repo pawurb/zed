@@ -1417,7 +1417,7 @@ fn clip_ranges<'a>(
 
 impl EventEmitter<SearchEvent> for Editor {}
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl Editor {
     pub fn update_restoration_data(
         &self,

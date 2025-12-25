@@ -19,7 +19,7 @@ name = "zed"
 path = "src/main.rs"
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features = ["tokio", "futures"] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features = ["tokio", "futures"] }
 acp_tools.workspace = true
 activity_indicator.workspace = true
 agent_settings.workspace = true
@@ -171,7 +171,6 @@ zlog_settings.workspace = true
 
 [features]
 hotpath = [
-    "dep:hotpath",
     "hotpath/hotpath",
     "acp_tools/hotpath",
     "activity_indicator/hotpath",

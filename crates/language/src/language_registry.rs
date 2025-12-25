@@ -262,7 +262,7 @@ pub struct LoadedLanguage {
     pub manifest_name: Option<ManifestName>,
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl LanguageRegistry {
     pub fn new(executor: BackgroundExecutor) -> Self {
         let this = Self {
@@ -493,8 +493,7 @@ impl LanguageRegistry {
     ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
         let (servers_tx, servers_rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (servers_tx, servers_rx) =
-            hotpath::channel!((servers_tx, servers_rx), log = true);
+        let (servers_tx, servers_rx) = hotpath::channel!((servers_tx, servers_rx), log = true);
         self.state.write().fake_server_entries.insert(
             lsp_name,
             FakeLanguageServerEntry {

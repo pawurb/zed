@@ -12,7 +12,7 @@ workspace = true
 path = "src/zlog.rs"
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
@@ -20,7 +20,7 @@ hotpath-off = ["hotpath/hotpath-off"]
 default = []
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 collections.workspace = true
 chrono.workspace = true

@@ -824,7 +824,7 @@ pub struct BracketMatch {
     pub newline_only: bool,
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl Buffer {
     /// Create a new buffer with the given base text.
     pub fn local<T: Into<String>>(base_text: T, cx: &Context<Self>) -> Self {
@@ -2897,7 +2897,7 @@ impl Buffer {
 
 #[doc(hidden)]
 #[cfg(any(test, feature = "test-support"))]
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl Buffer {
     pub fn edit_via_marked_text(
         &mut self,
@@ -2965,7 +2965,7 @@ impl Deref for Buffer {
     }
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl BufferSnapshot {
     /// Returns [`IndentSize`] for a given line that respects user settings and
     /// language preferences.

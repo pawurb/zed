@@ -192,7 +192,7 @@ pub struct EditorElement {
 
 type DisplayRowDelta = u32;
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl EditorElement {
     pub(crate) const SCROLLBAR_WIDTH: Pixels = px(15.);
 
@@ -8392,7 +8392,7 @@ enum Invisible {
     },
 }
 
-#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
+#[hotpath::measure_all]
 impl EditorElement {
     /// Returns the rem size to use when rendering the [`EditorElement`].
     ///

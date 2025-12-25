@@ -13,7 +13,7 @@ path = "src/acp_thread.rs"
 doctest = false
 
 [features]
-hotpath = ["dep:hotpath", "hotpath/hotpath"]
+hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 
 hotpath-off = ["hotpath/hotpath-off"]
@@ -21,7 +21,7 @@ hotpath-off = ["hotpath/hotpath-off"]
 test-support = ["gpui/test-support", "project/test-support", "dep:parking_lot"]
 
 [dependencies]
-hotpath = { path = "../../../hotpath-rs/crates/hotpath", optional = true, features=['tokio','futures'] }
+hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }
 
 action_log.workspace = true
 agent-client-protocol.workspace = true
