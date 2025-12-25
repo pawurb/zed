@@ -1051,7 +1051,7 @@ impl Project {
         context_server_store::init(cx);
     }
 
-    #[cfg_attr(feature = "hotpath", hotpath::measure(label = "operation_logs"))]
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     pub fn local(
         client: Arc<Client>,
         node: NodeRuntime,
@@ -1064,8 +1064,7 @@ impl Project {
         cx.new(|cx: &mut Context<Self>| {
             let (tx, rx) = mpsc::unbounded();
             #[cfg(feature = "hotpath")]
-            let (tx, rx) =
-                hotpath::channel!((tx, rx), log = true, label = "operation_logs");
+            let (tx, rx) = hotpath::channel!((tx, rx), log = true, label = "operation_logs");
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
