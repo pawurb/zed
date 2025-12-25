@@ -6140,6 +6140,7 @@ impl LspStore {
         })
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
     async fn resolve_completion_local(
         server: Arc<lsp::LanguageServer>,
         completions: Rc<RefCell<Box<[Completion]>>>,
@@ -12789,6 +12790,7 @@ fn remove_empty_hover_blocks(mut hover: Hover) -> Option<Hover> {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
 async fn populate_labels_for_completions(
     new_completions: Vec<CoreCompletion>,
     language: Option<Arc<Language>>,

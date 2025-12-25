@@ -569,6 +569,7 @@ fn same_diagnostic_hover(editor: &Editor, snapshot: &EditorSnapshot, anchor: Anc
         .unwrap_or(false)
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
 async fn parse_blocks(
     blocks: &[HoverBlock],
     language_registry: Option<&Arc<LanguageRegistry>>,

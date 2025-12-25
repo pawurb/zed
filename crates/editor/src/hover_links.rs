@@ -586,6 +586,7 @@ pub(crate) fn find_url_from_range(
     None
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
 pub(crate) async fn find_file(
     buffer: &Entity<language::Buffer>,
     project: Option<Entity<Project>>,
