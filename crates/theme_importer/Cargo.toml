@@ -29,6 +29,7 @@ vscode_theme = "0.2.0"
 [features]
 hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 hotpath-off = ["hotpath/hotpath-off"]
 

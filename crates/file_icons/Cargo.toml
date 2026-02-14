@@ -23,6 +23,7 @@ util.workspace = true
 [features]
 hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 hotpath-off = ["hotpath/hotpath-off"]
 

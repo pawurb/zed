@@ -10,7 +10,8 @@ from pathlib import Path
 DEPENDENCY_LINE = 'hotpath = { path = "../../../hotpath-rs/crates/hotpath", features=['tokio','futures'] }\n'
 FEATURE_LINES = [
     'hotpath = ["hotpath/hotpath"]\n',
-    'hotpath-alloc = ["hotpath/hotpath-alloc"]\n',
+    'hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-meta = ["hotpath/hotpath-meta"]\n',
     '\n',
     'hotpath-off = ["hotpath/hotpath-off"]\n',
 ]
