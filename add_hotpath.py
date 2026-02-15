@@ -11,6 +11,9 @@ DEPENDENCY_LINE = 'hotpath = { path = "../../../hotpath-rs/crates/hotpath", feat
 FEATURE_LINES = [
     'hotpath = ["hotpath/hotpath"]\n',
     'hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-mcp= ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta= ["hotpath/hotpath-mcp-meta"]
 hotpath-meta = ["hotpath/hotpath-meta"]\n',
     '\n',
     'hotpath-off = ["hotpath/hotpath-off"]\n',
