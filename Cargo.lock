@@ -7917,6 +7917,7 @@ dependencies = [
  "pin-project-lite",
  "prettytable-rs",
  "quanta",
+ "regex",
  "rmcp",
  "schemars 1.0.4",
  "serde",
@@ -7937,7 +7938,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros-meta"
-version = "0.10.3"
+version = "0.0.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7946,7 +7947,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath-meta"
-version = "0.10.3"
+version = "0.0.0"
 dependencies = [
  "arc-swap",
  "axum 0.8.8",
