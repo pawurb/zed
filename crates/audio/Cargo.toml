@@ -39,7 +39,6 @@ hotpath-mcp= ["hotpath/hotpath-mcp"]
 hotpath-mcp-meta= ["hotpath/hotpath-mcp-meta"]
 hotpath-meta = ["hotpath/hotpath-meta"]
 
-hotpath-off = ["hotpath/hotpath-off"]
 
 [target.'cfg(not(any(all(target_os = "windows", target_env = "gnu"), target_os = "freebsd")))'.dependencies]
 libwebrtc = { rev = "5f04705ac3f356350ae31534ffbc476abc9ea83d", git = "https://github.com/zed-industries/livekit-rust-sdks" }

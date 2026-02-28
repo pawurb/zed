@@ -7897,7 +7897,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath"
-version = "0.10.1"
+version = "0.13.0"
 dependencies = [
  "arc-swap",
  "axum 0.8.8",
@@ -7929,7 +7929,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros"
-version = "0.10.1"
+version = "0.13.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7938,7 +7938,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros-meta"
-version = "0.0.0"
+version = "0.13.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7947,7 +7947,7 @@ dependencies = [
 
 [[package]]
 name = "hotpath-meta"
-version = "0.0.0"
+version = "0.13.0"
 dependencies = [
  "arc-swap",
  "axum 0.8.8",

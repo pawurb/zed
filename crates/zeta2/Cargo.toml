@@ -50,7 +50,6 @@ hotpath-mcp= ["hotpath/hotpath-mcp"]
 hotpath-mcp-meta= ["hotpath/hotpath-mcp-meta"]
 hotpath-meta = ["hotpath/hotpath-meta"]
 
-hotpath-off = ["hotpath/hotpath-off"]
 
 [dev-dependencies]
 clock = { workspace = true, features = ["test-support"] }

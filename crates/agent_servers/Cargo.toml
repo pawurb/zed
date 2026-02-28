@@ -13,7 +13,6 @@ hotpath-mcp= ["hotpath/hotpath-mcp"]
 hotpath-mcp-meta= ["hotpath/hotpath-mcp-meta"]
 hotpath-meta = ["hotpath/hotpath-meta"]
 
-hotpath-off = ["hotpath/hotpath-off"]
 
 test-support = ["acp_thread/test-support", "gpui/test-support", "project/test-support", "dep:env_logger", "client/test-support", "dep:gpui_tokio", "reqwest_client/test-support"]
 e2e = []

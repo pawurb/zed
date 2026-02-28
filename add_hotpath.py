@@ -16,7 +16,6 @@ hotpath-mcp= ["hotpath/hotpath-mcp"]
 hotpath-mcp-meta= ["hotpath/hotpath-mcp-meta"]
 hotpath-meta = ["hotpath/hotpath-meta"]\n',
     '\n',
-    'hotpath-off = ["hotpath/hotpath-off"]\n',
 ]
 
 
