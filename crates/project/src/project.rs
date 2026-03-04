@@ -1051,7 +1051,7 @@ impl Project {
         context_server_store::init(cx);
     }
 
-    #[hotpath::measure]
+    #[hotpath::measure(log = true)]
     pub fn local(
         client: Arc<Client>,
         node: NodeRuntime,

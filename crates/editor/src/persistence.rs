@@ -281,6 +281,7 @@ impl EditorDb {
         }
     }
 
+    #[hotpath::measure(log = true, future = true)]
     pub async fn save_editor_selections(
         &self,
         editor_id: ItemId,
@@ -333,6 +334,7 @@ VALUES {placeholders};
         Ok(())
     }
 
+    #[hotpath::measure(log = true, future = true)]
     pub async fn save_editor_folds(
         &self,
         editor_id: ItemId,

@@ -380,6 +380,7 @@ impl FollowableItem for Editor {
     }
 }
 
+#[hotpath::measure(log = true, future = true)]
 async fn update_editor_from_message(
     this: WeakEntity<Editor>,
     project: Entity<Project>,

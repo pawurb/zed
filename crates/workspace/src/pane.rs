@@ -2019,6 +2019,7 @@ impl Pane {
         cx.notify();
     }
 
+    #[hotpath::measure(log = true, future = true)]
     pub async fn save_item(
         project: Entity<Project>,
         pane: &WeakEntity<Pane>,

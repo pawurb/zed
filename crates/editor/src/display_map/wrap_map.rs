@@ -403,6 +403,7 @@ impl WrapSnapshot {
         old_snapshot.compute_edits(tab_edits, self)
     }
 
+    #[hotpath::measure(log = true, future = true)]
     async fn update(
         &mut self,
         new_tab_snapshot: TabSnapshot,

@@ -9,6 +9,7 @@ use util::ResultExt;
 
 use crate::{DisplaySnapshot, Editor};
 
+#[derive(Debug)]
 struct ActiveIndentedRange {
     row_range: Range<MultiBufferRow>,
     indent: LineIndent,
@@ -202,6 +203,7 @@ pub fn indent_guides_in_range(
         .collect()
 }
 
+#[hotpath::measure(log = true, future = true)]
 async fn resolve_indented_range(
     snapshot: DisplaySnapshot,
     buffer_row: MultiBufferRow,
