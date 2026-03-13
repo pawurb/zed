@@ -3812,6 +3812,7 @@ impl BackgroundScanner {
         self.send_status_update(scanning, request.done).await
     }
 
+    #[hotpath::measure(log = true)]
     async fn process_events(&self, mut abs_paths: Vec<PathBuf>) {
         log::trace!("process events: {abs_paths:?}");
         let root_path = self.state.lock().await.snapshot.abs_path.clone();
@@ -4055,6 +4056,7 @@ impl BackgroundScanner {
         !mem::take(&mut self.state.lock().await.paths_to_scan).is_empty()
     }
 
+    #[hotpath::measure(log = true)]
     async fn scan_dirs(
         &self,
         enable_progress_updates: bool,
@@ -4155,6 +4157,7 @@ impl BackgroundScanner {
             .is_ok()
     }
 
+    #[hotpath::measure(log = true)]
     async fn scan_dir(&self, job: &ScanJob) -> Result<()> {
         let root_abs_path;
         let root_char_bag;
@@ -4532,6 +4535,7 @@ impl BackgroundScanner {
         Some(())
     }
 
+    #[hotpath::measure(log = true)]
     async fn update_ignore_statuses_for_paths(
         &self,
         scan_job_tx: Sender<ScanJob>,
@@ -4823,6 +4827,7 @@ impl BackgroundScanner {
         affected_repo_roots
     }
 
+    #[hotpath::measure(log = true)]
     async fn progress_timer(&self, running: bool) {
         if !running {
             return futures::future::pending().await;

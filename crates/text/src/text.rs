@@ -1964,6 +1964,7 @@ impl BufferSnapshot {
         self.max_point().row + 1
     }
 
+    #[hotpath::measure(log = true)]
     pub fn len(&self) -> usize {
         self.visible_text.len()
     }
@@ -2054,6 +2055,7 @@ impl BufferSnapshot {
         self.visible_text.max_point_utf16()
     }
 
+    #[hotpath::measure(log = true)]
     pub fn point_to_offset(&self, point: Point) -> usize {
         self.visible_text.point_to_offset(point)
     }
@@ -2320,6 +2322,7 @@ impl BufferSnapshot {
         self.text_summary_for_range(0..self.offset_for_anchor(anchor))
     }
 
+    #[hotpath::measure(log = true)]
     pub fn offset_for_anchor(&self, anchor: &Anchor) -> usize {
         if *anchor == Anchor::MIN {
             0
@@ -2437,6 +2440,7 @@ impl BufferSnapshot {
         self.anchor_at(position, Bias::Right)
     }
 
+    #[hotpath::measure(log = true)]
     pub fn anchor_at<T: ToOffset>(&self, position: T, bias: Bias) -> Anchor {
         self.anchor_at_offset(position.to_offset(self), bias)
     }

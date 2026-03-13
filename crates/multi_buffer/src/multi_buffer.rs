@@ -3733,6 +3733,7 @@ impl MultiBufferSnapshot {
         self.convert_dimension(point, text::BufferSnapshot::point_utf16_to_point)
     }
 
+    #[hotpath::measure(log = true)]
     pub fn point_to_offset(&self, point: Point) -> usize {
         self.convert_dimension(point, text::BufferSnapshot::point_to_offset)
     }
@@ -4502,6 +4503,7 @@ impl MultiBufferSnapshot {
         result
     }
 
+    #[hotpath::measure(log = true)]
     pub fn anchor_before<T: ToOffset>(&self, position: T) -> Anchor {
         self.anchor_at(position, Bias::Left)
     }
@@ -4510,6 +4512,7 @@ impl MultiBufferSnapshot {
         self.anchor_at(position, Bias::Right)
     }
 
+    #[hotpath::measure(log = true)]
     pub fn anchor_at<T: ToOffset>(&self, position: T, mut bias: Bias) -> Anchor {
         let offset = position.to_offset(self);
 
