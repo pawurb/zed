@@ -14,6 +14,14 @@ workspace = true
 name = "collab"
 
 [features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 sqlite = ["sea-orm/sqlx-sqlite", "sqlx/sqlite"]
 test-support = ["sqlite"]
 
@@ -26,6 +34,8 @@ required-features = ["test-support"]
 path = "tests/integration/collab_tests.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.16", features = ["futures"] }
 anyhow.workspace = true
 async-trait.workspace = true
 async-tungstenite = { workspace = true, features = ["tokio", "tokio-rustls-manual-roots" ] }

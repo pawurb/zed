@@ -319,6 +319,7 @@ impl EditorDb {
         }
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true, future = true))]
     pub async fn save_editor_selections(
         &self,
         editor_id: ItemId,
@@ -371,6 +372,7 @@ VALUES {placeholders};
         Ok(())
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true, future = true))]
     pub async fn save_file_folds(
         &self,
         workspace_id: WorkspaceId,

@@ -2230,6 +2230,7 @@ impl Pane {
         cx.notify();
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true, future = true))]
     pub async fn save_item(
         project: Entity<Project>,
         pane: &WeakEntity<Pane>,

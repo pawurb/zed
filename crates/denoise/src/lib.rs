@@ -77,7 +77,11 @@ impl<S: Source> Denoiser<S> {
         }
 
         let (input_tx, input_rx) = mpsc::channel();
+        #[cfg(feature = "hotpath")]
+        let (input_tx, input_rx) = hotpath::channel!((input_tx, input_rx));
         let (denoised_tx, denoised_rx) = mpsc::channel();
+        #[cfg(feature = "hotpath")]
+        let (denoised_tx, denoised_rx) = hotpath::channel!((denoised_tx, denoised_rx));
 
         thread::Builder::new()
             .name("NeuralDenoiser".to_owned())

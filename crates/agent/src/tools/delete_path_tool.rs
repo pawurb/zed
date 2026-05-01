@@ -163,6 +163,8 @@ impl AgentTool for DeletePathTool {
             })?;
 
             let (mut paths_tx, mut paths_rx) = mpsc::channel(256);
+            #[cfg(feature = "hotpath")]
+            let (mut paths_tx, mut paths_rx) = hotpath::channel!((paths_tx, paths_rx), capacity = 256);
             cx.background_spawn({
                 let project_path = project_path.clone();
                 async move {

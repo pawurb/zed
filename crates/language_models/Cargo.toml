@@ -12,6 +12,8 @@ workspace = true
 path = "src/language_models.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.16", features = ["futures"] }
 ai_onboarding.workspace = true
 async-lock.workspace = true
 anthropic = { workspace = true, features = ["schemars"] }
@@ -62,6 +64,17 @@ ui.workspace = true
 ui_input.workspace = true
 util.workspace = true
 x_ai = { workspace = true, features = ["schemars"] }
+
+
+[features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 [dev-dependencies]
 language_model = { workspace = true, features = ["test-support"] }

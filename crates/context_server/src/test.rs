@@ -49,6 +49,8 @@ pub struct FakeTransport {
 impl FakeTransport {
     pub fn new(executor: BackgroundExecutor) -> Self {
         let (tx, rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx));
         Self {
             request_handlers: Default::default(),
             tx,

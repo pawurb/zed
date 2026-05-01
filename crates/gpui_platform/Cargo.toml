@@ -12,6 +12,14 @@ workspace = true
 path = "src/gpui_platform.rs"
 
 [features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 default = []
 font-kit = ["gpui_macos/font-kit"]
 test-support = ["gpui/test-support", "gpui_macos/test-support"]
@@ -21,6 +29,8 @@ wayland = ["gpui_linux/wayland"]
 x11 = ["gpui_linux/x11"]
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.16", features = ["futures"] }
 gpui.workspace = true
 
 [target.'cfg(target_os = "macos")'.dependencies]

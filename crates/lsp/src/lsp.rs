@@ -637,8 +637,15 @@ impl LanguageServer {
             io_handlers,
             cx.background_executor().clone(),
         );
+        #[cfg(feature = "hotpath")]
+        let mut incoming_messages = hotpath::stream!(
+            input_handler.incoming_messages,
+            label = "lsp_incoming_messages"
+        );
+        #[cfg(not(feature = "hotpath"))]
+        let incoming_messages = &mut input_handler.incoming_messages;
 
-        while let Some(msg) = input_handler.incoming_messages.next().await {
+        while let Some(msg) = incoming_messages.next().await {
             if msg.method == <notification::Cancel as notification::Notification>::METHOD {
                 if let Some(params) = msg.params {
                     if let Ok(cancel_params) = serde_json::from_value::<CancelParams>(params) {
@@ -1443,6 +1450,8 @@ impl LanguageServer {
         .expect("LSP message should be serializable to JSON");
 
         let (tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (tx, rx) = hotpath::channel!((tx, rx));
         let handle_response = response_handlers
             .lock()
             .as_mut()
@@ -1986,6 +1995,8 @@ impl FakeLanguageServer {
         Fut: 'static + Future<Output = Result<T::Result>>,
     {
         let (responded_tx, responded_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (responded_tx, responded_rx) = hotpath::channel!((responded_tx, responded_rx));
         self.server.remove_request_handler::<T>();
         self.server
             .on_request::<T, _, _>(move |params, cx| {
@@ -2018,6 +2029,8 @@ impl FakeLanguageServer {
         F: 'static + Send + FnMut(T::Params, gpui::AsyncApp),
     {
         let (handled_tx, handled_rx) = futures::channel::mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (handled_tx, handled_rx) = hotpath::channel!((handled_tx, handled_rx));
         self.server.remove_notification_handler::<T>();
         self.server
             .on_notification::<T, _>(move |params, cx| {

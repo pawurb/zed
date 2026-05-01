@@ -744,6 +744,7 @@ impl FromIterator<char> for LineIndent {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     pub fn new(replica_id: ReplicaId, remote_id: BufferId, base_text: impl Into<String>) -> Buffer {
         let mut base_text = base_text.into();
@@ -1833,6 +1834,7 @@ impl Buffer {
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Buffer {
     #[track_caller]
     pub fn edit_via_marked_text(&mut self, marked_string: &str) {
@@ -2017,6 +2019,7 @@ impl Deref for Buffer {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BufferSnapshot {
     pub fn as_rope(&self) -> &Rope {
         &self.visible_text
@@ -2077,6 +2080,7 @@ impl BufferSnapshot {
         self.max_point().row + 1
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn len(&self) -> usize {
         self.visible_text.len()
     }
@@ -2163,6 +2167,7 @@ impl BufferSnapshot {
         self.visible_text.max_point_utf16()
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn point_to_offset(&self, point: Point) -> usize {
         self.visible_text.point_to_offset(point)
     }
@@ -2451,6 +2456,7 @@ impl BufferSnapshot {
         self.text_summary_for_range(0..self.offset_for_anchor(anchor))
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn offset_for_anchor(&self, anchor: &Anchor) -> usize {
         if anchor.is_min() {
             0
@@ -2572,6 +2578,7 @@ impl BufferSnapshot {
         self.anchor_at(position, Bias::Right)
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn anchor_at<T: ToOffset>(&self, position: T, bias: Bias) -> Anchor {
         self.anchor_at_offset(position.to_offset(self), bias)
     }

@@ -1150,6 +1150,8 @@ impl RemoteClient {
         assert!(matches!(opts, RemoteConnectionOptions::Mock(..)));
         use crate::transport::mock::MockDelegate;
         let (_tx, rx) = oneshot::channel();
+        #[cfg(feature = "hotpath")]
+        let (_tx, rx) = hotpath::channel!((_tx, rx));
         let mut cx = client_cx.to_async();
         let connection = connect(opts, Arc::new(MockDelegate), &mut cx)
             .await
@@ -1507,6 +1509,8 @@ impl ChannelClient {
             };
 
             let peer_id = PeerId { owner_id: 0, id: 0 };
+            #[cfg(feature = "hotpath")]
+            let mut incoming_rx = hotpath::stream!(incoming_rx, label = "remote_incoming");
             while let Some(incoming) = incoming_rx.next().await {
                 let Some(this) = this.upgrade() else {
                     return anyhow::Ok(());

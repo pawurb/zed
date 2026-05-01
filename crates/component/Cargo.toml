@@ -12,6 +12,8 @@ workspace = true
 path = "src/component.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.16", features = ["futures"] }
 collections.workspace = true
 gpui.workspace = true
 inventory.workspace = true
@@ -23,4 +25,12 @@ theme.workspace = true
 documented.workspace = true
 
 [features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 default = []

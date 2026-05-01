@@ -168,6 +168,8 @@ pub fn watch_config_file(
     path: PathBuf,
 ) -> (mpsc::UnboundedReceiver<String>, gpui::Task<()>) {
     let (tx, rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx));
     let task = executor.spawn(async move {
         let path = fs.canonicalize(&path).await.unwrap_or_else(|_| path);
         let (events, _) = fs.watch(&path, Duration::from_millis(100)).await;
@@ -200,6 +202,8 @@ pub fn watch_config_dir(
     config_paths: HashSet<PathBuf>,
 ) -> mpsc::UnboundedReceiver<String> {
     let (tx, rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (tx, rx) = hotpath::channel!((tx, rx));
     executor
         .spawn(async move {
             for file_path in &config_paths {

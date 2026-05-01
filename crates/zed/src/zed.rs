@@ -1873,7 +1873,11 @@ pub fn handle_keymap_file_changes(
     cx: &mut App,
 ) {
     let (base_keymap_tx, mut base_keymap_rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (base_keymap_tx, mut base_keymap_rx) = hotpath::channel!((base_keymap_tx, base_keymap_rx));
     let (keyboard_layout_tx, mut keyboard_layout_rx) = mpsc::unbounded();
+    #[cfg(feature = "hotpath")]
+    let (keyboard_layout_tx, mut keyboard_layout_rx) = hotpath::channel!((keyboard_layout_tx, keyboard_layout_rx));
     let mut old_base_keymap = *BaseKeymap::get_global(cx);
     let mut old_vim_enabled = VimModeSetting::get_global(cx).0;
     let mut old_helix_enabled = vim_mode_setting::HelixModeSetting::get_global(cx).0;

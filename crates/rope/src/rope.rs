@@ -27,6 +27,7 @@ pub struct Rope {
     chunks: SumTree<Chunk>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Rope {
     pub fn new() -> Self {
         Self::default()
@@ -144,6 +145,7 @@ impl Rope {
         self.slice(start..end)
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn push(&mut self, mut text: &str) {
         self.chunks.update_last(
             |last_chunk| {
@@ -202,6 +204,7 @@ impl Rope {
     }
 
     /// A copy of `push` specialized for working with large quantities of text.
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     fn push_large(&mut self, mut text: &str) {
         // To avoid frequent reallocs when loading large swaths of file contents,
         // we estimate worst-case `new_chunks` capacity;

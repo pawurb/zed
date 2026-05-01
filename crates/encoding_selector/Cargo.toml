@@ -13,6 +13,8 @@ path = "src/encoding_selector.rs"
 doctest = false
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.16", features = ["futures"] }
 editor.workspace = true
 encoding_rs.workspace = true
 fuzzy.workspace = true
@@ -23,3 +25,13 @@ project.workspace = true
 ui.workspace = true
 util.workspace = true
 workspace.workspace = true
+
+[features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
