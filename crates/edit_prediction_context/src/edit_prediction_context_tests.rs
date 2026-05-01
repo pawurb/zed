@@ -1,6 +1,5 @@
 use super::*;
 use crate::assemble_excerpts::assemble_excerpt_ranges;
-use futures::channel::mpsc::UnboundedReceiver;
 use gpui::TestAppContext;
 use indoc::indoc;
 use language::{Point, ToPoint as _, rust_lang};
@@ -833,7 +832,7 @@ fn init_test(cx: &mut TestAppContext) {
 fn setup_fake_lsp(
     project: &Entity<Project>,
     cx: &mut TestAppContext,
-) -> UnboundedReceiver<FakeLanguageServer> {
+) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<FakeLanguageServer> {
     let (language_registry, fs) = project.read_with(cx, |project, _| {
         (project.languages().clone(), project.fs().clone())
     });

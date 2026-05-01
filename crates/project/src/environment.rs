@@ -22,7 +22,7 @@ pub struct ProjectEnvironment {
     local_environments: HashMap<(Shell, Arc<Path>), Shared<Task<Option<HashMap<String, String>>>>>,
     remote_environments: HashMap<(Shell, Arc<Path>), Shared<Task<Option<HashMap<String, String>>>>>,
     environment_error_messages: VecDeque<String>,
-    environment_error_messages_tx: mpsc::UnboundedSender<String>,
+    environment_error_messages_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
     worktree_store: WeakEntity<WorktreeStore>,
     remote_client: Option<WeakEntity<RemoteClient>>,
     is_remote_project: bool,
@@ -43,7 +43,7 @@ impl ProjectEnvironment {
         is_remote_project: bool,
         cx: &mut Context<Self>,
     ) -> Self {
-        let (tx, mut rx) = mpsc::unbounded();
+        let (tx, mut rx) = hotpath::channel!(mpsc::unbounded());
         let task = cx.spawn(async move |this, cx| {
             while let Some(message) = rx.next().await {
                 this.update(cx, |this, cx| {
@@ -314,7 +314,7 @@ async fn load_directory_shell_environment(
     shell: Shell,
     abs_path: Arc<Path>,
     load_direnv: DirenvSettings,
-    tx: mpsc::UnboundedSender<String>,
+    tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
 ) -> anyhow::Result<HashMap<String, String>> {
     if let DirenvSettings::Disabled = load_direnv {
         return Ok(HashMap::default());

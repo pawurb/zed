@@ -694,7 +694,7 @@ mod test_support {
 
     struct Session {
         thread: WeakEntity<AcpThread>,
-        response_tx: Option<oneshot::Sender<acp::StopReason>>,
+        response_tx: Option<hotpath::wrap::futures_channel::oneshot::Sender<acp::StopReason>>,
     }
 
     impl Default for StubAgentConnection {
@@ -886,7 +886,7 @@ mod test_support {
             } = sessions.get_mut(&params.session_id).unwrap();
             let mut tasks = vec![];
             if self.next_prompt_updates.lock().is_empty() {
-                let (tx, rx) = oneshot::channel();
+                let (tx, rx) = hotpath::channel!(oneshot::channel());
                 response_tx.replace(tx);
                 cx.spawn(async move |_| {
                     let stop_reason = rx.await?;

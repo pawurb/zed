@@ -41,14 +41,14 @@ pub struct FakeTransport {
         &'static str,
         Arc<dyn Send + Sync + Fn(serde_json::Value) -> BoxFuture<'static, serde_json::Value>>,
     >,
-    tx: futures::channel::mpsc::UnboundedSender<String>,
-    rx: Arc<Mutex<futures::channel::mpsc::UnboundedReceiver<String>>>,
+    tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
+    rx: Arc<Mutex<hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<String>>>,
     executor: BackgroundExecutor,
 }
 
 impl FakeTransport {
     pub fn new(executor: BackgroundExecutor) -> Self {
-        let (tx, rx) = futures::channel::mpsc::unbounded();
+        let (tx, rx) = hotpath::channel!(futures::channel::mpsc::unbounded());
         Self {
             request_handlers: Default::default(),
             tx,

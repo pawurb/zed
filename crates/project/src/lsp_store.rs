@@ -338,6 +338,7 @@ pub struct LocalLspStore {
     _background_diagnostics_worker: Shared<Task<()>>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalLspStore {
     /// Returns the running language server for the given ID. Note if the language server is starting, it will not be returned.
     pub fn running_language_server_for_id(
@@ -4148,6 +4149,7 @@ impl SymbolLocation {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LspStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_request_handler(Self::handle_lsp_query);
@@ -6644,6 +6646,7 @@ impl LspStore {
         })
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
     async fn resolve_completion_local(
         server: Arc<lsp::LanguageServer>,
         completions: Rc<RefCell<Box<[Completion]>>>,
@@ -13722,6 +13725,7 @@ fn remove_empty_hover_blocks(mut hover: Hover) -> Option<Hover> {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::future_fn(log = true))]
 async fn populate_labels_for_completions(
     new_completions: Vec<CoreCompletion>,
     language: Option<Arc<Language>>,

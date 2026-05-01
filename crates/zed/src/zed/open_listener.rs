@@ -8,7 +8,6 @@ use client::{ZedLink, parse_zed_link};
 use db::kvp::KeyValueStore;
 use editor::Editor;
 use fs::Fs;
-use futures::channel::mpsc::{UnboundedReceiver, UnboundedSender};
 use futures::channel::{mpsc, oneshot};
 use futures::future;
 
@@ -295,7 +294,7 @@ impl OpenRequest {
 }
 
 #[derive(Clone)]
-pub struct OpenListener(UnboundedSender<RawOpenRequest>);
+pub struct OpenListener(hotpath::wrap::futures_channel::mpsc::UnboundedSender<RawOpenRequest>);
 
 #[derive(Default)]
 pub struct RawOpenRequest {
@@ -309,8 +308,11 @@ pub struct RawOpenRequest {
 impl Global for OpenListener {}
 
 impl OpenListener {
-    pub fn new() -> (Self, UnboundedReceiver<RawOpenRequest>) {
-        let (tx, rx) = mpsc::unbounded();
+    pub fn new() -> (
+        Self,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<RawOpenRequest>,
+    ) {
+        let (tx, rx) = hotpath::channel!(mpsc::unbounded());
         (OpenListener(tx), rx)
     }
 
@@ -836,7 +838,7 @@ async fn open_local_workspace(
         }
 
         if wait_for_window_close {
-            let (release_tx, release_rx) = oneshot::channel();
+            let (release_tx, release_rx) = hotpath::channel!(oneshot::channel());
             item_release_futures.push(release_rx);
             subscriptions.push(workspace.update(cx, |_, _, cx| {
                 cx.on_release(move |_, _| {
@@ -850,7 +852,7 @@ async fn open_local_workspace(
         match item {
             Some(Ok(item)) => {
                 if open_options.wait {
-                    let (release_tx, release_rx) = oneshot::channel();
+                    let (release_tx, release_rx) = hotpath::channel!(oneshot::channel());
                     item_release_futures.push(release_rx);
                     subscriptions.push(Ok(cx.update(|cx| {
                         item.on_release(

@@ -395,7 +395,7 @@ impl RemoteClient {
     pub fn new(
         unique_identifier: ConnectionIdentifier,
         remote_connection: Arc<dyn RemoteConnection>,
-        cancellation: oneshot::Receiver<()>,
+        cancellation: hotpath::wrap::futures_channel::oneshot::Receiver<()>,
         delegate: Arc<dyn RemoteClientDelegate>,
         cx: &mut App,
     ) -> Task<Result<Option<Entity<Self>>>> {
@@ -1149,7 +1149,7 @@ impl RemoteClient {
     ) -> Entity<Self> {
         assert!(matches!(opts, RemoteConnectionOptions::Mock(..)));
         use crate::transport::mock::MockDelegate;
-        let (_tx, rx) = oneshot::channel();
+        let (_tx, rx) = hotpath::channel!(oneshot::channel());
         let mut cx = client_cx.to_async();
         let connection = connect(opts, Arc::new(MockDelegate), &mut cx)
             .await
@@ -1497,7 +1497,7 @@ impl ChannelClient {
 
     fn start_handling_messages(
         this: Weak<Self>,
-        mut incoming_rx: mpsc::UnboundedReceiver<Envelope>,
+        incoming_rx: mpsc::UnboundedReceiver<Envelope>,
         cx: &AsyncApp,
     ) -> Task<Result<()>> {
         cx.spawn(async move |cx| {
@@ -1507,6 +1507,7 @@ impl ChannelClient {
             };
 
             let peer_id = PeerId { owner_id: 0, id: 0 };
+            let mut incoming_rx = hotpath::stream!(incoming_rx, label = "remote_incoming");
             while let Some(incoming) = incoming_rx.next().await {
                 let Some(this) = this.upgrade() else {
                     return anyhow::Ok(());

@@ -147,7 +147,7 @@ fn main() -> Result<(), anyhow::Error> {
                     let delegate = Arc::new(BenchmarkRemoteClient);
                     let remote_connection = remote::connect(connection_options.clone(), delegate.clone(), cx).await.unwrap();
 
-                    let (_tx, rx) = oneshot::channel();
+                    let (_tx, rx) = hotpath::channel!(oneshot::channel());
                     let remote_client =  cx.update(|cx| remote::RemoteClient::new(ConnectionIdentifier::setup(), remote_connection, rx, delegate.clone(), cx )).await?.ok_or_else(|| anyhow!("ssh initialization returned None"))?;
 
                     cx.update(|cx| Project::remote(remote_client,  client, node, user_store, registry, fs, false, cx))

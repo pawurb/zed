@@ -117,7 +117,7 @@ pub struct FakeLanguageModel {
     current_completion_txs: Mutex<
         Vec<(
             LanguageModelRequest,
-            mpsc::UnboundedSender<
+            hotpath::wrap::futures_channel::mpsc::UnboundedSender<
                 Result<LanguageModelCompletionEvent, LanguageModelCompletionError>,
             >,
         )>,
@@ -324,7 +324,7 @@ impl LanguageModel for FakeLanguageModel {
             }
             .boxed()
         } else {
-            let (tx, rx) = mpsc::unbounded();
+            let (tx, rx) = hotpath::channel!(mpsc::unbounded());
             self.current_completion_txs.lock().push((request, tx));
             async move { Ok(rx.boxed()) }.boxed()
         }

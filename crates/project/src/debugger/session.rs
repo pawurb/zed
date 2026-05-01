@@ -31,7 +31,6 @@ use dap::{
     RunInTerminalRequestArguments, StackFramePresentationHint, StartDebuggingRequestArguments,
     StartDebuggingRequestArgumentsRequest, VariablePresentationHint, WriteMemoryArguments,
 };
-use futures::channel::mpsc::UnboundedSender;
 use futures::channel::{mpsc, oneshot};
 use futures::io::BufReader;
 use futures::{AsyncBufReadExt as _, SinkExt, StreamExt, TryStreamExt};
@@ -169,7 +168,7 @@ pub struct RunningMode {
     executor: BackgroundExecutor,
     is_started: bool,
     has_ever_stopped: bool,
-    messages_tx: UnboundedSender<Message>,
+    messages_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<Message>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
@@ -199,7 +198,7 @@ impl RunningMode {
         parent_session: Option<Entity<Session>>,
         worktree: WeakEntity<Worktree>,
         binary: DebugAdapterBinary,
-        messages_tx: futures::channel::mpsc::UnboundedSender<Message>,
+        messages_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<Message>,
         cx: &mut AsyncApp,
     ) -> Result<Self> {
         let message_handler = Box::new({
@@ -915,7 +914,7 @@ impl Session {
         dap_store: WeakEntity<DapStore>,
         cx: &mut Context<Self>,
     ) -> Task<Result<()>> {
-        let (message_tx, mut message_rx) = futures::channel::mpsc::unbounded();
+        let (message_tx, mut message_rx) = hotpath::channel!(futures::channel::mpsc::unbounded());
         let (initialized_tx, initialized_rx) = futures::channel::oneshot::channel();
 
         let background_tasks = vec![cx.spawn(async move |this: WeakEntity<Session>, cx| {
@@ -1082,8 +1081,11 @@ impl Session {
         self.is_session_terminated
     }
 
-    pub fn console_output(&mut self, cx: &mut Context<Self>) -> mpsc::UnboundedSender<String> {
-        let (tx, mut rx) = mpsc::unbounded();
+    pub fn console_output(
+        &mut self,
+        cx: &mut Context<Self>,
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedSender<String> {
+        let (tx, mut rx) = hotpath::channel!(mpsc::unbounded());
 
         cx.spawn(async move |this, cx| {
             while let Some(output) = rx.next().await {

@@ -1,5 +1,4 @@
 //! See [Telemetry in Zed](https://zed.dev/docs/telemetry) for additional information.
-use futures::channel::mpsc;
 pub use serde_json;
 use std::sync::OnceLock;
 pub use telemetry_events::FlexibleEvent as Event;
@@ -59,8 +58,9 @@ pub fn send_event(event: Event) {
     }
 }
 
-pub fn init(tx: mpsc::UnboundedSender<Event>) {
+pub fn init(tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<Event>) {
     TELEMETRY_QUEUE.set(tx).ok();
 }
 
-static TELEMETRY_QUEUE: OnceLock<mpsc::UnboundedSender<Event>> = OnceLock::new();
+static TELEMETRY_QUEUE: OnceLock<hotpath::wrap::futures_channel::mpsc::UnboundedSender<Event>> =
+    OnceLock::new();

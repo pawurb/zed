@@ -3,7 +3,6 @@ use anyhow::{Context as _, Result};
 use audio::{AudioSettings, CHANNEL_COUNT, SAMPLE_RATE};
 use cpal::DeviceId;
 use cpal::traits::{DeviceTrait, StreamTrait as _};
-use futures::channel::mpsc::Sender;
 use futures::{Stream, StreamExt as _};
 use gpui::{
     AsyncApp, BackgroundExecutor, Priority, ScreenCaptureFrame, ScreenCaptureSource,
@@ -160,7 +159,10 @@ impl AudioStack {
         let apm = self.apm.clone();
 
         let input_lag_us = Arc::new(AtomicU64::new(0));
-        let (frame_tx, mut frame_rx) = futures::channel::mpsc::channel::<TimestampedFrame>(1);
+        let (frame_tx, mut frame_rx) = hotpath::channel!(
+            futures::channel::mpsc::channel::<TimestampedFrame>(1),
+            capacity = 1
+        );
         let transmit_task = self.executor.spawn_with_priority(Priority::RealtimeAudio, {
             let input_lag_us = input_lag_us.clone();
             async move {
@@ -220,7 +222,8 @@ impl AudioStack {
             let (output_device, output_config) =
                 crate::default_device(false, output_audio_device.as_ref())?;
             info!("Output config: {output_config:?}");
-            let (end_on_drop_tx, end_on_drop_rx) = std::sync::mpsc::channel::<()>();
+            let (end_on_drop_tx, end_on_drop_rx) =
+                hotpath::channel!(std::sync::mpsc::channel::<()>());
             let mixer = mixer.clone();
             let apm = apm.clone();
             let mut resampler = audio_resampler::AudioResampler::default();
@@ -293,7 +296,7 @@ impl AudioStack {
     async fn capture_input(
         executor: BackgroundExecutor,
         apm: Arc<Mutex<apm::AudioProcessingModule>>,
-        frame_tx: Sender<TimestampedFrame>,
+        frame_tx: hotpath::wrap::futures_channel::mpsc::Sender<TimestampedFrame>,
         sample_rate: u32,
         num_channels: u32,
         input_audio_device: Option<DeviceId>,
@@ -301,7 +304,8 @@ impl AudioStack {
         loop {
             let mut device_change_listener = DeviceChangeListener::new(true)?;
             let (device, config) = crate::default_device(true, input_audio_device.as_ref())?;
-            let (end_on_drop_tx, end_on_drop_rx) = std::sync::mpsc::channel::<()>();
+            let (end_on_drop_tx, end_on_drop_rx) =
+                hotpath::channel!(std::sync::mpsc::channel::<()>());
             let apm = apm.clone();
             let mut frame_tx = frame_tx.clone();
             let mut resampler = audio_resampler::AudioResampler::default();

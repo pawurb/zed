@@ -1868,12 +1868,12 @@ pub fn watch_settings_files(fs: Arc<dyn fs::Fs>, cx: &mut App) {
 }
 
 pub fn handle_keymap_file_changes(
-    mut user_keymap_file_rx: mpsc::UnboundedReceiver<String>,
+    mut user_keymap_file_rx: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<String>,
     user_keymap_watcher: gpui::Task<()>,
     cx: &mut App,
 ) {
-    let (base_keymap_tx, mut base_keymap_rx) = mpsc::unbounded();
-    let (keyboard_layout_tx, mut keyboard_layout_rx) = mpsc::unbounded();
+    let (base_keymap_tx, mut base_keymap_rx) = hotpath::channel!(mpsc::unbounded());
+    let (keyboard_layout_tx, mut keyboard_layout_rx) = hotpath::channel!(mpsc::unbounded());
     let mut old_base_keymap = *BaseKeymap::get_global(cx);
     let mut old_vim_enabled = VimModeSetting::get_global(cx).0;
     let mut old_helix_enabled = vim_mode_setting::HelixModeSetting::get_global(cx).0;

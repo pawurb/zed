@@ -768,7 +768,7 @@ impl<T: Item> ItemHandle for Entity<T> {
 
         if old_item_pane.is_none() {
             let mut pending_autosave = DelayedDebouncedEditAction::new();
-            let (pending_update_tx, mut pending_update_rx) = mpsc::unbounded();
+            let (pending_update_tx, mut pending_update_rx) = hotpath::channel!(mpsc::unbounded());
             let pending_update = Rc::new(RefCell::new(None));
 
             let mut send_follower_updates = None;

@@ -13,8 +13,8 @@ const SUPPORTED_CHANNEL_COUNT: ChannelCount = nz!(1);
 
 pub struct Denoiser<S: Source> {
     inner: S,
-    input_tx: mpsc::Sender<[Sample; BLOCK_SHIFT]>,
-    denoised_rx: mpsc::Receiver<[Sample; BLOCK_SHIFT]>,
+    input_tx: hotpath::wrap::std::sync::mpsc::Sender<[Sample; BLOCK_SHIFT]>,
+    denoised_rx: hotpath::wrap::std::sync::mpsc::Receiver<[Sample; BLOCK_SHIFT]>,
     ready: [Sample; BLOCK_SHIFT],
     next: usize,
     state: IterState,
@@ -76,8 +76,8 @@ impl<S: Source> Denoiser<S> {
             return Err(DenoiserError::UnsupportedChannelCount);
         }
 
-        let (input_tx, input_rx) = mpsc::channel();
-        let (denoised_tx, denoised_rx) = mpsc::channel();
+        let (input_tx, input_rx) = hotpath::channel!(mpsc::channel());
+        let (denoised_tx, denoised_rx) = hotpath::channel!(mpsc::channel());
 
         thread::Builder::new()
             .name("NeuralDenoiser".to_owned())
@@ -114,8 +114,8 @@ impl<S: Source> Denoiser<S> {
 }
 
 fn run_neural_denoiser(
-    denoised_tx: mpsc::Sender<[f32; BLOCK_SHIFT]>,
-    input_rx: mpsc::Receiver<[f32; BLOCK_SHIFT]>,
+    denoised_tx: hotpath::wrap::std::sync::mpsc::Sender<[f32; BLOCK_SHIFT]>,
+    input_rx: hotpath::wrap::std::sync::mpsc::Receiver<[f32; BLOCK_SHIFT]>,
 ) {
     let mut engine = Engine::new();
     // until tx is dropped

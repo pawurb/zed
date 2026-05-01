@@ -502,7 +502,7 @@ pub fn execute_run(
 
     #[cfg(unix)]
     let shell_env_loaded_rx = {
-        let (shell_env_loaded_tx, shell_env_loaded_rx) = oneshot::channel();
+        let (shell_env_loaded_tx, shell_env_loaded_rx) = hotpath::channel!(oneshot::channel());
         app.background_executor()
             .spawn(async {
                 util::load_login_shell_environment().await.log_err();
@@ -512,7 +512,7 @@ pub fn execute_run(
         Some(shell_env_loaded_rx)
     };
     #[cfg(windows)]
-    let shell_env_loaded_rx: Option<oneshot::Receiver<()>> = None;
+    let shell_env_loaded_rx: Option<hotpath::wrap::futures_channel::oneshot::Receiver<()>> = None;
 
     let git_hosting_provider_registry = Arc::new(GitHostingProviderRegistry::new());
     let run = move |cx: &mut _| {
@@ -1136,7 +1136,7 @@ fn initialize_settings(
 }
 
 pub fn handle_settings_file_changes(
-    mut server_settings_file: mpsc::UnboundedReceiver<String>,
+    mut server_settings_file: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<String>,
     watcher_task: gpui::Task<()>,
     cx: &mut App,
     settings_changed: impl Fn(Option<anyhow::Error>, &mut App) + 'static,

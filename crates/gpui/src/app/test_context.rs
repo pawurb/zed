@@ -506,7 +506,7 @@ impl TestAppContext {
         &mut self,
         entity: &Entity<T>,
     ) -> impl Stream<Item = ()> + use<T> {
-        let (tx, rx) = futures::channel::mpsc::unbounded();
+        let (tx, rx) = hotpath::channel!(futures::channel::mpsc::unbounded());
         self.update(|cx| {
             cx.observe(entity, {
                 let tx = tx.clone();

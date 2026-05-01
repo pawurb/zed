@@ -40,7 +40,8 @@ pub struct ChannelStore {
     channel_states: HashMap<ChannelId, ChannelState>,
     favorite_channel_ids: Vec<ChannelId>,
     outgoing_invites: HashSet<(ChannelId, UserId)>,
-    update_channels_tx: mpsc::UnboundedSender<proto::UpdateChannels>,
+    update_channels_tx:
+        hotpath::wrap::futures_channel::mpsc::UnboundedSender<proto::UpdateChannels>,
     opened_buffers: HashMap<ChannelId, OpenEntityHandle<ChannelBuffer>>,
     client: Arc<Client>,
     did_subscribe: bool,
@@ -194,7 +195,7 @@ impl ChannelStore {
         ];
 
         let mut connection_status = client.status();
-        let (update_channels_tx, mut update_channels_rx) = mpsc::unbounded();
+        let (update_channels_tx, mut update_channels_rx) = hotpath::channel!(mpsc::unbounded());
         let watch_connection_status = cx.spawn(async move |this, cx| {
             while let Some(status) = connection_status.next().await {
                 let this = this.upgrade()?;

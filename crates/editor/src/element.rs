@@ -207,6 +207,7 @@ pub enum SplitSide {
     Right,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl EditorElement {
     pub(crate) const SCROLLBAR_WIDTH: Pixels = ui::EDITOR_SCROLLBAR_WIDTH;
 
@@ -8003,6 +8004,7 @@ impl EditorElement {
     }
 
     #[cfg(debug_assertions)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     fn layout_debug_ranges(
         selections: &mut Vec<(PlayerColor, Vec<SelectionLayout>)>,
         anchor_range: Range<Anchor>,
@@ -9681,6 +9683,7 @@ enum Invisible {
     },
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl EditorElement {
     /// Returns the rem size to use when rendering the [`EditorElement`].
     ///

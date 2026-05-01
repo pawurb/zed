@@ -164,7 +164,7 @@ impl ActionLog {
                     diff.language_changed(language, language_registry, cx);
                     diff
                 });
-                let (diff_update_tx, diff_update_rx) = mpsc::unbounded();
+                let (diff_update_tx, diff_update_rx) = hotpath::channel!(mpsc::unbounded());
                 let diff_base;
                 let unreviewed_edits;
                 if is_created {
@@ -271,7 +271,10 @@ impl ActionLog {
     async fn maintain_diff(
         this: WeakEntity<Self>,
         buffer: Entity<Buffer>,
-        mut buffer_updates: mpsc::UnboundedReceiver<(ChangeAuthor, text::BufferSnapshot)>,
+        mut buffer_updates: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<(
+            ChangeAuthor,
+            text::BufferSnapshot,
+        )>,
         cx: &mut AsyncApp,
     ) -> Result<()> {
         let git_diff = this
@@ -1278,7 +1281,8 @@ pub struct TrackedBuffer {
     version: clock::Global,
     diff: Entity<BufferDiff>,
     snapshot: text::BufferSnapshot,
-    diff_update: mpsc::UnboundedSender<(ChangeAuthor, text::BufferSnapshot)>,
+    diff_update:
+        hotpath::wrap::futures_channel::mpsc::UnboundedSender<(ChangeAuthor, text::BufferSnapshot)>,
     _open_lsp_handle: OpenLspBufferHandle,
     _maintain_diff: Task<()>,
     _subscription: Subscription,

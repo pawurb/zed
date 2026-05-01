@@ -41,7 +41,8 @@ pub struct LogStore {
     on_headless_host: bool,
     projects: HashMap<WeakEntity<Project>, ProjectState>,
     pub language_servers: HashMap<LanguageServerId, LanguageServerState>,
-    io_tx: mpsc::UnboundedSender<(LanguageServerId, IoKind, String)>,
+    io_tx:
+        hotpath::wrap::futures_channel::mpsc::UnboundedSender<(LanguageServerId, IoKind, String)>,
 }
 
 struct ProjectState {
@@ -213,9 +214,12 @@ impl LogKind {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LogStore {
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     pub fn new(on_headless_host: bool, cx: &mut Context<Self>) -> Self {
-        let (io_tx, mut io_rx) = mpsc::unbounded();
+        let (io_tx, mut io_rx) =
+            hotpath::channel!(mpsc::unbounded(), label = "many_logs", log = true);
 
         let log_store = Self {
             projects: HashMap::default(),

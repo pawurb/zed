@@ -13,10 +13,7 @@ use feature_flags::FeatureFlagAppExt as _;
 use fs::{FakeFs, Fs};
 use futures::{
     FutureExt as _, StreamExt,
-    channel::{
-        mpsc::{self, UnboundedReceiver},
-        oneshot,
-    },
+    channel::{mpsc, oneshot},
     future::{Fuse, Shared},
 };
 use gpui::{
@@ -981,7 +978,9 @@ async fn test_tool_hallucination(cx: &mut TestAppContext) {
     assert_eq!(update.fields.status, Some(acp::ToolCallStatus::Failed));
 }
 
-async fn expect_tool_call(events: &mut UnboundedReceiver<Result<ThreadEvent>>) -> acp::ToolCall {
+async fn expect_tool_call(
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+) -> acp::ToolCall {
     let event = events
         .next()
         .await
@@ -996,7 +995,7 @@ async fn expect_tool_call(events: &mut UnboundedReceiver<Result<ThreadEvent>>) -
 }
 
 async fn expect_tool_call_update_fields(
-    events: &mut UnboundedReceiver<Result<ThreadEvent>>,
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
 ) -> acp::ToolCallUpdate {
     let event = events
         .next()
@@ -1011,7 +1010,9 @@ async fn expect_tool_call_update_fields(
     }
 }
 
-async fn expect_plan(events: &mut UnboundedReceiver<Result<ThreadEvent>>) -> acp::Plan {
+async fn expect_plan(
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+) -> acp::Plan {
     let event = events
         .next()
         .await
@@ -1026,7 +1027,7 @@ async fn expect_plan(events: &mut UnboundedReceiver<Result<ThreadEvent>>) -> acp
 }
 
 async fn next_tool_call_authorization(
-    events: &mut UnboundedReceiver<Result<ThreadEvent>>,
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
 ) -> ToolCallAuthorization {
     loop {
         let event = events
@@ -2391,7 +2392,7 @@ async fn verify_thread_recovery(
 
 /// Waits for a terminal tool to start by watching for a ToolCallUpdate with terminal content.
 async fn wait_for_terminal_tool_started(
-    events: &mut mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
     cx: &mut TestAppContext,
 ) {
     let deadline = cx.executor().num_cpus() * 100; // Scale with available parallelism
@@ -2422,7 +2423,7 @@ async fn wait_for_terminal_tool_started(
 
 /// Collects events until a Stop event is received, driving the executor to completion.
 async fn collect_events_until_stop(
-    events: &mut mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+    events: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
     cx: &mut TestAppContext,
 ) -> Vec<Result<ThreadEvent>> {
     let mut collected = Vec::new();
@@ -4388,7 +4389,7 @@ fn setup_context_server(
     tools: Vec<context_server::types::Tool>,
     context_server_store: &Entity<ContextServerStore>,
     cx: &mut TestAppContext,
-) -> mpsc::UnboundedReceiver<(
+) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<(
     context_server::types::CallToolParams,
     oneshot::Sender<context_server::types::CallToolResponse>,
 )> {
@@ -4410,7 +4411,7 @@ fn setup_context_server(
         ProjectSettings::override_global(settings, cx);
     });
 
-    let (mcp_tool_calls_tx, mcp_tool_calls_rx) = mpsc::unbounded();
+    let (mcp_tool_calls_tx, mcp_tool_calls_rx) = hotpath::channel!(mpsc::unbounded());
     let fake_transport = context_server::test::create_fake_transport(name, cx.executor())
         .on_request::<context_server::types::requests::Initialize, _>(move |_params| async move {
             context_server::types::InitializeResponse {
