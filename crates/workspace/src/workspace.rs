@@ -1431,6 +1431,7 @@ pub enum OpenMode {
     Activate,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Workspace {
     pub fn new(
         workspace_id: Option<WorkspaceId>,
@@ -1664,9 +1665,13 @@ impl Workspace {
 
         // All leader updates are enqueued and then processed in a single task, so
         // that each asynchronous operation can be run in order.
-        let (leader_updates_tx, mut leader_updates_rx) =
+        let (leader_updates_tx, leader_updates_rx) =
             mpsc::unbounded::<(PeerId, proto::UpdateFollowers)>();
         let _apply_leader_updates = cx.spawn_in(window, async move |this, cx| {
+            #[cfg(feature = "hotpath")]
+            let mut leader_updates_rx = hotpath::stream!(leader_updates_rx, label = "leader_updates");
+            #[cfg(not(feature = "hotpath"))]
+            let mut leader_updates_rx = leader_updates_rx;
             while let Some((leader_id, update)) = leader_updates_rx.next().await {
                 Self::process_leader_update(&this, leader_id, update, cx)
                     .await
@@ -6840,7 +6845,11 @@ impl Workspace {
     ) -> Result<()> {
         const CHUNK_SIZE: usize = 200;
 
-        let mut serializable_items = items_rx.ready_chunks(CHUNK_SIZE);
+        let serializable_items = items_rx.ready_chunks(CHUNK_SIZE);
+        #[cfg(feature = "hotpath")]
+        let mut serializable_items = hotpath::stream!(serializable_items, label = "workspace_serializable_items");
+        #[cfg(not(feature = "hotpath"))]
+        let mut serializable_items = serializable_items;
 
         while let Some(items_received) = serializable_items.next().await {
             let unique_items =
@@ -8663,6 +8672,7 @@ impl Render for Workspace {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl WorkspaceStore {
     pub fn new(client: Arc<Client>, cx: &mut Context<Self>) -> Self {
         Self {

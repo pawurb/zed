@@ -177,6 +177,8 @@ impl UserStore {
         let (mut current_user_tx, current_user_rx) = watch::channel();
         let (sign_out_tx, mut sign_out_rx) = mpsc::unbounded();
         let (update_contacts_tx, mut update_contacts_rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (update_contacts_tx, mut update_contacts_rx) = hotpath::channel!((update_contacts_tx, update_contacts_rx), proxy = true);
         let rpc_subscriptions = vec![
             client.add_message_handler(cx.weak_entity(), Self::handle_update_contacts),
             client.add_message_handler(cx.weak_entity(), Self::handle_show_contacts),

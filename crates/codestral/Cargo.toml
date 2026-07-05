@@ -9,6 +9,8 @@ license = "GPL-3.0-or-later"
 path = "src/codestral.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 edit_prediction_types.workspace = true
 edit_prediction.workspace = true
@@ -24,5 +26,16 @@ serde_json.workspace = true
 text.workspace = true
 zed_credentials_provider.workspace = true
 zeta_prompt.workspace = true
+
+
+[features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 [dev-dependencies]

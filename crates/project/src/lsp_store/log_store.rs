@@ -213,9 +213,13 @@ impl LogKind {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LogStore {
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     pub fn new(on_headless_host: bool, cx: &mut Context<Self>) -> Self {
         let (io_tx, mut io_rx) = mpsc::unbounded();
+        #[cfg(feature = "hotpath")]
+        let (io_tx, mut io_rx) = hotpath::channel!((io_tx, io_rx), label = "many_logs", proxy = true);
 
         let log_store = Self {
             projects: HashMap::default(),

@@ -161,6 +161,8 @@ impl AudioStack {
 
         let input_lag_us = Arc::new(AtomicU64::new(0));
         let (frame_tx, mut frame_rx) = futures::channel::mpsc::channel::<TimestampedFrame>(1);
+        #[cfg(feature = "hotpath")]
+        let (frame_tx, mut frame_rx) = hotpath::channel!((frame_tx, frame_rx), capacity = 1, proxy = true);
         let transmit_task = self.executor.spawn_with_priority(Priority::RealtimeAudio, {
             let input_lag_us = input_lag_us.clone();
             async move {
@@ -221,6 +223,8 @@ impl AudioStack {
                 crate::default_device(false, output_audio_device.as_ref())?;
             info!("Output config: {output_config:?}");
             let (end_on_drop_tx, end_on_drop_rx) = std::sync::mpsc::channel::<()>();
+            #[cfg(feature = "hotpath")]
+            let (end_on_drop_tx, end_on_drop_rx) = hotpath::channel!((end_on_drop_tx, end_on_drop_rx), proxy = true);
             let mixer = mixer.clone();
             let apm = apm.clone();
             let mut resampler = audio_resampler::AudioResampler::default();
@@ -302,6 +306,8 @@ impl AudioStack {
             let mut device_change_listener = DeviceChangeListener::new(true)?;
             let (device, config) = crate::default_device(true, input_audio_device.as_ref())?;
             let (end_on_drop_tx, end_on_drop_rx) = std::sync::mpsc::channel::<()>();
+            #[cfg(feature = "hotpath")]
+            let (end_on_drop_tx, end_on_drop_rx) = hotpath::channel!((end_on_drop_tx, end_on_drop_rx), proxy = true);
             let apm = apm.clone();
             let mut frame_tx = frame_tx.clone();
             let mut resampler = audio_resampler::AudioResampler::default();

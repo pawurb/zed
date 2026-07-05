@@ -12,12 +12,25 @@ workspace = true
 path = "src/edit_prediction_metrics.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 language.workspace = true
 serde.workspace = true
 serde_json = "1.0"
 similar = "2.7.0"
 tree-sitter.workspace = true
 zeta_prompt.workspace = true
+
+
+[features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 [dev-dependencies]
 indoc.workspace = true

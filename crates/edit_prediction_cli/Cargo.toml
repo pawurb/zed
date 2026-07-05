@@ -16,6 +16,8 @@ name = "ep"
 path = "src/main.rs"
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 anthropic.workspace = true
 http_client.workspace = true
@@ -78,6 +80,14 @@ gaoya = "0.2.0"
 # If we don't enable these features we get crashes when creating
 # a Tree-sitter WasmStore.
 [features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 dynamic_prompts = []
 
 [package.metadata.cargo-machete]

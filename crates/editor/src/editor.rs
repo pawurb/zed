@@ -1931,6 +1931,7 @@ pub struct RewrapOptions {
     pub line_length: Option<usize>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Editor {
     pub fn single_line(window: &mut Window, cx: &mut Context<Self>) -> Self {
         let buffer = cx.new(|cx| Buffer::local("", cx));
@@ -28643,6 +28644,7 @@ fn ending_row(next_selection: &Selection<Point>, display_map: &DisplaySnapshot) 
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl EditorSnapshot {
     pub fn remote_selections_in_range<'a>(
         &'a self,

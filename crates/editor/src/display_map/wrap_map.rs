@@ -452,6 +452,7 @@ impl WrapSnapshot {
     }
 
     #[ztracing::instrument(skip_all)]
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true, future = true))]
     async fn update(
         &mut self,
         new_tab_snapshot: TabSnapshot,

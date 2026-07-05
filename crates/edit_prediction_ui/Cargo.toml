@@ -13,6 +13,8 @@ path = "src/edit_prediction_ui.rs"
 doctest = false
 
 [dependencies]
+channels-console = { version = "0.2", optional = true, features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 buffer_diff.workspace = true
 collections.workspace = true
@@ -48,6 +50,17 @@ util.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
 zeta_prompt.workspace = true
+
+
+[features]
+channels-console = ["dep:channels-console"]
+hotpath = ["hotpath/hotpath"]
+hotpath-alloc = ["hotpath/hotpath-alloc"]
+hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-cpu = ["hotpath/hotpath-cpu"]
+hotpath-mcp = ["hotpath/hotpath-mcp"]
+hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]
+hotpath-meta = ["hotpath/hotpath-meta"]
 
 [dev-dependencies]
 copilot = { workspace = true, features = ["test-support"] }
