@@ -1151,7 +1151,7 @@ impl RemoteClient {
         use crate::transport::mock::MockDelegate;
         let (_tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (_tx, rx) = hotpath::channel!((_tx, rx));
+        let (_tx, rx) = hotpath::channel!((_tx, rx), proxy = true);
         let mut cx = client_cx.to_async();
         let connection = connect(opts, Arc::new(MockDelegate), &mut cx)
             .await

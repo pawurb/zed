@@ -412,7 +412,7 @@ fn main() {
 
     let (shell_env_loaded_tx, shell_env_loaded_rx) = oneshot::channel();
     #[cfg(feature = "hotpath")]
-    let (shell_env_loaded_tx, shell_env_loaded_rx) = hotpath::channel!((shell_env_loaded_tx, shell_env_loaded_rx));
+    let (shell_env_loaded_tx, shell_env_loaded_rx) = hotpath::channel!((shell_env_loaded_tx, shell_env_loaded_rx), proxy = true);
     if !stdout_is_a_pty() {
         app.background_executor()
             .spawn(async {
@@ -1854,7 +1854,7 @@ fn load_user_themes_in_background(fs: Arc<dyn fs::Fs>, cx: &mut App) {
 fn watch_themes(fs: Arc<dyn fs::Fs>, cx: &mut App) {
     use std::time::Duration;
     cx.spawn(async move |cx| {
-        let (mut events, _) = fs
+        let (events, _) = fs
             .watch(paths::themes_dir(), Duration::from_millis(100))
             .await;
         #[cfg(feature = "hotpath")]
@@ -1886,7 +1886,7 @@ fn watch_languages(fs: Arc<dyn fs::Fs>, languages: Arc<LanguageRegistry>, cx: &m
             return;
         };
 
-        let (mut events, watcher) = fs.watch(&languages_src, Duration::from_millis(100)).await;
+        let (events, watcher) = fs.watch(&languages_src, Duration::from_millis(100)).await;
 
         // add subdirectories since fs.watch is not recursive on Linux
         if let Some(paths) = fs.read_dir(&languages_src).await.log_err() {

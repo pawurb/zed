@@ -2078,7 +2078,7 @@ impl AcpThread {
     ) -> Result<Task<RequestPermissionOutcome>> {
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
 
         let status = ToolCallStatus::WaitingForConfirmation {
             options,
@@ -2268,7 +2268,7 @@ impl AcpThread {
 
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         let cancel_task = self.cancel(cx);
 
         self.turn_id += 1;

@@ -98,7 +98,7 @@ fn monitor_hangs(cx: &App) {
     // 3 seconds hang
     let (mut tx, mut rx) = futures::channel::mpsc::channel(3);
     #[cfg(feature = "hotpath")]
-    let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 3);
+    let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 3, proxy = true);
     foreground_executor
         .spawn(async move { while (rx.next().await).is_some() {} })
         .detach();

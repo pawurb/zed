@@ -63,7 +63,7 @@ impl Room {
 
         let (mut tx, rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (mut tx, rx) = hotpath::channel!((tx, rx));
+        let (mut tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         let task = cx.background_executor().spawn(async move {
             while let Some(event) = events.recv().await {
                 if let Some(event) = room_event_from_livekit(event) {

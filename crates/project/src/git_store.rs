@@ -749,7 +749,7 @@ impl GitStore {
                 let mut snapshots = HashMap::default();
                 let (updates_tx, mut updates_rx) = mpsc::unbounded();
                 #[cfg(feature = "hotpath")]
-                let (updates_tx, mut updates_rx) = hotpath::channel!((updates_tx, updates_rx));
+                let (updates_tx, mut updates_rx) = hotpath::channel!((updates_tx, updates_rx), proxy = true);
                 for repo in self.repositories.values() {
                     updates_tx
                         .unbounded_send(DownstreamUpdate::UpdateRepository(

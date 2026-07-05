@@ -25,7 +25,7 @@ neovim = ["nvim-rs", "async-compat", "async-trait", "tokio"]
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 async-compat = { workspace = true, "optional" = true }
 async-trait = { workspace = true, "optional" = true }

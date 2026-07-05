@@ -79,7 +79,7 @@ impl ActivityIndicator {
     ) -> Entity<ActivityIndicator> {
         let project = workspace.project().clone();
         let this = cx.new(|cx| {
-            let mut status_events = languages.language_server_binary_statuses();
+            let status_events = languages.language_server_binary_statuses();
             #[cfg(feature = "hotpath")]
             let mut status_events = hotpath::stream!(status_events, label = "language_server_binary_statuses");
             cx.spawn(async move |this, cx| {

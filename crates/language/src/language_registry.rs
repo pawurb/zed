@@ -377,7 +377,7 @@ impl LanguageRegistry {
     ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
         let (servers_tx, servers_rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (servers_tx, servers_rx) = hotpath::channel!((servers_tx, servers_rx));
+        let (servers_tx, servers_rx) = hotpath::channel!((servers_tx, servers_rx), proxy = true);
         self.state.write().fake_server_entries.insert(
             lsp_name,
             FakeLanguageServerEntry {
@@ -863,7 +863,7 @@ impl LanguageRegistry {
     ) -> oneshot::Receiver<Result<Arc<Language>>> {
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
 
         let mut state = self.state.write();
 
@@ -1209,7 +1209,7 @@ impl ServerStatusSender {
     fn subscribe(&self) -> mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)> {
         let (tx, rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         self.txs.lock().push(tx);
         rx
     }

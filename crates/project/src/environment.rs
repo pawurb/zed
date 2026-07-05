@@ -45,7 +45,7 @@ impl ProjectEnvironment {
     ) -> Self {
         let (tx, mut rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, mut rx) = hotpath::channel!((tx, rx));
+        let (tx, mut rx) = hotpath::channel!((tx, rx), proxy = true);
         let task = cx.spawn(async move |this, cx| {
             while let Some(message) = rx.next().await {
                 this.update(cx, |this, cx| {

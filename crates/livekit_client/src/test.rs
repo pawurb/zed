@@ -688,7 +688,7 @@ impl Room {
         let server = TestServer::get(&url)?;
         let (updates_tx, updates_rx) = mpsc::channel(1024);
         #[cfg(feature = "hotpath")]
-        let (updates_tx, updates_rx) = hotpath::channel!((updates_tx, updates_rx), capacity = 1024);
+        let (updates_tx, updates_rx) = hotpath::channel!((updates_tx, updates_rx), capacity = 1024, proxy = true);
         let this = Self(Arc::new(Mutex::new(RoomState {
             local_identity: ParticipantIdentity(String::new()),
             url: url.to_string(),

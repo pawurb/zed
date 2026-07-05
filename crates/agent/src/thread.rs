@@ -1849,7 +1849,7 @@ impl Thread {
 
         let (events_tx, events_rx) = mpsc::unbounded::<Result<ThreadEvent>>();
         #[cfg(feature = "hotpath")]
-        let (events_tx, events_rx) = hotpath::channel!((events_tx, events_rx));
+        let (events_tx, events_rx) = hotpath::channel!((events_tx, events_rx), proxy = true);
         let event_stream = ThreadEventStream(events_tx);
         let message_ix = self.messages.len().saturating_sub(1);
         self.clear_summary();

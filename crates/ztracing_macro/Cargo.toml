@@ -10,7 +10,7 @@ proc-macro = true
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 
 [features]
 channels-console = ["dep:channels-console"]

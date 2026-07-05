@@ -117,7 +117,7 @@ impl RemoteBufferStore {
     ) -> Task<Result<Entity<Buffer>>> {
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         self.remote_buffer_listeners.entry(id).or_default().push(tx);
 
         cx.spawn(async move |this, cx| {

@@ -25,7 +25,7 @@ test-support = ["gpui/test-support", "fs/test-support"]
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 collections.workspace = true
 ec4rs.workspace = true

@@ -164,7 +164,7 @@ impl State {
 
 impl CloudLanguageModelProvider {
     pub fn new(user_store: Entity<UserStore>, client: Arc<Client>, cx: &mut App) -> Self {
-        let mut status_rx = client.status();
+        let status_rx = client.status();
         let status = *status_rx.borrow();
         #[cfg(feature = "hotpath")]
         let mut status_rx = hotpath::stream!(status_rx, label = "cloud_client_status");

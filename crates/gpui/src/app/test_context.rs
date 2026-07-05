@@ -508,7 +508,7 @@ impl TestAppContext {
     ) -> impl Stream<Item = ()> + use<T> {
         let (tx, rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         self.update(|cx| {
             cx.observe(entity, {
                 let tx = tx.clone();
@@ -533,7 +533,7 @@ impl TestAppContext {
     {
         let (tx, rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         entity
             .update(self, |_, cx: &mut Context<T>| {
                 cx.subscribe(entity, move |_entity, _handle, event, _cx| {
@@ -619,7 +619,7 @@ impl<V: 'static> Entity<V> {
 
         let (mut tx, mut rx) = postage::mpsc::channel(1);
         #[cfg(feature = "hotpath")]
-        let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 1);
+        let (mut tx, mut rx) = hotpath::channel!((tx, rx), capacity = 1, proxy = true);
         let subscription = cx.app.borrow_mut().observe(self, move |_, _| {
             tx.try_send(()).ok();
         });
@@ -650,7 +650,7 @@ impl<V> Entity<V> {
 
         let (tx, mut rx) = postage::mpsc::channel(1024);
         #[cfg(feature = "hotpath")]
-        let (tx, mut rx) = hotpath::channel!((tx, rx), capacity = 1024);
+        let (tx, mut rx) = hotpath::channel!((tx, rx), capacity = 1024, proxy = true);
 
         let mut cx = cx.app.borrow_mut();
         let subscriptions = (

@@ -25,7 +25,7 @@ test-support = ["clock/test-support", "collections/test-support", "gpui/test-sup
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 anyhow.workspace = true
 async-channel.workspace = true
 async-tungstenite = { workspace = true, features = ["tokio", "tokio-rustls-manual-roots"] }

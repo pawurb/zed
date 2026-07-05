@@ -714,7 +714,7 @@ impl CodegenAlternative {
                 let model_provider_id = model_provider_id.clone();
                 let (mut diff_tx, mut diff_rx) = mpsc::channel(1);
                 #[cfg(feature = "hotpath")]
-                let (mut diff_tx, mut diff_rx) = hotpath::channel!((diff_tx, diff_rx), capacity = 1);
+                let (mut diff_tx, mut diff_rx) = hotpath::channel!((diff_tx, diff_rx), capacity = 1, proxy = true);
                 let message_id = message_id.clone();
                 let line_based_stream_diff: Task<anyhow::Result<()>> = cx.background_spawn({
                     let anthropic_reporter = anthropic_reporter.clone();
@@ -1912,7 +1912,7 @@ mod tests {
     ) -> mpsc::UnboundedSender<String> {
         let (chunks_tx, chunks_rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (chunks_tx, chunks_rx) = hotpath::channel!((chunks_tx, chunks_rx));
+        let (chunks_tx, chunks_rx) = hotpath::channel!((chunks_tx, chunks_rx), proxy = true);
         let model = Arc::new(FakeLanguageModel::default());
         codegen.update(cx, |codegen, cx| {
             codegen.generation = codegen.handle_stream(

@@ -1152,7 +1152,7 @@ impl LocalWorktree {
         let settings = self.settings.clone();
         let (scan_states_tx, mut scan_states_rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (scan_states_tx, mut scan_states_rx) = hotpath::channel!((scan_states_tx, scan_states_rx));
+        let (scan_states_tx, mut scan_states_rx) = hotpath::channel!((scan_states_tx, scan_states_rx), proxy = true);
         let background_scanner = cx.background_spawn({
             let abs_path = snapshot.abs_path.as_path().to_path_buf();
             let background = cx.background_executor().clone();
@@ -1397,7 +1397,7 @@ impl LocalWorktree {
     ) -> impl Future<Output = Result<()>> + use<> {
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         if self.snapshot.completed_scan_id >= scan_id {
             tx.send(()).ok();
         } else {
@@ -2092,7 +2092,7 @@ impl RemoteWorktree {
     {
         let (tx, mut rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, mut rx) = hotpath::channel!((tx, rx));
+        let (tx, mut rx) = hotpath::channel!((tx, rx), proxy = true);
         let initial_update = self
             .snapshot
             .build_initial_update(project_id, self.id().to_proto());

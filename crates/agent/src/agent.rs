@@ -1989,7 +1989,7 @@ impl ThreadEnvironment for NativeThreadEnvironment {
 
             let (drop_tx, drop_rx) = oneshot::channel();
             #[cfg(feature = "hotpath")]
-            let (drop_tx, drop_rx) = hotpath::channel!((drop_tx, drop_rx));
+            let (drop_tx, drop_rx) = hotpath::channel!((drop_tx, drop_rx), proxy = true);
             let terminal_id = terminal.read_with(cx, |terminal, _cx| terminal.id().clone());
 
             cx.spawn(async move |cx| {

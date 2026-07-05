@@ -1451,7 +1451,7 @@ impl LanguageServer {
 
         let (tx, rx) = oneshot::channel();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         let handle_response = response_handlers
             .lock()
             .as_mut()
@@ -1996,7 +1996,7 @@ impl FakeLanguageServer {
     {
         let (responded_tx, responded_rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (responded_tx, responded_rx) = hotpath::channel!((responded_tx, responded_rx));
+        let (responded_tx, responded_rx) = hotpath::channel!((responded_tx, responded_rx), proxy = true);
         self.server.remove_request_handler::<T>();
         self.server
             .on_request::<T, _, _>(move |params, cx| {
@@ -2030,7 +2030,7 @@ impl FakeLanguageServer {
     {
         let (handled_tx, handled_rx) = futures::channel::mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (handled_tx, handled_rx) = hotpath::channel!((handled_tx, handled_rx));
+        let (handled_tx, handled_rx) = hotpath::channel!((handled_tx, handled_rx), proxy = true);
         self.server.remove_notification_handler::<T>();
         self.server
             .on_notification::<T, _>(move |params, cx| {

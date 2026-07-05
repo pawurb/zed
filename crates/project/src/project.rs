@@ -1166,7 +1166,7 @@ impl Project {
         cx.new(|cx: &mut Context<Self>| {
             let (tx, rx) = mpsc::unbounded();
             #[cfg(feature = "hotpath")]
-            let (tx, rx) = hotpath::channel!((tx, rx), label = "operation_logs");
+            let (tx, rx) = hotpath::channel!((tx, rx), label = "operation_logs", proxy = true);
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
@@ -1373,7 +1373,7 @@ impl Project {
         cx.new(|cx: &mut Context<Self>| {
             let (tx, rx) = mpsc::unbounded();
             #[cfg(feature = "hotpath")]
-            let (tx, rx) = hotpath::channel!((tx, rx));
+            let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
@@ -1828,7 +1828,7 @@ impl Project {
 
             let (tx, rx) = mpsc::unbounded();
             #[cfg(feature = "hotpath")]
-            let (tx, rx) = hotpath::channel!((tx, rx));
+            let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
 

@@ -312,7 +312,7 @@ impl OpenListener {
     pub fn new() -> (Self, UnboundedReceiver<RawOpenRequest>) {
         let (tx, rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (tx, rx) = hotpath::channel!((tx, rx));
+        let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
         (OpenListener(tx), rx)
     }
 
@@ -840,7 +840,7 @@ async fn open_local_workspace(
         if wait_for_window_close {
             let (release_tx, release_rx) = oneshot::channel();
             #[cfg(feature = "hotpath")]
-            let (release_tx, release_rx) = hotpath::channel!((release_tx, release_rx));
+            let (release_tx, release_rx) = hotpath::channel!((release_tx, release_rx), proxy = true);
             item_release_futures.push(release_rx);
             subscriptions.push(workspace.update(cx, |_, _, cx| {
                 cx.on_release(move |_, _| {

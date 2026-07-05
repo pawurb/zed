@@ -25,7 +25,7 @@ test-support = ["dep:parking_lot"]
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 parking_lot = { workspace = true, optional = true }
 serde.workspace = true
 smallvec.workspace = true

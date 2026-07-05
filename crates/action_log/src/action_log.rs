@@ -166,7 +166,7 @@ impl ActionLog {
                 });
                 let (diff_update_tx, diff_update_rx) = mpsc::unbounded();
                 #[cfg(feature = "hotpath")]
-                let (diff_update_tx, diff_update_rx) = hotpath::channel!((diff_update_tx, diff_update_rx));
+                let (diff_update_tx, diff_update_rx) = hotpath::channel!((diff_update_tx, diff_update_rx), proxy = true);
                 let diff_base;
                 let unreviewed_edits;
                 if is_created {

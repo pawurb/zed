@@ -132,10 +132,10 @@ impl Peer {
         const INCOMING_BUFFER_SIZE: usize = 256;
         let (mut incoming_tx, incoming_rx) = mpsc::channel(INCOMING_BUFFER_SIZE);
         #[cfg(feature = "hotpath")]
-        let (mut incoming_tx, incoming_rx) = hotpath::channel!((incoming_tx, incoming_rx), capacity = INCOMING_BUFFER_SIZE);
+        let (mut incoming_tx, incoming_rx) = hotpath::channel!((incoming_tx, incoming_rx), capacity = INCOMING_BUFFER_SIZE, proxy = true);
         let (outgoing_tx, mut outgoing_rx) = mpsc::unbounded();
         #[cfg(feature = "hotpath")]
-        let (outgoing_tx, mut outgoing_rx) = hotpath::channel!((outgoing_tx, outgoing_rx));
+        let (outgoing_tx, mut outgoing_rx) = hotpath::channel!((outgoing_tx, outgoing_rx), proxy = true);
 
         let connection_id = ConnectionId {
             owner_id: self.epoch.load(SeqCst),

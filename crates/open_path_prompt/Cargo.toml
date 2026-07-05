@@ -7,7 +7,7 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 file_icons.workspace = true
 futures.workspace = true
 fuzzy.workspace = true

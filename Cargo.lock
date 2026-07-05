@@ -146,7 +146,7 @@ checksum = "b169f7a6d4742236a0a00c541b845991d0ac43e546831af1249753ab4c3aa3a0"
 dependencies = [
  "cfg-if",
  "cipher",
- "cpufeatures",
+ "cpufeatures 0.2.17",
  "zeroize",
 ]
 
@@ -243,7 +243,7 @@ dependencies = [
  "futures 0.3.32",
  "futures-concurrency",
  "jsonrpcmsg",
- "rmcp 1.3.0",
+ "rmcp",
  "rustc-hash 2.1.1",
  "schemars 1.0.4",
  "serde",
@@ -2856,6 +2856,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "chacha20"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d524456ba66e72eb8b115ff89e01e497f8e6d11d78b70b1aa13c0fbd97540a81"
+dependencies = [
+ "cfg-if",
+ "cpufeatures 0.3.0",
+ "rand_core 0.10.1",
+]
+
+[[package]]
 name = "channel"
 version = "0.1.0"
 dependencies = [
@@ -4088,6 +4099,15 @@ name = "cpufeatures"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280"
+dependencies = [
+ "libc",
+]
+
+[[package]]
+name = "cpufeatures"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b2a41393f66f16b0823bb79094d54ac5fbd34ab292ddafb9a0456ac9f87d201"
 dependencies = [
  "libc",
 ]
@@ -7445,6 +7465,7 @@ dependencies = [
  "cfg-if",
  "libc",
  "r-efi",
+ "rand_core 0.10.1",
  "wasip2",
  "wasip3",
 ]
@@ -8596,10 +8617,11 @@ dependencies = [
 
 [[package]]
 name = "hotpath"
-version = "0.16.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0482d7c2c47acfec79b90e55188e8b86c66fd9d541335eac3ce3f73055984643"
+checksum = "8e0674287dffa1a67dc780f021c31cb0c249585b7281fe37507a20e62d9c3f50"
 dependencies = [
+ "arc-swap",
  "axum 0.8.9",
  "cfg-if",
  "crossbeam-channel",
@@ -8615,7 +8637,7 @@ dependencies = [
  "prettytable-rs",
  "quanta",
  "regex",
- "rmcp 0.13.0",
+ "rmcp",
  "rustc-demangle",
  "schemars 1.0.4",
  "serde",
@@ -8627,9 +8649,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros"
-version = "0.16.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0a541a2ab3263fcf42ff399ec68ddd458f4883aa656c6229f59092f94058eb2"
+checksum = "7e870a5675bcbeb61d8d4ee330bbad2240020e6cebc4cf36a163450110dcb480"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8638,9 +8660,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros-meta"
-version = "0.16.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08986d10e50e7c6c8e1798fb1bd63cdf275c0b59d6aad05989d5d86a0f2cb06e"
+checksum = "582606b125824218b0eabd8213f305f7015844ce57d302bd42e343e7653c07bf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8649,9 +8671,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-meta"
-version = "0.16.0"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fec29ccaa713ecf406bb6717331972fd2b932d889ddcc2bada67b264693fb9bf"
+checksum = "375f1440993dbe1de3b7c412ea803c02a0e6b3887b13bc50fa5f2cd1ec07db25"
 dependencies = [
  "arc-swap",
  "axum 0.8.9",
@@ -8666,7 +8688,7 @@ dependencies = [
  "prettytable-rs",
  "quanta",
  "regex",
- "rmcp 0.13.0",
+ "rmcp",
  "schemars 1.0.4",
  "serde",
  "serde_json",
@@ -14618,6 +14640,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7f5fa3a058cd35567ef9bfa5e75732bee0f9e4c55fa90477bef2dfcdbc4be80"
+dependencies = [
+ "chacha20",
+ "getrandom 0.4.1",
+ "rand_core 0.10.1",
+]
+
+[[package]]
 name = "rand_chacha"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -14669,6 +14702,12 @@ checksum = "99d9a13982dcf210057a8a78572b2217b667c3beacbf3a0d8b454f6f82837d38"
 dependencies = [
  "getrandom 0.3.4",
 ]
+
+[[package]]
+name = "rand_core"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "63b8176103e19a2643978565ca18b50549f6101881c443590420e4dc998a3c69"
 
 [[package]]
 name = "rand_distr"
@@ -15458,12 +15497,11 @@ dependencies = [
 
 [[package]]
 name = "rmcp"
-version = "0.13.0"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1815dbc06c414d720f8bc1951eccd66bc99efc6376331f1e7093a119b3eb508"
+checksum = "1d1f571c72940a19d9532fe52dbea8bc9912bf1d766c2970bb824056b86f3f59"
 dependencies = [
  "async-trait",
- "axum 0.8.9",
  "base64 0.22.1",
  "bytes 1.11.1",
  "chrono",
@@ -15473,8 +15511,8 @@ dependencies = [
  "http-body-util",
  "pastey 0.2.1",
  "pin-project-lite",
- "rand 0.9.3",
- "rmcp-macros 0.13.0",
+ "rand 0.10.2",
+ "rmcp-macros",
  "schemars 1.0.4",
  "serde",
  "serde_json",
@@ -15489,45 +15527,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "rmcp"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2231b2c085b371c01bc90c0e6c1cab8834711b6394533375bdbf870b0166d419"
-dependencies = [
- "async-trait",
- "base64 0.22.1",
- "chrono",
- "futures 0.3.32",
- "pastey 0.2.1",
- "pin-project-lite",
- "rmcp-macros 1.3.0",
- "schemars 1.0.4",
- "serde",
- "serde_json",
- "thiserror 2.0.17",
- "tokio",
- "tokio-util",
- "tracing",
-]
-
-[[package]]
 name = "rmcp-macros"
-version = "0.13.0"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11f0bc7008fa102e771a76c6d2c9b253be3f2baa5964e060464d038ae1cbc573"
-dependencies = [
- "darling 0.23.0",
- "proc-macro2",
- "quote",
- "serde_json",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "rmcp-macros"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36ea0e100fadf81be85d7ff70f86cd805c7572601d4ab2946207f36540854b43"
+checksum = "1aad0035b69380782d78ea95b508327e6deaa2235909053e596eea8f27b5e1d5"
 dependencies = [
  "darling 0.23.0",
  "proc-macro2",
@@ -16816,7 +16819,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f5058ada175748e33390e40e872bd0fe59a19f265d0158daa551c5a88a76009c"
 dependencies = [
  "cfg-if",
- "cpufeatures",
+ "cpufeatures 0.2.17",
  "digest",
 ]
 
@@ -16827,7 +16830,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3bf829a2d51ab4a5ddf1352d8470c140cadc8301b2ae1789db023f01cedd6ba"
 dependencies = [
  "cfg-if",
- "cpufeatures",
+ "cpufeatures 0.2.17",
  "digest",
 ]
 
@@ -16844,7 +16847,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7507d819769d01a365ab707794a4084392c824f54a7a6a7862f8c3d0892b283"
 dependencies = [
  "cfg-if",
- "cpufeatures",
+ "cpufeatures 0.2.17",
  "digest",
 ]
 

@@ -24,7 +24,7 @@ default = []
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.16", features = ["futures"] }
+hotpath = { version = "0.20", features = ["futures"] }
 client.workspace = true
 cloud_api_types.workspace = true
 component.workspace = true

@@ -607,7 +607,7 @@ impl WasmHost {
         work_dir: PathBuf,
         cx: &mut App,
     ) -> Arc<Self> {
-        let (tx, mut rx) = mpsc::unbounded::<MainThreadCall>();
+        let (tx, rx) = mpsc::unbounded::<MainThreadCall>();
         #[cfg(feature = "hotpath")]
         let mut rx = hotpath::stream!(rx, label = "extension_main_thread_calls");
         let task = cx.spawn(async move |cx| {
@@ -690,7 +690,7 @@ impl WasmHost {
                 .await
                 .context("failed to initialize wasm extension")?;
 
-            let (tx, mut rx) = mpsc::unbounded::<ExtensionCall>();
+            let (tx, rx) = mpsc::unbounded::<ExtensionCall>();
             #[cfg(feature = "hotpath")]
             let mut rx = hotpath::stream!(rx, label = "extension_calls");
             let extension_task = async move {

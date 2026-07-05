@@ -379,7 +379,7 @@ impl ExtensionStore {
             let reload_tx = this.reload_tx.clone();
             let installed_dir = this.installed_dir.clone();
             async move {
-                let (mut paths, _) = fs.watch(&installed_dir, FS_WATCH_LATENCY).await;
+                let (paths, _) = fs.watch(&installed_dir, FS_WATCH_LATENCY).await;
                 #[cfg(feature = "hotpath")]
                 let mut paths = hotpath::stream!(paths, label = "extension_dir_watch");
                 while let Some(events) = paths.next().await {

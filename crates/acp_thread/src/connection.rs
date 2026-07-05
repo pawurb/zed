@@ -888,7 +888,7 @@ mod test_support {
             if self.next_prompt_updates.lock().is_empty() {
                 let (tx, rx) = oneshot::channel();
                 #[cfg(feature = "hotpath")]
-                let (tx, rx) = hotpath::channel!((tx, rx));
+                let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
                 response_tx.replace(tx);
                 cx.spawn(async move |_| {
                     let stop_reason = rx.await?;

@@ -326,7 +326,7 @@ impl LanguageModel for FakeLanguageModel {
         } else {
             let (tx, rx) = mpsc::unbounded();
             #[cfg(feature = "hotpath")]
-            let (tx, rx) = hotpath::channel!((tx, rx));
+            let (tx, rx) = hotpath::channel!((tx, rx), proxy = true);
             self.current_completion_txs.lock().push((request, tx));
             async move { Ok(rx.boxed()) }.boxed()
         }
