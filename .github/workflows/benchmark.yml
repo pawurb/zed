@@ -23,11 +23,11 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Build editor
         run: |
-          cargo build --profile release-fast -p zed \
+          cargo build -p zed \
             --features hotpath,hotpath-alloc,hotpath-cloud
       - name: Run editor and upload report
         env:
           HOTPATH_UPLOAD: "1"
           HOTPATH_BENCHMARK: editor_startup
           HOTPATH_SHUTDOWN_MS: "10000"
-        run: ./target/release-fast/zed
+        run: ./target/debug/zed
