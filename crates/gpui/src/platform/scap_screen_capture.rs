@@ -110,7 +110,7 @@ impl ScreenCaptureSource for ScapCaptureSource {
 
 struct ScapDefaultTargetCaptureSource {
     // Sender populated by single call to `ScreenCaptureSource::stream`.
-    stream_call_tx: std::sync::mpsc::SyncSender<(
+    stream_call_tx: hotpath::wrap::std::sync::mpsc::SyncSender<(
         // Provides the result of `ScreenCaptureSource::stream`.
         oneshot::Sender<Result<ScapStream>>,
         // Callback for frames.
@@ -142,7 +142,8 @@ fn start_default_target_screen_capture(
 
         match start_result {
             Ok((capturer, size, Target::Display(display))) => {
-                let (stream_call_tx, stream_rx) = std::sync::mpsc::sync_channel(1);
+                let (stream_call_tx, stream_rx) =
+                    hotpath::channel!(std::sync::mpsc::sync_channel(1), capacity = 1);
                 sources_tx
                     .send(Ok(vec![ScapDefaultTargetCaptureSource {
                         stream_call_tx,

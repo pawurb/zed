@@ -203,7 +203,7 @@ enum DownstreamUpdate {
 struct LocalDownstreamState {
     client: AnyProtoClient,
     project_id: ProjectId,
-    updates_tx: mpsc::UnboundedSender<DownstreamUpdate>,
+    updates_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<DownstreamUpdate>,
     _task: Task<Result<()>>,
 }
 
@@ -747,7 +747,7 @@ impl GitStore {
                 ..
             } => {
                 let mut snapshots = HashMap::default();
-                let (updates_tx, mut updates_rx) = mpsc::unbounded();
+                let (updates_tx, mut updates_rx) = hotpath::channel!(mpsc::unbounded());
                 for repo in self.repositories.values() {
                     updates_tx
                         .unbounded_send(DownstreamUpdate::UpdateRepository(
@@ -1604,7 +1604,7 @@ impl GitStore {
         worktree_id: WorktreeId,
         project_environment: Entity<ProjectEnvironment>,
         next_repository_id: Arc<AtomicU64>,
-        updates_tx: Option<mpsc::UnboundedSender<DownstreamUpdate>>,
+        updates_tx: Option<hotpath::wrap::futures_channel::mpsc::UnboundedSender<DownstreamUpdate>>,
         updated_git_repositories: UpdatedGitRepositoriesSet,
         fs: Arc<dyn Fs>,
         cx: &mut Context<Self>,
@@ -7383,7 +7383,7 @@ impl Repository {
 
     fn schedule_scan(
         &mut self,
-        updates_tx: Option<mpsc::UnboundedSender<DownstreamUpdate>>,
+        updates_tx: Option<hotpath::wrap::futures_channel::mpsc::UnboundedSender<DownstreamUpdate>>,
         cx: &mut Context<Self>,
     ) {
         let this = cx.weak_entity();
@@ -7604,7 +7604,7 @@ impl Repository {
     fn paths_changed(
         &mut self,
         paths: Vec<RepoPath>,
-        updates_tx: Option<mpsc::UnboundedSender<DownstreamUpdate>>,
+        updates_tx: Option<hotpath::wrap::futures_channel::mpsc::UnboundedSender<DownstreamUpdate>>,
         cx: &mut Context<Self>,
     ) {
         if !paths.is_empty() {

@@ -75,11 +75,7 @@ use debugger::{
 
 pub use environment::ProjectEnvironment;
 
-use futures::{
-    StreamExt,
-    channel::mpsc::{self, UnboundedReceiver},
-    future::try_join_all,
-};
+use futures::{StreamExt, channel::mpsc, future::try_join_all};
 pub use image_store::{ImageItem, ImageStore};
 use image_store::{ImageItemEvent, ImageStoreEvent};
 
@@ -212,7 +208,8 @@ pub enum OpenedBufferEvent {
 /// Can be either local (for the project opened on the same host) or remote.(for collab projects, browsed by multiple remote users).
 pub struct Project {
     active_entry: Option<ProjectEntryId>,
-    buffer_ordered_messages_tx: mpsc::UnboundedSender<BufferOrderedMessage>,
+    buffer_ordered_messages_tx:
+        hotpath::wrap::futures_channel::mpsc::UnboundedSender<BufferOrderedMessage>,
     languages: Arc<LanguageRegistry>,
     dap_store: Entity<DapStore>,
     agent_server_store: Entity<AgentServerStore>,
@@ -1114,6 +1111,7 @@ impl DisableAiSettings {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Project {
     pub fn init(client: &Arc<Client>, cx: &mut App) {
         connection_manager::init(client.clone(), cx);
@@ -1151,6 +1149,7 @@ impl Project {
         context_server_store::init(cx);
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn local(
         client: Arc<Client>,
         node: NodeRuntime,
@@ -1162,7 +1161,7 @@ impl Project {
         cx: &mut App,
     ) -> Entity<Self> {
         cx.new(|cx: &mut Context<Self>| {
-            let (tx, rx) = mpsc::unbounded();
+            let (tx, rx) = hotpath::channel!(mpsc::unbounded(), label = "operation_logs");
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
@@ -1367,7 +1366,7 @@ impl Project {
         cx: &mut App,
     ) -> Entity<Self> {
         cx.new(|cx: &mut Context<Self>| {
-            let (tx, rx) = mpsc::unbounded();
+            let (tx, rx) = hotpath::channel!(mpsc::unbounded());
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
             let snippets = SnippetProvider::new(fs.clone(), BTreeSet::from_iter([]), cx);
@@ -1820,7 +1819,7 @@ impl Project {
                 worktrees.push(worktree);
             }
 
-            let (tx, rx) = mpsc::unbounded();
+            let (tx, rx) = hotpath::channel!(mpsc::unbounded());
             cx.spawn(async move |this, cx| Self::send_buffer_ordered_messages(this, rx, cx).await)
                 .detach();
 
@@ -1990,6 +1989,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub async fn example(
         root_paths: impl IntoIterator<Item = &Path>,
         cx: &mut AsyncApp,
@@ -2031,6 +2031,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub async fn test(
         fs: Arc<dyn Fs>,
         root_paths: impl IntoIterator<Item = &Path>,
@@ -2241,6 +2242,7 @@ impl Project {
 
     #[cfg(feature = "test-support")]
     #[inline]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn has_open_buffer(&self, path: impl Into<ProjectPath>, cx: &App) -> bool {
         self.buffer_store
             .read(cx)
@@ -3074,6 +3076,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn open_local_buffer_with_lsp(
         &mut self,
         abs_path: impl AsRef<Path>,
@@ -3169,6 +3172,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn open_buffer_with_lsp(
         &mut self,
         path: impl Into<ProjectPath>,
@@ -3339,7 +3343,7 @@ impl Project {
 
     async fn send_buffer_ordered_messages(
         project: WeakEntity<Self>,
-        rx: UnboundedReceiver<BufferOrderedMessage>,
+        rx: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<BufferOrderedMessage>,
         cx: &mut AsyncApp,
     ) -> Result<()> {
         const MAX_BATCH_SIZE: usize = 128;
@@ -6017,6 +6021,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn has_language_servers_for(&self, buffer: &Buffer, cx: &mut App) -> bool {
         self.lsp_store.update(cx, |this, cx| {
             this.running_language_servers_for_local_buffer(buffer, cx)
@@ -6053,6 +6058,7 @@ impl Project {
     }
 
     #[cfg(feature = "test-support")]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn git_scans_complete(&self, cx: &Context<Self>) -> Task<()> {
         use futures::future::join_all;
         cx.spawn(async move |this, cx| {

@@ -111,7 +111,7 @@ pub struct UserStore {
     users: HashMap<u64, Arc<User>>,
     by_github_login: HashMap<SharedString, u64>,
     participant_indices: HashMap<u64, ParticipantIndex>,
-    update_contacts_tx: mpsc::UnboundedSender<UpdateContacts>,
+    update_contacts_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<UpdateContacts>,
     edit_prediction_usage: Option<EditPredictionUsage>,
     plan_info: Option<PlanInfo>,
     current_user: watch::Receiver<Option<Arc<User>>>,
@@ -176,7 +176,7 @@ impl UserStore {
     pub fn new(client: Arc<Client>, cx: &Context<Self>) -> Self {
         let (mut current_user_tx, current_user_rx) = watch::channel();
         let (sign_out_tx, mut sign_out_rx) = mpsc::unbounded();
-        let (update_contacts_tx, mut update_contacts_rx) = mpsc::unbounded();
+        let (update_contacts_tx, mut update_contacts_rx) = hotpath::channel!(mpsc::unbounded());
         let rpc_subscriptions = vec![
             client.add_message_handler(cx.weak_entity(), Self::handle_update_contacts),
             client.add_message_handler(cx.weak_entity(), Self::handle_show_contacts),

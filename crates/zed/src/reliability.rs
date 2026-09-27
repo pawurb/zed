@@ -96,7 +96,7 @@ fn monitor_hangs(cx: &App) {
     let background_executor = cx.background_executor();
 
     // 3 seconds hang
-    let (mut tx, mut rx) = futures::channel::mpsc::channel(3);
+    let (mut tx, mut rx) = hotpath::channel!(futures::channel::mpsc::channel(3), capacity = 3);
     foreground_executor
         .spawn(async move { while (rx.next().await).is_some() {} })
         .detach();

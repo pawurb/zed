@@ -130,7 +130,7 @@ pub struct LocalWorktree {
     scan_requests_tx: async_channel::Sender<ScanRequest>,
     path_prefixes_to_scan_tx: async_channel::Sender<PathPrefixScanRequest>,
     is_scanning: (watch::Sender<bool>, watch::Receiver<bool>),
-    snapshot_subscriptions: VecDeque<(usize, oneshot::Sender<()>)>,
+    snapshot_subscriptions: VecDeque<(usize, hotpath::wrap::futures_channel::oneshot::Sender<()>)>,
     _background_scanner_tasks: Vec<Task<()>>,
     update_observer: Option<UpdateObservationState>,
     fs: Arc<dyn Fs>,
@@ -159,7 +159,8 @@ pub struct RemoteWorktree {
     client: AnyProtoClient,
     file_scan_inclusions: PathMatcher,
     updates_tx: Option<UnboundedSender<proto::UpdateWorktree>>,
-    update_observer: Option<mpsc::UnboundedSender<proto::UpdateWorktree>>,
+    update_observer:
+        Option<hotpath::wrap::futures_channel::mpsc::UnboundedSender<proto::UpdateWorktree>>,
     snapshot_subscriptions: VecDeque<(usize, oneshot::Sender<()>)>,
     replica_id: ReplicaId,
     visible: bool,
@@ -382,6 +383,7 @@ pub enum Event {
 
 impl EventEmitter<Event> for Worktree {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Worktree {
     pub async fn local(
         path: impl Into<Arc<Path>>,
@@ -1105,6 +1107,7 @@ impl Worktree {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalWorktree {
     pub fn fs(&self) -> &Arc<dyn Fs> {
         &self.fs
@@ -1148,7 +1151,7 @@ impl LocalWorktree {
         let fs = self.fs.clone();
         let scanning_enabled = self.scanning_enabled;
         let settings = self.settings.clone();
-        let (scan_states_tx, mut scan_states_rx) = mpsc::unbounded();
+        let (scan_states_tx, mut scan_states_rx) = hotpath::channel!(mpsc::unbounded());
         let background_scanner = cx.background_spawn({
             let abs_path = snapshot.abs_path.as_path().to_path_buf();
             let background = cx.background_executor().clone();
@@ -1391,7 +1394,7 @@ impl LocalWorktree {
         &mut self,
         scan_id: usize,
     ) -> impl Future<Output = Result<()>> + use<> {
-        let (tx, rx) = oneshot::channel();
+        let (tx, rx) = hotpath::channel!(oneshot::channel());
         if self.snapshot.completed_scan_id >= scan_id {
             tx.send(()).ok();
         } else {
@@ -2084,7 +2087,7 @@ impl RemoteWorktree {
         F: 'static + Send + Fn(proto::UpdateWorktree) -> Fut,
         Fut: 'static + Send + Future<Output = bool>,
     {
-        let (tx, mut rx) = mpsc::unbounded();
+        let (tx, mut rx) = hotpath::channel!(mpsc::unbounded());
         let initial_update = self
             .snapshot
             .build_initial_update(project_id, self.id().to_proto());
@@ -2299,6 +2302,7 @@ impl RemoteWorktree {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Snapshot {
     pub fn new(
         id: WorktreeId,
@@ -3927,7 +3931,7 @@ struct BackgroundScanner {
     state: async_lock::Mutex<BackgroundScannerState>,
     fs: Arc<dyn Fs>,
     fs_case_sensitive: bool,
-    status_updates_tx: UnboundedSender<ScanState>,
+    status_updates_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<ScanState>,
     executor: BackgroundExecutor,
     scan_requests_rx: async_channel::Receiver<ScanRequest>,
     path_prefixes_to_scan_rx: async_channel::Receiver<PathPrefixScanRequest>,
@@ -3948,6 +3952,7 @@ enum BackgroundScannerPhase {
     Events,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BackgroundScanner {
     async fn run(&mut self, mut fs_events_rx: Pin<Box<dyn Send + Stream<Item = Vec<PathEvent>>>>) {
         let root_abs_path;
@@ -4263,6 +4268,7 @@ impl BackgroundScanner {
         events
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     async fn process_events(&self, mut events: Vec<PathEvent>) {
         let root_path = self.state.lock().await.snapshot.abs_path.clone();
         let root_canonical_path = self.fs.canonicalize(root_path.as_path()).await;
@@ -4611,6 +4617,7 @@ impl BackgroundScanner {
         !mem::take(&mut self.state.lock().await.paths_to_scan).is_empty()
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     async fn scan_dirs(
         &self,
         enable_progress_updates: bool,
@@ -4715,6 +4722,7 @@ impl BackgroundScanner {
             .is_ok()
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     async fn scan_dir(&self, job: &ScanJob) -> Result<()> {
         let root_abs_path;
         let root_char_bag;
@@ -5132,6 +5140,7 @@ impl BackgroundScanner {
         Some(())
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     async fn update_ignore_statuses_for_paths(
         &self,
         scan_job_tx: Sender<ScanJob>,
@@ -5485,6 +5494,7 @@ impl BackgroundScanner {
         affected_repo_roots
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     async fn progress_timer(&self, running: bool) {
         if !running {
             return futures::future::pending().await;

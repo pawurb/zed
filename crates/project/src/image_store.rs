@@ -179,9 +179,12 @@ impl ImageItem {
         }
     }
 
-    fn reload(&mut self, cx: &mut Context<Self>) -> Option<oneshot::Receiver<()>> {
+    fn reload(
+        &mut self,
+        cx: &mut Context<Self>,
+    ) -> Option<hotpath::wrap::futures_channel::oneshot::Receiver<()>> {
         let local_file = self.file.as_local()?;
-        let (tx, rx) = futures::channel::oneshot::channel();
+        let (tx, rx) = hotpath::channel!(futures::channel::oneshot::channel());
 
         let content = local_file.load_bytes(cx);
         self.reload_task = Some(cx.spawn(async move |this, cx| {

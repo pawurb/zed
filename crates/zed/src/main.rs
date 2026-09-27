@@ -178,6 +178,7 @@ fn fail_to_open_window(e: anyhow::Error, _cx: &mut App) {
 }
 static STARTUP_TIME: OnceLock<Instant> = OnceLock::new();
 
+#[cfg_attr(feature = "hotpath", hotpath::main(limit = 50))]
 fn main() {
     STARTUP_TIME.get_or_init(|| Instant::now());
 
@@ -409,7 +410,7 @@ fn main() {
         paths::keymap_file().clone(),
     );
 
-    let (shell_env_loaded_tx, shell_env_loaded_rx) = oneshot::channel();
+    let (shell_env_loaded_tx, shell_env_loaded_rx) = hotpath::channel!(oneshot::channel());
     if !stdout_is_a_pty() {
         app.background_executor()
             .spawn(async {
@@ -1849,9 +1850,10 @@ fn load_user_themes_in_background(fs: Arc<dyn fs::Fs>, cx: &mut App) {
 fn watch_themes(fs: Arc<dyn fs::Fs>, cx: &mut App) {
     use std::time::Duration;
     cx.spawn(async move |cx| {
-        let (mut events, _) = fs
+        let (events, _) = fs
             .watch(paths::themes_dir(), Duration::from_millis(100))
             .await;
+        let mut events = hotpath::stream!(events, label = "theme_dir_watch", log = true);
 
         while let Some(paths) = events.next().await {
             for event in paths {
@@ -1879,10 +1881,11 @@ fn watch_languages(fs: Arc<dyn fs::Fs>, languages: Arc<LanguageRegistry>, cx: &m
             return;
         };
 
-        let (mut events, watcher) = fs.watch(&languages_src, Duration::from_millis(100)).await;
+        let (events, watcher) = fs.watch(&languages_src, Duration::from_millis(100)).await;
 
         // add subdirectories since fs.watch is not recursive on Linux
-        if let Some(mut paths) = fs.read_dir(&languages_src).await.log_err() {
+        if let Some(paths) = fs.read_dir(&languages_src).await.log_err() {
+            let mut paths = hotpath::stream!(paths, label = "language_dirs_read", log = true);
             while let Some(path) = paths.next().await {
                 if let Some(path) = path.log_err()
                     && fs.is_dir(&path).await
@@ -1892,6 +1895,7 @@ fn watch_languages(fs: Arc<dyn fs::Fs>, languages: Arc<LanguageRegistry>, cx: &m
             }
         }
 
+        let mut events = hotpath::stream!(events, label = "language_watch", log = true);
         while let Some(event) = events.next().await {
             let has_language_file = event
                 .iter()

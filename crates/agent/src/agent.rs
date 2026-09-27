@@ -33,7 +33,7 @@ use anyhow::{Context as _, Result, anyhow};
 use chrono::{DateTime, Utc};
 use collections::{HashMap, HashSet, IndexMap};
 use fs::Fs;
-use futures::channel::{mpsc, oneshot};
+use futures::channel::oneshot;
 use futures::future::Shared;
 use futures::{FutureExt as _, StreamExt as _, future};
 use gpui::{
@@ -1240,7 +1240,12 @@ impl NativeAgentConnection {
         session_id: acp::SessionId,
         cx: &mut App,
         f: impl 'static
-        + FnOnce(Entity<Thread>, &mut App) -> Result<mpsc::UnboundedReceiver<Result<ThreadEvent>>>,
+        + FnOnce(
+            Entity<Thread>,
+            &mut App,
+        ) -> Result<
+            hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+        >,
     ) -> Task<Result<acp::PromptResponse>> {
         let Some((thread, acp_thread)) = self.0.update(cx, |agent, _cx| {
             agent
@@ -1261,7 +1266,7 @@ impl NativeAgentConnection {
     }
 
     fn handle_thread_events(
-        mut events: mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+        mut events: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
         acp_thread: WeakEntity<AcpThread>,
         cx: &App,
     ) -> Task<Result<acp::PromptResponse>> {
@@ -1987,7 +1992,7 @@ impl ThreadEnvironment for NativeThreadEnvironment {
         cx.spawn(async move |cx| {
             let terminal = task?.await?;
 
-            let (drop_tx, drop_rx) = oneshot::channel();
+            let (drop_tx, drop_rx) = hotpath::channel!(oneshot::channel());
             let terminal_id = terminal.read_with(cx, |terminal, _cx| terminal.id().clone());
 
             cx.spawn(async move |cx| {
@@ -2172,7 +2177,7 @@ impl SubagentHandle for NativeSubagentHandle {
 
 pub struct AcpTerminalHandle {
     terminal: Entity<acp_thread::Terminal>,
-    _drop_tx: Option<oneshot::Sender<()>>,
+    _drop_tx: Option<hotpath::wrap::futures_channel::oneshot::Sender<()>>,
 }
 
 impl TerminalHandle for AcpTerminalHandle {

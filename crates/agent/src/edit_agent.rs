@@ -11,12 +11,7 @@ use anyhow::Result;
 use create_file_parser::{CreateFileParser, CreateFileParserEvent};
 pub use edit_parser::EditFormat;
 use edit_parser::{EditParser, EditParserEvent, EditParserMetrics};
-use futures::{
-    Stream, StreamExt,
-    channel::mpsc::{self, UnboundedReceiver},
-    pin_mut,
-    stream::BoxStream,
-};
+use futures::{Stream, StreamExt, channel::mpsc, pin_mut, stream::BoxStream};
 use gpui::{AppContext, AsyncApp, Entity, Task};
 use language::{Anchor, Buffer, BufferSnapshot, LineIndent, Point, TextBufferSnapshot};
 use language_model::{
@@ -115,10 +110,10 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<EditAgentOutput>>,
-        mpsc::UnboundedReceiver<EditAgentOutputEvent>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<EditAgentOutputEvent>,
     ) {
         let this = self.clone();
-        let (events_tx, events_rx) = mpsc::unbounded();
+        let (events_tx, events_rx) = hotpath::channel!(mpsc::unbounded());
         let conversation = conversation.clone();
         let output = cx.spawn(async move |cx| {
             let snapshot = buffer.read_with(cx, |buffer, _| buffer.snapshot());
@@ -148,9 +143,9 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<EditAgentOutput>>,
-        mpsc::UnboundedReceiver<EditAgentOutputEvent>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<EditAgentOutputEvent>,
     ) {
-        let (output_events_tx, output_events_rx) = mpsc::unbounded();
+        let (output_events_tx, output_events_rx) = hotpath::channel!(mpsc::unbounded());
         let (parse_task, parse_rx) = Self::parse_create_file_chunks(edit_chunks, cx);
         let this = self.clone();
         let task = cx.spawn(async move |cx| {
@@ -166,8 +161,12 @@ impl EditAgent {
     async fn overwrite_with_chunks_internal(
         &self,
         buffer: Entity<Buffer>,
-        mut parse_rx: UnboundedReceiver<Result<CreateFileParserEvent>>,
-        output_events_tx: mpsc::UnboundedSender<EditAgentOutputEvent>,
+        mut parse_rx: hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<
+            Result<CreateFileParserEvent>,
+        >,
+        output_events_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<
+            EditAgentOutputEvent,
+        >,
         cx: &mut AsyncApp,
     ) -> Result<()> {
         let buffer_id = cx.update(|cx| {
@@ -248,10 +247,10 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<EditAgentOutput>>,
-        mpsc::UnboundedReceiver<EditAgentOutputEvent>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<EditAgentOutputEvent>,
     ) {
         let this = self.clone();
-        let (events_tx, events_rx) = mpsc::unbounded();
+        let (events_tx, events_rx) = hotpath::channel!(mpsc::unbounded());
         let conversation = conversation.clone();
         let edit_format = self.edit_format;
         let output = cx.spawn(async move |cx| {
@@ -283,7 +282,7 @@ impl EditAgent {
         &self,
         buffer: Entity<Buffer>,
         edit_chunks: impl 'static + Send + Stream<Item = Result<String, LanguageModelCompletionError>>,
-        output_events: mpsc::UnboundedSender<EditAgentOutputEvent>,
+        output_events: hotpath::wrap::futures_channel::mpsc::UnboundedSender<EditAgentOutputEvent>,
         cx: &mut AsyncApp,
     ) -> Result<EditAgentOutput> {
         self.action_log
@@ -421,9 +420,9 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<EditAgentOutput>>,
-        UnboundedReceiver<Result<EditParserEvent>>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<EditParserEvent>>,
     ) {
-        let (tx, rx) = mpsc::unbounded();
+        let (tx, rx) = hotpath::channel!(mpsc::unbounded());
         let output = cx.background_spawn(async move {
             pin_mut!(chunks);
 
@@ -455,9 +454,9 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<EditAgentOutput>>,
-        UnboundedReceiver<Result<CreateFileParserEvent>>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<CreateFileParserEvent>>,
     ) {
-        let (tx, rx) = mpsc::unbounded();
+        let (tx, rx) = hotpath::channel!(mpsc::unbounded());
         let output = cx.background_spawn(async move {
             pin_mut!(chunks);
 
@@ -556,12 +555,12 @@ impl EditAgent {
         cx: &mut AsyncApp,
     ) -> (
         Task<Result<T>>,
-        UnboundedReceiver<(Range<Anchor>, Arc<str>)>,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<(Range<Anchor>, Arc<str>)>,
     )
     where
         T: 'static + Send + Unpin + Stream<Item = Result<EditParserEvent>>,
     {
-        let (edits_tx, edits_rx) = mpsc::unbounded();
+        let (edits_tx, edits_rx) = hotpath::channel!(mpsc::unbounded());
         let compute_edits = cx.background_spawn(async move {
             let buffer_start_indent = snapshot
                 .line_indent_for_row(snapshot.offset_to_point(resolved_old_text.range.start).row);
@@ -1137,7 +1136,7 @@ mod tests {
             .action_log
             .read_with(cx, |log, _| log.project().clone());
         let buffer = cx.new(|cx| Buffer::local("abc\ndef\nghi", cx));
-        let (chunks_tx, chunks_rx) = mpsc::unbounded();
+        let (chunks_tx, chunks_rx) = hotpath::channel!(mpsc::unbounded());
         let (apply, mut events) = agent.overwrite_with_chunks(
             buffer.clone(),
             chunks_rx.map(|chunk: &str| Ok(chunk.to_string())),
@@ -1242,7 +1241,7 @@ mod tests {
     async fn test_overwrite_no_content(cx: &mut TestAppContext) {
         let agent = init_test(cx).await;
         let buffer = cx.new(|cx| Buffer::local("abc\ndef\nghi", cx));
-        let (chunks_tx, chunks_rx) = mpsc::unbounded::<&str>();
+        let (chunks_tx, chunks_rx) = hotpath::channel!(mpsc::unbounded::<&str>());
         let (apply, mut events) = agent.overwrite_with_chunks(
             buffer.clone(),
             chunks_rx.map(|chunk| Ok(chunk.to_string())),
@@ -1516,7 +1515,7 @@ mod tests {
     }
 
     fn drain_events(
-        stream: &mut UnboundedReceiver<EditAgentOutputEvent>,
+        stream: &mut hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<EditAgentOutputEvent>,
     ) -> Vec<EditAgentOutputEvent> {
         let mut events = Vec::new();
         while let Ok(event) = stream.try_recv() {

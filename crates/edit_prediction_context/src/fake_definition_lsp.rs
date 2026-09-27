@@ -1,5 +1,4 @@
 use collections::HashMap;
-use futures::channel::mpsc::UnboundedReceiver;
 use language::{Language, LanguageRegistry};
 use lsp::{
     FakeLanguageServer, LanguageServerBinary, TextDocumentSyncCapability, TextDocumentSyncKind, Uri,
@@ -16,7 +15,7 @@ pub fn register_fake_definition_server(
     language_registry: &Arc<LanguageRegistry>,
     language: Arc<Language>,
     fs: Arc<dyn Fs>,
-) -> UnboundedReceiver<FakeLanguageServer> {
+) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<FakeLanguageServer> {
     let index = Arc::new(Mutex::new(DefinitionIndex::new(language.clone())));
 
     language_registry.register_fake_lsp(

@@ -247,7 +247,7 @@ pub async fn open_remote_project(
     };
 
     loop {
-        let (cancel_tx, mut cancel_rx) = oneshot::channel();
+        let (cancel_tx, mut cancel_rx) = hotpath::channel!(oneshot::channel());
         let delegate = window.update(cx, {
             let paths = paths.clone();
             let connection_options = connection_options.clone();

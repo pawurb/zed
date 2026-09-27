@@ -52,7 +52,10 @@ struct LanguageRegistryState {
     all_lsp_adapters: HashMap<LanguageServerName, Arc<CachedLspAdapter>>,
     available_lsp_adapters:
         HashMap<LanguageServerName, Arc<dyn Fn() -> Arc<CachedLspAdapter> + 'static + Send + Sync>>,
-    loading_languages: HashMap<LanguageId, Vec<oneshot::Sender<Result<Arc<Language>>>>>,
+    loading_languages: HashMap<
+        LanguageId,
+        Vec<hotpath::wrap::futures_channel::oneshot::Sender<Result<Arc<Language>>>>,
+    >,
     subscription: (watch::Sender<()>, watch::Receiver<()>),
     theme: Option<Arc<Theme>>,
     version: usize,
@@ -66,7 +69,7 @@ struct LanguageRegistryState {
 pub struct FakeLanguageServerEntry {
     pub capabilities: lsp::ServerCapabilities,
     pub initializer: Option<Box<dyn 'static + Send + Sync + Fn(&mut lsp::FakeLanguageServer)>>,
-    pub tx: futures::channel::mpsc::UnboundedSender<lsp::FakeLanguageServer>,
+    pub tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<lsp::FakeLanguageServer>,
     pub _server: Option<lsp::FakeLanguageServer>,
 }
 
@@ -126,7 +129,16 @@ impl std::fmt::Display for LanguageNotFound {
 
 #[derive(Clone, Default)]
 struct ServerStatusSender {
-    txs: Arc<Mutex<Vec<mpsc::UnboundedSender<(LanguageServerName, BinaryStatus)>>>>,
+    txs: Arc<
+        Mutex<
+            Vec<
+                hotpath::wrap::futures_channel::mpsc::UnboundedSender<(
+                    LanguageServerName,
+                    BinaryStatus,
+                )>,
+            >,
+        >,
+    >,
 }
 
 pub struct LoadedLanguage {
@@ -137,6 +149,7 @@ pub struct LoadedLanguage {
     pub manifest_name: Option<ManifestName>,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LanguageRegistry {
     pub fn new(executor: BackgroundExecutor) -> Self {
         let this = Self {
@@ -167,6 +180,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn test(executor: BackgroundExecutor) -> Self {
         let mut this = Self::new(executor);
         this.language_server_download_dir = Some(Path::new("/the-download-dir").into());
@@ -219,6 +233,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_test_language(&self, config: LanguageConfig) {
         self.register_language(
             config.name.clone(),
@@ -326,11 +341,12 @@ impl LanguageRegistry {
     /// Register a fake language server and adapter
     /// The returned channel receives a new instance of the language server every time it is started
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_lsp(
         &self,
         language_name: impl Into<LanguageName>,
         mut adapter: crate::FakeLspAdapter,
-    ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
         let adapter_name = LanguageServerName(adapter.name.into());
         let capabilities = adapter.capabilities.clone();
         let initializer = adapter.initializer.take();
@@ -340,6 +356,7 @@ impl LanguageRegistry {
 
     /// Register a fake lsp adapter (without the language server)
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_lsp_adapter(
         &self,
         language_name: impl Into<LanguageName>,
@@ -363,13 +380,14 @@ impl LanguageRegistry {
     /// Register a fake language server (without the adapter)
     /// The returned channel receives a new instance of the language server every time it is started
     #[cfg(any(feature = "test-support", test))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn register_fake_lsp_server(
         &self,
         lsp_name: LanguageServerName,
         capabilities: lsp::ServerCapabilities,
         initializer: Option<Box<dyn Fn(&mut lsp::FakeLanguageServer) + Send + Sync>>,
-    ) -> futures::channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
-        let (servers_tx, servers_rx) = futures::channel::mpsc::unbounded();
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<lsp::FakeLanguageServer> {
+        let (servers_tx, servers_rx) = hotpath::channel!(futures::channel::mpsc::unbounded());
         self.state.write().fake_server_entries.insert(
             lsp_name,
             FakeLanguageServerEntry {
@@ -852,8 +870,8 @@ impl LanguageRegistry {
     pub fn load_language(
         self: &Arc<Self>,
         language: &AvailableLanguage,
-    ) -> oneshot::Receiver<Result<Arc<Language>>> {
-        let (tx, rx) = oneshot::channel();
+    ) -> hotpath::wrap::futures_channel::oneshot::Receiver<Result<Arc<Language>>> {
+        let (tx, rx) = hotpath::channel!(oneshot::channel());
 
         let mut state = self.state.write();
 
@@ -944,9 +962,9 @@ impl LanguageRegistry {
             &LanguageMatcher,
             LanguageMatchPrecedence,
         ) -> Option<LanguageMatchPrecedence>,
-    ) -> oneshot::Receiver<Result<Arc<Language>>> {
+    ) -> hotpath::wrap::futures_channel::oneshot::Receiver<Result<Arc<Language>>> {
         let Some(language) = self.find_matching_language(callback) else {
-            let (tx, rx) = oneshot::channel();
+            let (tx, rx) = hotpath::channel!(oneshot::channel());
             let _ = tx.send(Err(anyhow!(LanguageNotFound)));
             return rx;
         };
@@ -1061,6 +1079,7 @@ impl LanguageRegistry {
     }
 
     #[cfg(any(test, feature = "test-support"))]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn create_fake_language_server(
         &self,
         server_id: LanguageServerId,
@@ -1093,7 +1112,8 @@ impl LanguageRegistry {
 
     pub fn language_server_binary_statuses(
         &self,
-    ) -> mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)> {
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)>
+    {
         self.lsp_binary_status_tx.subscribe()
     }
 }
@@ -1195,8 +1215,11 @@ impl LanguageRegistryState {
 }
 
 impl ServerStatusSender {
-    fn subscribe(&self) -> mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)> {
-        let (tx, rx) = mpsc::unbounded();
+    fn subscribe(
+        &self,
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<(LanguageServerName, BinaryStatus)>
+    {
+        let (tx, rx) = hotpath::channel!(mpsc::unbounded());
         self.txs.lock().push(tx);
         rx
     }

@@ -66,7 +66,7 @@ pub struct Peer {
 #[derive(Clone, Serialize)]
 pub struct ConnectionState {
     #[serde(skip)]
-    outgoing_tx: mpsc::UnboundedSender<Message>,
+    outgoing_tx: hotpath::wrap::futures_channel::mpsc::UnboundedSender<Message>,
     next_message_id: Arc<AtomicU32>,
     #[allow(clippy::type_complexity)]
     #[serde(skip)]
@@ -130,8 +130,11 @@ impl Peer {
         const INCOMING_BUFFER_SIZE: usize = 1;
         #[cfg(not(any(test, feature = "test-support")))]
         const INCOMING_BUFFER_SIZE: usize = 256;
-        let (mut incoming_tx, incoming_rx) = mpsc::channel(INCOMING_BUFFER_SIZE);
-        let (outgoing_tx, mut outgoing_rx) = mpsc::unbounded();
+        let (mut incoming_tx, incoming_rx) = hotpath::channel!(
+            mpsc::channel(INCOMING_BUFFER_SIZE),
+            capacity = INCOMING_BUFFER_SIZE
+        );
+        let (outgoing_tx, mut outgoing_rx) = hotpath::channel!(mpsc::unbounded());
 
         let connection_id = ConnectionId {
             owner_id: self.epoch.load(SeqCst),

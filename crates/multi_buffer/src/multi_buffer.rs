@@ -1205,6 +1205,7 @@ impl IndentGuide {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBuffer {
     pub fn new(capability: Capability) -> Self {
         Self::new_(
@@ -3128,6 +3129,7 @@ fn build_excerpt_ranges(
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBuffer {
     pub fn build_simple(text: &str, cx: &mut gpui::App) -> Entity<Self> {
         let buffer = cx.new(|cx| Buffer::local(text, cx));
@@ -3337,6 +3339,7 @@ impl MultiBuffer {
 
 impl EventEmitter<Event> for MultiBuffer {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBufferSnapshot {
     pub fn text(&self) -> String {
         self.chunks(
@@ -4247,6 +4250,7 @@ impl MultiBufferSnapshot {
     }
 
     #[instrument(skip_all)]
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn point_to_offset(&self, point: Point) -> MultiBufferOffset {
         self.convert_dimension(point, text::BufferSnapshot::point_to_offset)
     }
@@ -5168,6 +5172,7 @@ impl MultiBufferSnapshot {
         .flatten()
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn anchor_before<T: ToOffset>(&self, position: T) -> Anchor {
         self.anchor_at(position, Bias::Left)
     }
@@ -5176,6 +5181,7 @@ impl MultiBufferSnapshot {
         self.anchor_at(position, Bias::Right)
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn anchor_at<T: ToOffset>(&self, position: T, mut bias: Bias) -> Anchor {
         let offset = position.to_offset(self);
 
@@ -6743,6 +6749,7 @@ impl MultiBufferSnapshot {
 }
 
 #[cfg(any(test, feature = "test-support"))]
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl MultiBufferSnapshot {
     pub fn random_byte_range(
         &self,

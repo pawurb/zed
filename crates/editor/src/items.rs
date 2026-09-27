@@ -382,6 +382,7 @@ impl FollowableItem for Editor {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure(log = true, future = true))]
 async fn update_editor_from_message(
     this: WeakEntity<Editor>,
     project: Entity<Project>,
@@ -1514,6 +1515,7 @@ fn clip_ranges<'a>(
 
 impl EventEmitter<SearchEvent> for Editor {}
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl Editor {
     pub fn update_restoration_data(
         &self,

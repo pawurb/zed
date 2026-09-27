@@ -28,7 +28,7 @@ pub struct RemoteConnectionPrompt {
     is_devcontainer: bool,
     status_message: Option<SharedString>,
     prompt: Option<(Entity<Markdown>, oneshot::Sender<EncryptedPassword>)>,
-    cancellation: Option<oneshot::Sender<()>>,
+    cancellation: Option<hotpath::wrap::futures_channel::oneshot::Sender<()>>,
     editor: Arc<dyn ErasedEditor>,
     is_password_prompt: bool,
     is_masked: bool,
@@ -77,7 +77,7 @@ impl RemoteConnectionPrompt {
         }
     }
 
-    pub fn set_cancellation_tx(&mut self, tx: oneshot::Sender<()>) {
+    pub fn set_cancellation_tx(&mut self, tx: hotpath::wrap::futures_channel::oneshot::Sender<()>) {
         self.cancellation = Some(tx);
     }
 
@@ -603,7 +603,7 @@ pub fn connect_reusing_pool(
     cx.spawn(async move |cx| {
         let connection = remote::connect(connection_options, delegate.clone(), cx).await?;
 
-        let (_cancel_guard, cancel_rx) = oneshot::channel::<()>();
+        let (_cancel_guard, cancel_rx) = hotpath::channel!(oneshot::channel::<()>());
         cx.update(|cx| {
             RemoteClient::new(
                 ConnectionIdentifier::setup(),
@@ -704,7 +704,7 @@ pub fn connect(
             .and_then(|pw| pw.try_into().ok()),
         _ => None,
     };
-    let (tx, mut rx) = oneshot::channel();
+    let (tx, mut rx) = hotpath::channel!(oneshot::channel());
     ui.update(cx, |ui, _cx| ui.set_cancellation_tx(tx));
 
     let delegate = Arc::new(RemoteClientDelegate {

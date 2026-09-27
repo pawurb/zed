@@ -573,7 +573,7 @@ pub enum ToolCallStatus {
     /// The tool call is waiting for confirmation from the user.
     WaitingForConfirmation {
         options: PermissionOptions,
-        respond_tx: oneshot::Sender<SelectedPermissionOutcome>,
+        respond_tx: hotpath::wrap::futures_channel::oneshot::Sender<SelectedPermissionOutcome>,
     },
     /// The tool call is currently running.
     InProgress,
@@ -2076,7 +2076,7 @@ impl AcpThread {
         options: PermissionOptions,
         cx: &mut Context<Self>,
     ) -> Result<Task<RequestPermissionOutcome>> {
-        let (tx, rx) = oneshot::channel();
+        let (tx, rx) = hotpath::channel!(oneshot::channel());
 
         let status = ToolCallStatus::WaitingForConfirmation {
             options,
@@ -2264,7 +2264,7 @@ impl AcpThread {
         self.clear_completed_plan_entries(cx);
         self.had_error = false;
 
-        let (tx, rx) = oneshot::channel();
+        let (tx, rx) = hotpath::channel!(oneshot::channel());
         let cancel_task = self.cancel(cx);
 
         self.turn_id += 1;

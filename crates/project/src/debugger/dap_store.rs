@@ -27,7 +27,7 @@ use dap::{
 use fs::{Fs, RemoveOptions};
 use futures::{
     StreamExt, TryStreamExt as _,
-    channel::mpsc::{self, UnboundedSender},
+    channel::mpsc,
     future::{Shared, join_all},
 };
 use gpui::{App, AppContext, AsyncApp, Context, Entity, EventEmitter, SharedString, Task};
@@ -245,7 +245,7 @@ impl DapStore {
         definition: DebugTaskDefinition,
         session_id: SessionId,
         worktree: &Entity<Worktree>,
-        console: UnboundedSender<String>,
+        console: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
         cx: &mut Context<Self>,
     ) -> Task<Result<DebugAdapterBinary>> {
         match &self.mode {
@@ -596,7 +596,7 @@ impl DapStore {
     fn delegate(
         &self,
         worktree: &Entity<Worktree>,
-        console: UnboundedSender<String>,
+        console: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
         cx: &mut App,
     ) -> Arc<dyn DapDelegate> {
         let Some(local_store) = self.as_local() else {
@@ -832,7 +832,7 @@ impl DapStore {
         let definition = DebugTaskDefinition::from_proto(
             envelope.payload.definition.context("missing definition")?,
         )?;
-        let (tx, mut rx) = mpsc::unbounded();
+        let (tx, mut rx) = hotpath::channel!(mpsc::unbounded());
         let session_id = envelope.payload.session_id;
         cx.spawn({
             let this = this.clone();
@@ -938,7 +938,7 @@ impl DapStore {
 #[derive(Clone)]
 pub struct DapAdapterDelegate {
     fs: Arc<dyn Fs>,
-    console: mpsc::UnboundedSender<String>,
+    console: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
     worktree: worktree::Snapshot,
     node_runtime: NodeRuntime,
     http_client: Arc<dyn HttpClient>,
@@ -951,7 +951,7 @@ impl DapAdapterDelegate {
     pub fn new(
         fs: Arc<dyn Fs>,
         worktree: worktree::Snapshot,
-        status: mpsc::UnboundedSender<String>,
+        status: hotpath::wrap::futures_channel::mpsc::UnboundedSender<String>,
         node_runtime: NodeRuntime,
         http_client: Arc<dyn HttpClient>,
         toolchain_store: Arc<dyn LanguageToolchainStore>,

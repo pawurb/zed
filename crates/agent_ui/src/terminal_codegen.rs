@@ -59,7 +59,8 @@ impl TerminalCodegen {
                     .ok()
                     .and_then(|response| response.message_id.clone());
 
-                let (mut hunks_tx, mut hunks_rx) = mpsc::channel(1);
+                let (mut hunks_tx, mut hunks_rx) =
+                    hotpath::channel!(mpsc::channel(1), capacity = 1);
 
                 let task = cx.background_spawn({
                     let message_id = message_id.clone();

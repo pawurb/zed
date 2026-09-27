@@ -243,7 +243,7 @@ impl Telemetry {
             state,
         });
 
-        let (tx, mut rx) = mpsc::unbounded();
+        let (tx, mut rx) = hotpath::channel!(mpsc::unbounded());
         ::telemetry::init(tx);
 
         cx.background_spawn({

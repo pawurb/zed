@@ -71,7 +71,7 @@ fn parse_shell(output: &str, fallback_shell: &str) -> String {
 fn handle_rpc_messages_over_child_process_stdio(
     mut remote_proxy_process: Child,
     incoming_tx: UnboundedSender<Envelope>,
-    mut outgoing_rx: UnboundedReceiver<Envelope>,
+    outgoing_rx: UnboundedReceiver<Envelope>,
     mut connection_activity_tx: Sender<()>,
     cx: &AsyncApp,
 ) -> Task<Result<i32>> {
@@ -85,6 +85,7 @@ fn handle_rpc_messages_over_child_process_stdio(
     let mut stderr_offset = 0;
 
     let stdin_task = cx.background_spawn(async move {
+        let mut outgoing_rx = hotpath::stream!(outgoing_rx, label = "transport_outgoing");
         while let Some(outgoing) = outgoing_rx.next().await {
             write_message(&mut child_stdin, &mut stdin_buffer, outgoing).await?;
         }

@@ -360,6 +360,7 @@ pub struct SemanticTokenHighlight {
     pub server_id: lsp::LanguageServerId,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl DisplayMap {
     pub fn new(
         buffer: Entity<MultiBuffer>,
@@ -1357,6 +1358,7 @@ impl DisplayMap {
     }
 
     #[cfg(test)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn is_rewrapping(&self, cx: &gpui::App) -> bool {
         self.wrap_map.read(cx).is_rewrapping()
     }
@@ -1519,6 +1521,7 @@ pub struct DisplaySnapshot {
     pub(crate) use_lsp_folding_ranges: bool,
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl DisplaySnapshot {
     pub fn companion_snapshot(&self) -> Option<&DisplaySnapshot> {
         self.companion_display_snapshot.as_deref()
@@ -1555,6 +1558,7 @@ impl DisplaySnapshot {
     }
 
     #[cfg(test)]
+    #[cfg_attr(feature = "hotpath", hotpath::skip)]
     pub fn fold_count(&self) -> usize {
         self.fold_snapshot().fold_count()
     }
@@ -1604,6 +1608,7 @@ impl DisplaySnapshot {
     }
 
     #[instrument(skip_all)]
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn next_line_boundary(
         &self,
         mut point: MultiBufferPoint,
@@ -1684,6 +1689,7 @@ impl DisplaySnapshot {
             .collect()
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn display_point_to_point(&self, point: DisplayPoint, bias: Bias) -> Point {
         self.inlay_snapshot()
             .to_buffer_point(self.display_point_to_inlay_point(point, bias))
@@ -1705,6 +1711,7 @@ impl DisplaySnapshot {
     }
 
     #[instrument(skip_all)]
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     fn display_point_to_inlay_point(&self, point: DisplayPoint, bias: Bias) -> InlayPoint {
         let block_point = point.0;
         let wrap_point = self.block_snapshot.to_wrap_point(block_point, bias);
@@ -2120,6 +2127,7 @@ impl DisplaySnapshot {
         self.fold_snapshot().intersects_fold(offset)
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(log = true))]
     pub fn is_line_folded(&self, buffer_row: MultiBufferRow) -> bool {
         self.block_snapshot.is_line_replaced(buffer_row)
             || self.fold_snapshot().is_line_folded(buffer_row)

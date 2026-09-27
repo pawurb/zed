@@ -37,6 +37,7 @@ struct Args {
 #[tokio::main]
 async fn main() -> Result<()> {
     env_logger::init();
+    hotpath::tokio_runtime!();
 
     let args = Args::parse();
     let fs = Arc::new(RealFs::new(None, gpui_platform::background_executor()));

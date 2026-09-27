@@ -53,7 +53,10 @@ impl Room {
         url: String,
         token: String,
         cx: &mut AsyncApp,
-    ) -> Result<(Self, mpsc::UnboundedReceiver<RoomEvent>)> {
+    ) -> Result<(
+        Self,
+        hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<RoomEvent>,
+    )> {
         let mut config = livekit::RoomOptions::default();
         config.tls_config = livekit::TlsConfig(Some(http_client_tls::tls_config()));
         let (room, mut events) = Tokio::spawn(cx, async move {
@@ -61,7 +64,7 @@ impl Room {
         })
         .await??;
 
-        let (mut tx, rx) = mpsc::unbounded();
+        let (mut tx, rx) = hotpath::channel!(mpsc::unbounded());
         let task = cx.background_executor().spawn(async move {
             while let Some(event) = events.recv().await {
                 if let Some(event) = room_event_from_livekit(event) {

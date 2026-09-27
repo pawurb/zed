@@ -69,8 +69,10 @@ struct RemoteBufferStore {
     upstream_client: AnyProtoClient,
     project_id: u64,
     loading_remote_buffers_by_id: HashMap<BufferId, Entity<Buffer>>,
-    remote_buffer_listeners:
-        HashMap<BufferId, Vec<oneshot::Sender<anyhow::Result<Entity<Buffer>>>>>,
+    remote_buffer_listeners: HashMap<
+        BufferId,
+        Vec<hotpath::wrap::futures_channel::oneshot::Sender<anyhow::Result<Entity<Buffer>>>>,
+    >,
     worktree_store: Entity<WorktreeStore>,
 }
 
@@ -115,7 +117,7 @@ impl RemoteBufferStore {
         id: BufferId,
         cx: &mut Context<BufferStore>,
     ) -> Task<Result<Entity<Buffer>>> {
-        let (tx, rx) = oneshot::channel();
+        let (tx, rx) = hotpath::channel!(oneshot::channel());
         self.remote_buffer_listeners.entry(id).or_default().push(tx);
 
         cx.spawn(async move |this, cx| {
@@ -380,6 +382,7 @@ impl RemoteBufferStore {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl LocalBufferStore {
     fn save_local_buffer(
         &self,
@@ -769,6 +772,7 @@ impl LocalBufferStore {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure_all)]
 impl BufferStore {
     pub fn init(client: &AnyProtoClient) {
         client.add_entity_message_handler(Self::handle_buffer_reloaded);

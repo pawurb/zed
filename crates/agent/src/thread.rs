@@ -1131,8 +1131,8 @@ impl Thread {
     pub fn replay(
         &mut self,
         cx: &mut Context<Self>,
-    ) -> mpsc::UnboundedReceiver<Result<ThreadEvent>> {
-        let (tx, rx) = mpsc::unbounded();
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>> {
+        let (tx, rx) = hotpath::channel!(mpsc::unbounded());
         let stream = ThreadEventStream(tx);
         for message in &self.messages {
             match message {
@@ -1755,7 +1755,7 @@ impl Thread {
     pub fn resume(
         &mut self,
         cx: &mut Context<Self>,
-    ) -> Result<mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
+    ) -> Result<hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
         self.messages.push(Message::Resume);
         cx.notify();
 
@@ -1771,7 +1771,7 @@ impl Thread {
         id: UserMessageId,
         content: impl IntoIterator<Item = T>,
         cx: &mut Context<Self>,
-    ) -> Result<mpsc::UnboundedReceiver<Result<ThreadEvent>>>
+    ) -> Result<hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>>
     where
         T: Into<UserMessageContent>,
     {
@@ -1788,7 +1788,7 @@ impl Thread {
     pub fn send_existing(
         &mut self,
         cx: &mut Context<Self>,
-    ) -> Result<mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
+    ) -> Result<hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
         let model = self
             .model()
             .ok_or_else(|| anyhow!(NoModelConfiguredError))?;
@@ -1840,14 +1840,14 @@ impl Thread {
     fn run_turn(
         &mut self,
         cx: &mut Context<Self>,
-    ) -> Result<mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
+    ) -> Result<hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>> {
         // Flush the old pending message synchronously before cancelling,
         // to avoid a race where the detached cancel task might flush the NEW
         // turn's pending message instead of the old one.
         self.flush_pending_message(cx);
         self.cancel(cx).detach();
 
-        let (events_tx, events_rx) = mpsc::unbounded::<Result<ThreadEvent>>();
+        let (events_tx, events_rx) = hotpath::channel!(mpsc::unbounded::<Result<ThreadEvent>>());
         let event_stream = ThreadEventStream(events_tx);
         let message_ix = self.messages.len().saturating_sub(1);
         self.clear_summary();
@@ -3547,7 +3547,9 @@ where
 }
 
 #[derive(Clone)]
-struct ThreadEventStream(mpsc::UnboundedSender<Result<ThreadEvent>>);
+struct ThreadEventStream(
+    hotpath::wrap::futures_channel::mpsc::UnboundedSender<Result<ThreadEvent>>,
+);
 
 impl ThreadEventStream {
     fn send_user_message(&self, message: &UserMessage) {
@@ -3655,7 +3657,7 @@ impl ToolCallEventStream {
 
     #[cfg(any(test, feature = "test-support"))]
     pub fn test_with_cancellation() -> (Self, ToolCallEventStreamReceiver, watch::Sender<bool>) {
-        let (events_tx, events_rx) = mpsc::unbounded::<Result<ThreadEvent>>();
+        let (events_tx, events_rx) = hotpath::channel!(mpsc::unbounded::<Result<ThreadEvent>>());
         let (cancellation_tx, cancellation_rx) = watch::channel(false);
 
         let stream = ToolCallEventStream::new(
@@ -4104,7 +4106,9 @@ impl ToolCallEventStream {
 }
 
 #[cfg(any(test, feature = "test-support"))]
-pub struct ToolCallEventStreamReceiver(mpsc::UnboundedReceiver<Result<ThreadEvent>>);
+pub struct ToolCallEventStreamReceiver(
+    hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>,
+);
 
 #[cfg(any(test, feature = "test-support"))]
 impl ToolCallEventStreamReceiver {
@@ -4165,7 +4169,7 @@ impl ToolCallEventStreamReceiver {
 
 #[cfg(any(test, feature = "test-support"))]
 impl std::ops::Deref for ToolCallEventStreamReceiver {
-    type Target = mpsc::UnboundedReceiver<Result<ThreadEvent>>;
+    type Target = hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<Result<ThreadEvent>>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -4307,7 +4311,7 @@ mod tests {
                 )
             });
 
-            let (event_tx, _event_rx) = mpsc::unbounded();
+            let (event_tx, _event_rx) = hotpath::channel!(mpsc::unbounded());
             let event_stream = ThreadEventStream(event_tx);
 
             (thread, event_stream)

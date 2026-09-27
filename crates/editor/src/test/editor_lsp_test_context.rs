@@ -482,7 +482,7 @@ impl EditorLspTestContext {
     pub fn set_request_handler<T, F, Fut>(
         &self,
         mut handler: F,
-    ) -> futures::channel::mpsc::UnboundedReceiver<()>
+    ) -> hotpath::wrap::futures_channel::mpsc::UnboundedReceiver<()>
     where
         T: 'static + request::Request,
         T::Params: 'static + Send,
