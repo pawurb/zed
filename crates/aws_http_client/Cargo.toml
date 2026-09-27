@@ -24,7 +24,7 @@ default = []
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { path = "/Users/pablo/Programming/rust/hotpath-rs/crates/hotpath", features = ["futures"] }
+hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
 aws-smithy-runtime-api.workspace = true
 aws-smithy-types.workspace = true
 http_client.workspace = true

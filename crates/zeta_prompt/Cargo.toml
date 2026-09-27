@@ -13,7 +13,7 @@ path = "src/zeta_prompt.rs"
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { path = "/Users/pablo/Programming/rust/hotpath-rs/crates/hotpath", features = ["futures"] }
+hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
 anyhow.workspace = true
 imara-diff.workspace = true
 serde.workspace = true

@@ -8612,6 +8612,7 @@ dependencies = [
 [[package]]
 name = "hotpath"
 version = "0.26.1"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 dependencies = [
  "arc-swap",
  "axum 0.8.9",
@@ -8645,6 +8646,7 @@ dependencies = [
 [[package]]
 name = "hotpath-drain"
 version = "0.0.2"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 dependencies = [
  "hotpath-meta",
 ]
@@ -8652,10 +8654,12 @@ dependencies = [
 [[package]]
 name = "hotpath-drain-meta"
 version = "0.0.2"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 
 [[package]]
 name = "hotpath-macros"
 version = "0.26.1"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8665,6 +8669,7 @@ dependencies = [
 [[package]]
 name = "hotpath-macros-meta"
 version = "0.26.1"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8674,6 +8679,7 @@ dependencies = [
 [[package]]
 name = "hotpath-meta"
 version = "0.26.1"
+source = "git+https://github.com/pawurb/hotpath-rs?branch=main#4020ea5f1e0daeb58af9482b89eb1698abe3bb5e"
 dependencies = [
  "arc-swap",
  "axum 0.8.9",
