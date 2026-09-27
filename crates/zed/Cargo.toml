@@ -565,6 +565,7 @@ hotpath-alloc-meta = [
     "zlog_settings/hotpath-alloc-meta",
     "ztracing/hotpath-alloc-meta",
 ]
+hotpath-cloud = ["hotpath/hotpath-cloud"]
 hotpath-prometheus = ["hotpath/hotpath-prometheus"]
 hotpath-prometheus-meta = ["hotpath/hotpath-prometheus-meta"]
 hotpath-meta = [
