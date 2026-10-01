@@ -27,7 +27,7 @@ jobs:
             --features hotpath,hotpath-alloc,hotpath-cloud
       - name: Run editor and upload report
         env:
-          HOTPATH_UPLOAD: "1"
+          HOTPATH_UPLOAD: "fail-on-error"
           HOTPATH_BENCHMARK: editor_startup
           HOTPATH_SHUTDOWN_MS: "10000"
         run: ./target/debug/zed
