@@ -7,7 +7,7 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
+hotpath = { version = "0.28.3", features = ["futures"] }
 async-process.workspace = true
 cfg-if.workspace = true
 crash-handler.workspace = true
