@@ -8646,9 +8646,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d0de0a21e30c2076fb662e9d013a7b3ef51ac8651c32f9017bc3333ab3c54bf"
+checksum = "d553ab03dfbae1d1104652719199823728bf30fb5511afc0764fb02d65a5656b"
 dependencies = [
  "arc-swap",
  "axum 0.8.9",
@@ -8682,24 +8682,24 @@ dependencies = [
 
 [[package]]
 name = "hotpath-drain"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8898c3903b73d61b580ed5bf2f23d4e64fbe0d4a9cbf42bdf8486a3ddfda176f"
+checksum = "42349e85f9425bfe533e9c7aadf6dae93b51b2171ca92f308e9b401962ffeb0e"
 dependencies = [
  "hotpath-meta",
 ]
 
 [[package]]
 name = "hotpath-drain-meta"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c7574760a5674f70080362517f1edb9cd1942b42b5dd39f0ef1a12759ad62c0"
+checksum = "f9d6a392aad6d335d4dda0938163a21fe429dcb72895789810bd62a03a865063"
 
 [[package]]
 name = "hotpath-macros"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "392802394e8cfaa58b1fb19d6ddc33de7dd711390d6afafb86bb2e5d5c0710a4"
+checksum = "05dde24c0cc623819d9466bce63175212d0ecbf450278404a33ab54290e35ed8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8708,9 +8708,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-macros-meta"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d788f80f8fd6c5a35fd186aa5d05b8c95aa00e3ff687a2a8e152bb06fdf9157a"
+checksum = "0e19ebfefde5829910f6192cb0de729dcd78fe80936764e0896a61270eeafa9b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -8719,9 +8719,9 @@ dependencies = [
 
 [[package]]
 name = "hotpath-meta"
-version = "0.28.1"
+version = "0.28.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "02920154a8cc77e76dab21f881d1e2a1096e452c57fc5a86db65c4105286c76a"
+checksum = "db1fd26574af8d19bf72880c0b27cfa0fdf42be742164f19e5858fe3f9a34774"
 dependencies = [
  "arc-swap",
  "axum 0.8.9",
