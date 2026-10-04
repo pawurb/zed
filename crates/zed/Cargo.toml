@@ -565,6 +565,7 @@ hotpath-alloc-meta = [
     "zlog_settings/hotpath-alloc-meta",
     "ztracing/hotpath-alloc-meta",
 ]
+hotpath-cloud = ["hotpath/hotpath-cloud"]
 hotpath-prometheus = ["hotpath/hotpath-prometheus"]
 hotpath-prometheus-meta = ["hotpath/hotpath-prometheus-meta"]
 hotpath-meta = [
@@ -1033,7 +1034,7 @@ required-features = ["visual-tests"]
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
+hotpath = { version = "0.28.4", features = ["futures"] }
 acp_tools.workspace = true
 activity_indicator.workspace = true
 agent.workspace = true

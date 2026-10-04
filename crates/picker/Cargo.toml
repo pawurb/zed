@@ -25,7 +25,7 @@ test-support = []
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
+hotpath = { version = "0.28.4", features = ["futures"] }
 anyhow.workspace = true
 gpui.workspace = true
 menu.workspace = true

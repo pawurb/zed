@@ -1,0 +1,33 @@
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    runs-on: macos-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+      id-token: write # the upload authenticates with the job's OIDC token
+    env:
+      CARGO_PROFILE_RELEASE_FAST_DEBUG: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Build editor
+        run: |
+          cargo build -p zed \
+            --features hotpath,hotpath-alloc,hotpath-cloud
+      - name: Run editor and upload report
+        env:
+          HOTPATH_UPLOAD: "fail-on-error"
+          HOTPATH_BENCHMARK: editor_startup
+          HOTPATH_SHUTDOWN_MS: "10000"
+        run: ./target/debug/zed

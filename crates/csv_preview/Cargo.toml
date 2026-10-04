@@ -9,7 +9,7 @@ path = "src/csv_preview.rs"
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { git = "https://github.com/pawurb/hotpath-rs", branch = "main", features = ["futures"] }
+hotpath = { version = "0.28.4", features = ["futures"] }
 anyhow.workspace = true
 feature_flags.workspace = true
 gpui.workspace = true
