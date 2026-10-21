@@ -15,15 +15,15 @@ concurrency:
 jobs:
   benchmark:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 240
     permissions:
       contents: read
       id-token: write # the upload authenticates with the job's OIDC token
     env:
-      CARGO_PROFILE_RELEASE_FAST_DEBUG: "false"
+      CARGO_PROFILE_RELEASE_DEBUG: "false"
     steps:
       - uses: actions/checkout@v4
-      # The release-fast build of zed does not fit in the runner's default free disk space.
+      # The release build of zed does not fit in the runner's default free disk space.
       - name: Free disk space
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
@@ -36,7 +36,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Build editor
         run: |
-          cargo build --profile release-fast -p zed \
+          cargo build --release -p zed \
             --features hotpath,hotpath-alloc,hotpath-cloud,hotpath-callgrind
       # Xvfb provides the display and Mesa's lavapipe the Vulkan device. The
       # shutdown delay is wall-clock time, and Callgrind runs the editor
@@ -53,5 +53,5 @@ jobs:
           xvfb-run -a -s "-screen 0 1920x1080x24" \
             valgrind -q --tool=callgrind --instr-atstart=no \
             --callgrind-out-file="$HOTPATH_CALLGRIND_OUT_FILE" \
-            ./target/release-fast/zed
+            ./target/release/zed
           test -s "$HOTPATH_UPLOAD_RESPONSE_PATH"
