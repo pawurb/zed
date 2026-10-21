@@ -11,6 +11,14 @@ min_percent_change = 20
 metrics = ["avg", "total"]
 min_calls = 0
 
+# Startup is multi-threaded and partly I/O driven, so instruction counts move
+# between runs of one commit; the bar starts loose until that noise is known.
+[functions.icount]
+judged = true
+min_percent_change = 10
+metrics = ["avg", "total"]
+min_calls = 0
+
 [functions.timing]
 judged = false
 min_percent_change = 50
