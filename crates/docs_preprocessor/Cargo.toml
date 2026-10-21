@@ -7,7 +7,7 @@ license = "GPL-3.0-or-later"
 
 [dependencies]
 channels-console = { version = "0.2", optional = true, features = ["futures"] }
-hotpath = { version = "0.28.4", features = ["futures"] }
+hotpath = { git = "https://github.com/hotpath-rs/hotpath", rev = "d09236e9e37d77407352c47d73d104e6d400b12f", features = ["futures"] }
 anyhow.workspace = true
 collections.workspace = true
 jsonschema.workspace = true
@@ -30,6 +30,7 @@ channels-console = ["dep:channels-console"]
 hotpath = ["hotpath/hotpath"]
 hotpath-alloc = ["hotpath/hotpath-alloc"]
 hotpath-alloc-meta = ["hotpath/hotpath-alloc-meta"]
+hotpath-callgrind = ["hotpath/hotpath-callgrind"]
 hotpath-cpu = ["hotpath/hotpath-cpu"]
 hotpath-mcp = ["hotpath/hotpath-mcp"]
 hotpath-mcp-meta = ["hotpath/hotpath-mcp-meta"]

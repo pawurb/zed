@@ -1181,7 +1181,7 @@ impl DisplayMap {
     #[instrument(skip_all)]
     pub fn text_highlights(&self, key: HighlightKey) -> Option<(HighlightStyle, &[Range<Anchor>])> {
         let highlights = self.text_highlights.get(&key)?;
-        Some((highlights.0, &highlights.1))
+        Some((highlights.0, highlights.1.as_slice()))
     }
 
     pub fn all_text_highlights(
